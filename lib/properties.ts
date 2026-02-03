@@ -2,14 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import { Property, PropertyFilters, CityStats } from '@/types/property';
 
-const DATA_PATH = path.join(
-  process.cwd(),
-  '..',
-  'litoral-norte-scraper',
-  'data',
-  'processed',
-  'all_properties.json'
-);
+const DATA_PATH = path.join(process.cwd(), 'data', 'properties.json');
 
 let cachedProperties: Property[] | null = null;
 
