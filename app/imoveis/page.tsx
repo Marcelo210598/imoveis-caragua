@@ -1,12 +1,23 @@
 'use client';
 
-import { Suspense, useEffect, useState, useCallback, useMemo } from 'react';
+import { Suspense, useEffect, useState, useCallback, useMemo, useRef } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { Property, PropertyFilters } from '@/types/property';
 import PropertyGrid from '@/components/PropertyGrid';
 import FilterSidebar from '@/components/FilterSidebar';
 
 const ITEMS_PER_PAGE = 24;
+
+function serializeFilters(f: PropertyFilters): string {
+  return JSON.stringify({
+    city: f.city || '',
+    minPrice: f.minPrice || 0,
+    maxPrice: f.maxPrice || 0,
+    bedrooms: f.bedrooms || 0,
+    onlyDeals: f.onlyDeals || false,
+    searchTerm: f.searchTerm || '',
+  });
+}
 
 function ImoveisContent() {
   const searchParams = useSearchParams();
@@ -21,8 +32,14 @@ function ImoveisContent() {
   });
 
   const [cities, setCities] = useState<string[]>([]);
+  const filterKey = serializeFilters(filters);
+  const abortRef = useRef<AbortController | null>(null);
 
   useEffect(() => {
+    abortRef.current?.abort();
+    const controller = new AbortController();
+    abortRef.current = controller;
+
     async function fetchProperties() {
       setLoading(true);
       try {
@@ -34,20 +51,26 @@ function ImoveisContent() {
         if (filters.onlyDeals) params.set('onlyDeals', 'true');
         if (filters.searchTerm) params.set('search', filters.searchTerm);
 
-        const res = await fetch(`/api/properties?${params.toString()}`);
+        const res = await fetch(`/api/properties?${params.toString()}`, {
+          signal: controller.signal,
+        });
         const data = await res.json();
         setProperties(data.properties);
         if (data.cities) setCities(data.cities);
         setPage(1);
       } catch (err) {
+        if (err instanceof DOMException && err.name === 'AbortError') return;
         console.error('Erro ao carregar imoveis:', err);
       } finally {
-        setLoading(false);
+        if (!controller.signal.aborted) {
+          setLoading(false);
+        }
       }
     }
 
     fetchProperties();
-  }, [filters]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [filterKey]);
 
   const handleFilterChange = useCallback((newFilters: PropertyFilters) => {
     setFilters(newFilters);

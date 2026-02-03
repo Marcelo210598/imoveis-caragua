@@ -1,7 +1,7 @@
 'use client';
 
 import { Search } from 'lucide-react';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 interface SearchBarProps {
   onSearch: (term: string) => void;
@@ -15,13 +15,20 @@ export default function SearchBar({
   className = '',
 }: SearchBarProps) {
   const [value, setValue] = useState('');
+  const onSearchRef = useRef(onSearch);
+  onSearchRef.current = onSearch;
+  const isFirstRender = useRef(true);
 
   useEffect(() => {
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
+      return;
+    }
     const timer = setTimeout(() => {
-      onSearch(value);
+      onSearchRef.current(value);
     }, 500);
     return () => clearTimeout(timer);
-  }, [value, onSearch]);
+  }, [value]);
 
   return (
     <div className={`relative ${className}`}>

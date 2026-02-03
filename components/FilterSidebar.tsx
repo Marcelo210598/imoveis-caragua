@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useRef, useEffect, useCallback } from 'react';
 import { SlidersHorizontal, X } from 'lucide-react';
 import { PropertyFilters } from '@/types/property';
 import SearchBar from './SearchBar';
@@ -19,12 +19,32 @@ export default function FilterSidebar({
   totalCount,
 }: FilterSidebarProps) {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [localMinPrice, setLocalMinPrice] = useState(filters.minPrice?.toString() || '');
+  const [localMaxPrice, setLocalMaxPrice] = useState(filters.maxPrice?.toString() || '');
+  const filtersRef = useRef(filters);
+  filtersRef.current = filters;
+  const onFilterChangeRef = useRef(onFilterChange);
+  onFilterChangeRef.current = onFilterChange;
 
-  const update = (partial: Partial<PropertyFilters>) => {
-    onFilterChange({ ...filters, ...partial });
-  };
+  const update = useCallback((partial: Partial<PropertyFilters>) => {
+    onFilterChangeRef.current({ ...filtersRef.current, ...partial });
+  }, []);
+
+  // Debounce price inputs
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      const minPrice = localMinPrice ? Number(localMinPrice) : undefined;
+      const maxPrice = localMaxPrice ? Number(localMaxPrice) : undefined;
+      if (minPrice !== filtersRef.current.minPrice || maxPrice !== filtersRef.current.maxPrice) {
+        update({ minPrice, maxPrice });
+      }
+    }, 600);
+    return () => clearTimeout(timer);
+  }, [localMinPrice, localMaxPrice, update]);
 
   const clearFilters = () => {
+    setLocalMinPrice('');
+    setLocalMaxPrice('');
     onFilterChange({});
   };
 
@@ -76,23 +96,15 @@ export default function FilterSidebar({
           <input
             type="number"
             placeholder="Min"
-            value={filters.minPrice || ''}
-            onChange={(e) =>
-              update({
-                minPrice: e.target.value ? Number(e.target.value) : undefined,
-              })
-            }
+            value={localMinPrice}
+            onChange={(e) => setLocalMinPrice(e.target.value)}
             className="px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary-500"
           />
           <input
             type="number"
             placeholder="Max"
-            value={filters.maxPrice || ''}
-            onChange={(e) =>
-              update({
-                maxPrice: e.target.value ? Number(e.target.value) : undefined,
-              })
-            }
+            value={localMaxPrice}
+            onChange={(e) => setLocalMaxPrice(e.target.value)}
             className="px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary-500"
           />
         </div>
