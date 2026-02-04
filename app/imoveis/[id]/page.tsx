@@ -2,7 +2,6 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import {
   ArrowLeft,
-  ExternalLink,
   Bed,
   Bath,
   Car,
@@ -13,6 +12,8 @@ import { getPropertyById } from '@/lib/properties';
 import { formatPrice, formatPriceSqm, formatArea, getPropertyTypeLabel } from '@/lib/utils';
 import DealBadge from '@/components/DealBadge';
 import PriceChart from '@/components/PriceChart';
+import ContactButton from '@/components/contact/ContactButton';
+import OwnerInfo from '@/components/contact/OwnerInfo';
 
 interface PageProps {
   params: { id: string };
@@ -57,7 +58,7 @@ export default async function PropertyDetailPage({ params }: PageProps) {
       {/* Back button */}
       <Link
         href="/imoveis"
-        className="inline-flex items-center gap-2 text-gray-500 hover:text-gray-800 mb-6 transition-colors"
+        className="inline-flex items-center gap-2 text-gray-500 hover:text-gray-800 dark:hover:text-gray-200 mb-6 transition-colors"
       >
         <ArrowLeft size={18} />
         Voltar para listagem
@@ -108,7 +109,7 @@ export default async function PropertyDetailPage({ params }: PageProps) {
             {property.dealScore >= 60 && (
               <DealBadge score={property.dealScore} className="mb-3" />
             )}
-            <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">
+            <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-gray-100 mb-2">
               {property.title || `${getPropertyTypeLabel(property.propertyType)} em ${property.city}`}
             </h1>
             <div className="flex items-center gap-2 text-gray-500">
@@ -122,8 +123,8 @@ export default async function PropertyDetailPage({ params }: PageProps) {
           </div>
 
           {/* Price */}
-          <div className="bg-white rounded-2xl border border-gray-100 p-6">
-            <p className="text-3xl font-bold text-gray-900">
+          <div className="bg-white dark:bg-gray-900 rounded-2xl border border-gray-100 dark:border-gray-800 p-6">
+            <p className="text-3xl font-bold text-gray-900 dark:text-gray-100">
               {formatPrice(property.price)}
             </p>
             {property.pricePerSqm && (
@@ -133,15 +134,23 @@ export default async function PropertyDetailPage({ params }: PageProps) {
             )}
           </div>
 
+          {/* Description */}
+          {property.description && (
+            <div className="bg-white dark:bg-gray-900 rounded-2xl border border-gray-100 dark:border-gray-800 p-6">
+              <h2 className="font-semibold text-gray-800 dark:text-gray-200 mb-3">Descricao</h2>
+              <p className="text-gray-600 dark:text-gray-300 whitespace-pre-line">{property.description}</p>
+            </div>
+          )}
+
           {/* Features grid */}
           {features.length > 0 && (
-            <div className="bg-white rounded-2xl border border-gray-100 p-6">
-              <h2 className="font-semibold text-gray-800 mb-4">Detalhes</h2>
+            <div className="bg-white dark:bg-gray-900 rounded-2xl border border-gray-100 dark:border-gray-800 p-6">
+              <h2 className="font-semibold text-gray-800 dark:text-gray-200 mb-4">Detalhes</h2>
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
                 {features.map((f, i) => (
                   <div
                     key={i}
-                    className="flex flex-col items-center gap-2 p-4 bg-gray-50 rounded-xl"
+                    className="flex flex-col items-center gap-2 p-4 bg-gray-50 dark:bg-gray-800 rounded-xl"
                   >
                     <span className="text-primary-500">{f.icon}</span>
                     <span className="font-semibold text-gray-900">
@@ -156,8 +165,8 @@ export default async function PropertyDetailPage({ params }: PageProps) {
 
           {/* Price comparison chart */}
           {property.pricePerSqm && property.avgNeighborhoodPriceSqm && (
-            <div className="bg-white rounded-2xl border border-gray-100 p-6">
-              <h2 className="font-semibold text-gray-800 mb-4">
+            <div className="bg-white dark:bg-gray-900 rounded-2xl border border-gray-100 dark:border-gray-800 p-6">
+              <h2 className="font-semibold text-gray-800 dark:text-gray-200 mb-4">
                 Comparativo de Preco (R$/m²)
               </h2>
               <PriceChart
@@ -170,21 +179,22 @@ export default async function PropertyDetailPage({ params }: PageProps) {
 
         {/* Sidebar */}
         <div className="space-y-4">
-          {/* CTA - Ver no portal */}
-          {property.url && (
-            <a
-              href={property.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center justify-center gap-2 w-full bg-primary-500 text-white font-semibold py-3.5 rounded-xl hover:bg-primary-600 transition-colors"
-            >
-              <ExternalLink size={18} />
-              Ver no {property.source === 'ZAP' ? 'ZAP Imoveis' : 'VivaReal'}
-            </a>
+          {/* Contact button */}
+          <ContactButton
+            source={property.source}
+            url={property.url}
+            ownerPhone={property.owner?.phone}
+            ownerName={property.owner?.name}
+            propertyTitle={property.title}
+          />
+
+          {/* Owner info for user-created properties */}
+          {property.source === 'USER' && property.owner && (
+            <OwnerInfo owner={property.owner} />
           )}
 
           {/* Info card */}
-          <div className="bg-white rounded-2xl border border-gray-100 p-5 space-y-3 text-sm">
+          <div className="bg-white dark:bg-gray-900 rounded-2xl border border-gray-100 dark:border-gray-800 p-5 space-y-3 text-sm">
             <div className="flex justify-between">
               <span className="text-gray-500">Tipo</span>
               <span className="font-medium">

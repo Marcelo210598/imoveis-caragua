@@ -42,9 +42,9 @@ export default function PropertyCard({ property }: PropertyCardProps) {
   return (
     <>
       <Link href={`/imoveis/${encodeURIComponent(propertySlug)}`}>
-        <div className="bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100 card-hover cursor-pointer">
+        <div className="bg-white dark:bg-gray-900 rounded-2xl overflow-hidden shadow-sm border border-gray-100 dark:border-gray-800 card-hover cursor-pointer">
           {/* Image */}
-          <div className="relative aspect-[4/3] bg-gray-100 overflow-hidden">
+          <div className="relative aspect-[4/3] bg-gray-100 dark:bg-gray-800 overflow-hidden">
             {imgSrc ? (
               // eslint-disable-next-line @next/next/no-img-element
               <img
@@ -92,22 +92,22 @@ export default function PropertyCard({ property }: PropertyCardProps) {
 
           {/* Content */}
           <div className="p-4">
-            <p className="text-2xl font-bold text-gray-900 mb-1">
+            <p className="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-1">
               {formatPrice(property.price)}
             </p>
 
-            <p className="text-sm text-gray-500 line-clamp-2 mb-3 min-h-[2.5rem]">
+            <p className="text-sm text-gray-500 dark:text-gray-400 line-clamp-2 mb-3 min-h-[2.5rem]">
               {property.title || `${property.propertyType} em ${property.city}`}
             </p>
 
-            <p className="text-sm text-primary-600 font-medium mb-3">
+            <p className="text-sm text-primary-600 dark:text-primary-400 font-medium mb-3">
               {property.neighborhood
                 ? `${property.neighborhood}, ${property.city}`
                 : property.city}
             </p>
 
             {/* Features */}
-            <div className="flex items-center gap-4 text-gray-500 text-sm">
+            <div className="flex items-center gap-4 text-gray-500 dark:text-gray-400 text-sm">
               {property.bedrooms != null && (
                 <span className="flex items-center gap-1">
                   <Bed size={16} />
