@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { useState } from 'react';
 import { Menu, X } from 'lucide-react';
+import UserMenu from '@/components/auth/UserMenu';
 
 const navLinks = [
   { href: '/', label: 'Inicio' },
@@ -36,14 +37,17 @@ export default function Header() {
             ))}
           </nav>
 
-          {/* Mobile menu button */}
-          <button
-            className="md:hidden p-2 text-gray-600"
-            onClick={() => setMenuOpen(!menuOpen)}
-            aria-label="Menu"
-          >
-            {menuOpen ? <X size={24} /> : <Menu size={24} />}
-          </button>
+          {/* User menu + mobile toggle */}
+          <div className="flex items-center gap-3">
+            <UserMenu />
+            <button
+              className="md:hidden p-2 text-gray-600"
+              onClick={() => setMenuOpen(!menuOpen)}
+              aria-label="Menu"
+            >
+              {menuOpen ? <X size={24} /> : <Menu size={24} />}
+            </button>
+          </div>
         </div>
 
         {/* Mobile nav */}
