@@ -11,6 +11,7 @@ const ITEMS_PER_PAGE = 24;
 function serializeFilters(f: PropertyFilters): string {
   return JSON.stringify({
     city: f.city || '',
+    type: f.type || '',
     minPrice: f.minPrice || 0,
     maxPrice: f.maxPrice || 0,
     bedrooms: f.bedrooms || 0,
@@ -45,6 +46,7 @@ function ImoveisContent() {
       try {
         const params = new URLSearchParams();
         if (filters.city) params.set('city', filters.city);
+        if (filters.type) params.set('type', filters.type);
         if (filters.minPrice) params.set('minPrice', String(filters.minPrice));
         if (filters.maxPrice) params.set('maxPrice', String(filters.maxPrice));
         if (filters.bedrooms) params.set('bedrooms', String(filters.bedrooms));

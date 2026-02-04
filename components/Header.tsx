@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { useState } from 'react';
-import { Menu, X } from 'lucide-react';
+import { Menu, X, Plus } from 'lucide-react';
 import UserMenu from '@/components/auth/UserMenu';
 
 const navLinks = [
@@ -38,8 +38,15 @@ export default function Header() {
             ))}
           </nav>
 
-          {/* User menu + mobile toggle */}
+          {/* Anunciar + User menu + mobile toggle */}
           <div className="flex items-center gap-3">
+            <Link
+              href="/imoveis/novo"
+              className="hidden sm:flex items-center gap-1.5 px-4 py-2 bg-primary-600 text-white text-sm font-medium rounded-xl hover:bg-primary-700 transition-colors"
+            >
+              <Plus size={16} />
+              Anunciar
+            </Link>
             <UserMenu />
             <button
               className="md:hidden p-2 text-gray-600"
@@ -64,6 +71,13 @@ export default function Header() {
                 {link.label}
               </Link>
             ))}
+            <Link
+              href="/imoveis/novo"
+              className="block py-2 text-primary-600 font-medium"
+              onClick={() => setMenuOpen(false)}
+            >
+              + Anunciar imovel
+            </Link>
           </nav>
         )}
       </div>

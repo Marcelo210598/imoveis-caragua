@@ -60,6 +60,31 @@ export default function FilterSidebar({
         placeholder="Buscar..."
       />
 
+      {/* Venda / Aluguel */}
+      <div>
+        <h3 className="font-semibold text-gray-800 mb-2">Modalidade</h3>
+        <div className="flex gap-2">
+          {[
+            { value: 'venda', label: 'Venda' },
+            { value: 'aluguel', label: 'Aluguel' },
+          ].map((t) => (
+            <button
+              key={t.value}
+              onClick={() =>
+                update({ type: filters.type === t.value ? undefined : t.value })
+              }
+              className={`px-3 py-1.5 rounded-lg text-sm border transition-colors ${
+                filters.type === t.value
+                  ? 'bg-primary-500 text-white border-primary-500'
+                  : 'bg-white text-gray-700 border-gray-200 hover:border-primary-300'
+              }`}
+            >
+              {t.label}
+            </button>
+          ))}
+        </div>
+      </div>
+
       {/* City */}
       <div>
         <h3 className="font-semibold text-gray-800 mb-2">Cidade</h3>

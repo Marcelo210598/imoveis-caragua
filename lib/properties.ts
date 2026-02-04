@@ -15,6 +15,10 @@ export async function filterProperties(filters: PropertyFilters) {
     status: 'ACTIVE',
   };
 
+  if (filters.type) {
+    where.type = filters.type;
+  }
+
   if (filters.city) {
     where.city = filters.city;
   }
