@@ -9,6 +9,7 @@ import { useSession } from 'next-auth/react';
 import { useState } from 'react';
 import DealBadge from './DealBadge';
 import LoginModal from './auth/LoginModal';
+import ImageWithFallback from './ImageWithFallback';
 
 interface PropertyCardProps {
   property: Property;
@@ -46,12 +47,11 @@ export default function PropertyCard({ property }: PropertyCardProps) {
           {/* Image */}
           <div className="relative aspect-[4/3] bg-gray-100 dark:bg-gray-800 overflow-hidden">
             {imgSrc ? (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img
+              <ImageWithFallback
                 src={imgSrc}
                 alt={property.title || 'Imovel'}
                 className="w-full h-full object-cover"
-                loading="lazy"
+                fallbackClassName="w-full h-full"
               />
             ) : (
               <div className="w-full h-full flex items-center justify-center text-gray-300">

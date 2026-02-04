@@ -19,6 +19,7 @@ export async function POST(
     where: {
       OR: [{ id: propertyId }, { externalId: propertyId }],
     },
+    select: { id: true, ownerId: true, title: true, propertyType: true, city: true },
   });
 
   if (!property) {
@@ -26,6 +27,7 @@ export async function POST(
   }
 
   // Criar favorito (ignora se ja existe)
+  let isNew = false;
   try {
     await prisma.favorite.create({
       data: {
@@ -33,8 +35,25 @@ export async function POST(
         propertyId: property.id,
       },
     });
+    isNew = true;
   } catch {
     // Unique constraint - ja favoritado, tudo certo
+  }
+
+  // Notificar dono do imovel (se eh de usuario e nao eh o proprio)
+  if (isNew && property.ownerId && property.ownerId !== session.user.id) {
+    const propertyTitle = property.title || `${property.propertyType} em ${property.city}`;
+    await prisma.notification.create({
+      data: {
+        userId: property.ownerId,
+        type: 'FAVORITE',
+        title: 'Novo favorito!',
+        message: `Alguem favoritou seu imovel "${propertyTitle}"`,
+        propertyId: property.id,
+      },
+    }).catch(() => {
+      // Nao impedir a acao principal se notificacao falhar
+    });
   }
 
   return NextResponse.json({ favorited: true });

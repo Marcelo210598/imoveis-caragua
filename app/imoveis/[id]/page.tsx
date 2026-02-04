@@ -1,3 +1,4 @@
+import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import {
@@ -14,9 +15,57 @@ import DealBadge from '@/components/DealBadge';
 import PriceChart from '@/components/PriceChart';
 import ContactButton from '@/components/contact/ContactButton';
 import OwnerInfo from '@/components/contact/OwnerInfo';
+import PropertyGallery from '@/components/property/PropertyGallery';
 
 interface PageProps {
   params: { id: string };
+}
+
+// ISR: regenerar pagina a cada 1 hora
+export const revalidate = 3600;
+
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+  const property = await getPropertyById(decodeURIComponent(params.id));
+
+  if (!property) {
+    return { title: 'Imovel nao encontrado' };
+  }
+
+  const title = property.title
+    || `${getPropertyTypeLabel(property.propertyType)} em ${property.city}`;
+  const price = formatPrice(property.price);
+  const description = property.description
+    ? property.description.slice(0, 160)
+    : `${title} - ${price}. ${property.bedrooms ? property.bedrooms + ' quartos, ' : ''}${property.neighborhood ? property.neighborhood + ', ' : ''}${property.city}.`;
+
+  const baseUrl = process.env.NEXTAUTH_URL || 'https://imoveis-caragua.vercel.app';
+  const ogImageUrl = `${baseUrl}/api/og/property/${encodeURIComponent(params.id)}`;
+  const photoUrl = property.photos?.[0]?.url;
+
+  return {
+    title: `${title} - ${price} | Litoral Norte Imoveis`,
+    description,
+    openGraph: {
+      title: `${title} - ${price}`,
+      description,
+      type: 'article',
+      images: [
+        {
+          url: ogImageUrl,
+          width: 1200,
+          height: 630,
+          alt: title,
+        },
+        ...(photoUrl ? [{ url: photoUrl, alt: title }] : []),
+      ],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: `${title} - ${price}`,
+      description,
+      images: [ogImageUrl],
+    },
+  };
 }
 
 export default async function PropertyDetailPage({ params }: PageProps) {
@@ -66,39 +115,11 @@ export default async function PropertyDetailPage({ params }: PageProps) {
 
       {/* Image gallery */}
       <div className="mb-8">
-        {mainPhoto ? (
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-3">
-            <div className="md:col-span-3 aspect-[16/10] rounded-2xl overflow-hidden bg-gray-100">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src={mainPhoto}
-                alt={property.title || 'Imovel'}
-                className="w-full h-full object-cover"
-              />
-            </div>
-            {thumbPhotos.length > 0 && (
-              <div className="hidden md:flex flex-col gap-3">
-                {thumbPhotos.map((photo, i) => (
-                  <div
-                    key={i}
-                    className="flex-1 rounded-xl overflow-hidden bg-gray-100"
-                  >
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img
-                      src={photo}
-                      alt={`Foto ${i + 2}`}
-                      className="w-full h-full object-cover"
-                    />
-                  </div>
-                ))}
-              </div>
-            )}
-          </div>
-        ) : (
-          <div className="aspect-[16/9] rounded-2xl bg-gray-100 flex items-center justify-center text-gray-300">
-            <Maximize size={64} />
-          </div>
-        )}
+        <PropertyGallery
+          mainPhoto={mainPhoto}
+          thumbPhotos={thumbPhotos}
+          title={property.title || 'Imovel'}
+        />
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">

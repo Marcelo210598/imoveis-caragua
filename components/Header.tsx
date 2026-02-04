@@ -5,6 +5,7 @@ import { useState } from 'react';
 import { Menu, X, Plus } from 'lucide-react';
 import UserMenu from '@/components/auth/UserMenu';
 import ThemeToggle from '@/components/ThemeToggle';
+import NotificationBell from '@/components/NotificationBell';
 
 const navLinks = [
   { href: '/', label: 'Inicio' },
@@ -50,6 +51,7 @@ export default function Header() {
               Anunciar
             </Link>
             <ThemeToggle />
+            <NotificationBell />
             <UserMenu />
             <button
               className="md:hidden p-2 text-gray-600 dark:text-gray-300"

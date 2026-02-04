@@ -40,6 +40,7 @@ model User {
   favorites    Favorite[]
   sentMessages     Message[] @relation("SentMessages")
   receivedMessages Message[] @relation("ReceivedMessages")
+  notifications    Notification[]
 
   @@map("users")
 }
@@ -78,6 +79,7 @@ model Property {
   photos          PropertyPhoto[]
   favorites       Favorite[]
   messages        Message[]
+  notifications   Notification[]
 
   @@index([city])
   @@index([source])
@@ -130,6 +132,24 @@ model Message {
   @@index([receiverId])
   @@index([propertyId])
   @@map("messages")
+}
+
+model Notification {
+  id         String   @id @default(cuid())
+  userId     String   @map("user_id")
+  type       String   // FAVORITE, MESSAGE, etc
+  title      String
+  message    String
+  read       Boolean  @default(false)
+  propertyId String?  @map("property_id")
+  createdAt  DateTime @default(now()) @map("created_at")
+
+  user     User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  property Property? @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([userId, read])
+  @@map("notifications")
 }
 
 model VerificationCode {
