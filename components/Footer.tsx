@@ -19,7 +19,6 @@ export default function Footer() {
             </h3>
             <p className="text-sm leading-relaxed">
               Encontre os melhores imoveis no Litoral Norte de Sao Paulo.
-              Dados atualizados de ZAP Imoveis e VivaReal.
             </p>
           </div>
 

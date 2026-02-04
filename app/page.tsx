@@ -30,7 +30,6 @@ export default async function HomePage() {
             </h1>
             <p className="text-base sm:text-xl text-blue-100 mb-8 sm:mb-10">
               Os melhores imoveis do Litoral Norte de Sao Paulo em um so lugar.
-              Dados atualizados de ZAP Imoveis e VivaReal.
             </p>
             <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center">
               <Link
