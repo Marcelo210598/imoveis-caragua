@@ -21,7 +21,8 @@ export default function Header() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           <Link href="/" className="flex items-center gap-2 font-bold text-xl text-primary-600 dark:text-primary-400">
-            <span className="text-2xl">🏖️</span>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/logo.svg" alt="Logo" className="w-8 h-8 rounded-lg" />
             <span className="hidden sm:inline">Litoral Norte Imoveis</span>
             <span className="sm:hidden">LN Imoveis</span>
           </Link>

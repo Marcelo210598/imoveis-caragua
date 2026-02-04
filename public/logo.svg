@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="none">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0088cc"/>
+      <stop offset="100%" stop-color="#06b6d4"/>
+    </linearGradient>
+    <linearGradient id="wave" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.3"/>
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0.15"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background circle -->
+  <circle cx="256" cy="256" r="245" fill="url(#bg)"/>
+
+  <!-- Wave bottom -->
+  <path d="M11 340 Q80 300 160 330 Q240 360 320 320 Q400 280 501 330 L501 490 Q460 501 256 501 Q52 501 11 490 Z" fill="url(#wave)"/>
+  <path d="M11 370 Q100 340 180 365 Q260 390 340 350 Q420 310 501 360 L501 490 Q460 501 256 501 Q52 501 11 490 Z" fill="rgba(255,255,255,0.12)"/>
+
+  <!-- House -->
+  <g transform="translate(256, 215)">
+    <!-- House body -->
+    <rect x="-58" y="-10" width="116" height="90" rx="6" fill="white"/>
+
+    <!-- Roof -->
+    <path d="M-78 -10 L0 -75 L78 -10 Z" fill="white"/>
+    <path d="M-68 -10 L0 -65 L68 -10 Z" fill="#e6f7ff"/>
+
+    <!-- Door -->
+    <rect x="-14" y="30" width="28" height="50" rx="4" fill="#0088cc"/>
+    <circle cx="8" cy="58" r="3" fill="#06b6d4"/>
+
+    <!-- Window left -->
+    <rect x="-46" y="15" width="24" height="24" rx="3" fill="#b3e0ff"/>
+    <line x1="-34" y1="15" x2="-34" y2="39" stroke="#0088cc" stroke-width="1.5"/>
+    <line x1="-46" y1="27" x2="-22" y2="27" stroke="#0088cc" stroke-width="1.5"/>
+
+    <!-- Window right -->
+    <rect x="22" y="15" width="24" height="24" rx="3" fill="#b3e0ff"/>
+    <line x1="34" y1="15" x2="34" y2="39" stroke="#0088cc" stroke-width="1.5"/>
+    <line x1="22" y1="27" x2="46" y2="27" stroke="#0088cc" stroke-width="1.5"/>
+  </g>
+
+  <!-- Sun -->
+  <circle cx="380" cy="120" r="28" fill="#fbbf24" opacity="0.9"/>
+  <g stroke="#fbbf24" stroke-width="3" stroke-linecap="round" opacity="0.7">
+    <line x1="380" y1="82" x2="380" y2="72"/>
+    <line x1="380" y1="168" x2="380" y2="158"/>
+    <line x1="342" y1="120" x2="332" y2="120"/>
+    <line x1="428" y1="120" x2="418" y2="120"/>
+    <line x1="353" y1="93" x2="346" y2="86"/>
+    <line x1="414" y1="154" x2="407" y2="147"/>
+    <line x1="353" y1="147" x2="346" y2="154"/>
+    <line x1="414" y1="86" x2="407" y2="93"/>
+  </g>
+
+  <!-- Palm tree -->
+  <g transform="translate(130, 190)">
+    <!-- Trunk -->
+    <path d="M0 0 Q5 40 -3 100" stroke="#8B6914" stroke-width="8" fill="none" stroke-linecap="round"/>
+    <!-- Leaves -->
+    <path d="M-3 5 Q-45 -20 -60 10" stroke="#16a34a" stroke-width="5" fill="none" stroke-linecap="round"/>
+    <path d="M-3 0 Q-30 -40 -15 -50" stroke="#16a34a" stroke-width="5" fill="none" stroke-linecap="round"/>
+    <path d="M0 -2 Q20 -45 40 -35" stroke="#22c55e" stroke-width="5" fill="none" stroke-linecap="round"/>
+    <path d="M2 5 Q50 -10 55 20" stroke="#22c55e" stroke-width="5" fill="none" stroke-linecap="round"/>
+    <path d="M-1 2 Q10 -35 5 -50" stroke="#16a34a" stroke-width="4" fill="none" stroke-linecap="round"/>
+  </g>
+</svg>

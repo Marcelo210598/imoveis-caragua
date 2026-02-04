@@ -13,6 +13,9 @@ export const metadata: Metadata = {
   title: 'Litoral Norte Imoveis - Encontre seu imovel de praia',
   description:
     'Encontre casas e apartamentos no Litoral Norte de SP: Caraguatatuba, Ubatuba, Ilhabela e Sao Sebastiao. Precos atualizados de ZAP e VivaReal.',
+  icons: {
+    icon: '/icon.svg',
+  },
   openGraph: {
     title: 'Litoral Norte Imoveis',
     description:
