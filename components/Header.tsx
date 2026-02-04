@@ -9,6 +9,7 @@ const navLinks = [
   { href: '/', label: 'Inicio' },
   { href: '/imoveis', label: 'Imoveis' },
   { href: '/deals', label: 'Oportunidades' },
+  { href: '/favoritos', label: 'Favoritos' },
 ];
 
 export default function Header() {
