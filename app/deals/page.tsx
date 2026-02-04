@@ -1,11 +1,8 @@
-import { getAllProperties } from '@/lib/properties';
+import { getTopDeals } from '@/lib/properties';
 import PropertyGrid from '@/components/PropertyGrid';
 
-export default function DealsPage() {
-  const allProperties = getAllProperties();
-  const deals = allProperties
-    .filter((p) => p.deal_score >= 60)
-    .sort((a, b) => b.deal_score - a.deal_score);
+export default async function DealsPage() {
+  const deals = await getTopDeals(100);
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">

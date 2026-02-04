@@ -1,122 +1,118 @@
-import fs from 'fs';
-import path from 'path';
-import { Property, PropertyFilters, CityStats } from '@/types/property';
+import { prisma } from '@/lib/prisma';
+import { PropertyFilters, CityStats } from '@/types/property';
+import { Prisma } from '@/lib/generated/prisma/client';
 
-const DATA_PATH = path.join(process.cwd(), 'data', 'properties.json');
-
-let cachedProperties: Property[] | null = null;
-
-export function getAllProperties(): Property[] {
-  if (cachedProperties) return cachedProperties;
-
-  try {
-    const fileContents = fs.readFileSync(DATA_PATH, 'utf8');
-    cachedProperties = JSON.parse(fileContents) as Property[];
-    return cachedProperties;
-  } catch (error) {
-    console.error('Erro ao carregar imoveis:', error);
-    return [];
-  }
-}
-
-export function filterProperties(
-  properties: Property[],
-  filters: PropertyFilters
-): Property[] {
-  return properties.filter((p) => {
-    if (filters.city && p.city !== filters.city) return false;
-
-    if (filters.minPrice && (p.price || 0) < filters.minPrice) return false;
-    if (filters.maxPrice && (p.price || 0) > filters.maxPrice) return false;
-
-    if (filters.bedrooms) {
-      if (filters.bedrooms >= 4) {
-        if ((p.bedrooms || 0) < 4) return false;
-      } else {
-        if (p.bedrooms !== filters.bedrooms) return false;
-      }
-    }
-
-    if (filters.propertyType && p.property_type !== filters.propertyType)
-      return false;
-
-    if (filters.onlyDeals && p.deal_score < 60) return false;
-
-    if (filters.searchTerm) {
-      const term = filters.searchTerm.toLowerCase();
-      const searchable = [
-        p.title,
-        p.neighborhood,
-        p.address,
-        p.city,
-        p.property_type,
-      ]
-        .filter(Boolean)
-        .join(' ')
-        .toLowerCase();
-      if (!searchable.includes(term)) return false;
-    }
-
-    return true;
+export async function getAllProperties() {
+  return prisma.property.findMany({
+    where: { status: 'ACTIVE' },
+    include: { photos: { orderBy: { order: 'asc' } } },
+    orderBy: { createdAt: 'desc' },
   });
 }
 
-export function getPropertyById(id: string): Property | null {
-  const properties = getAllProperties();
-  return properties.find((p) => p.external_id === id) || null;
-}
-
-export function getTopDeals(limit: number = 10): Property[] {
-  const properties = getAllProperties();
-  return properties
-    .filter((p) => p.deal_score >= 60)
-    .sort((a, b) => b.deal_score - a.deal_score)
-    .slice(0, limit);
-}
-
-export function getCityStats(): CityStats[] {
-  const properties = getAllProperties();
-  const cityMap = new Map<
-    string,
-    { count: number; totalPrice: number; totalPriceSqm: number; validSqm: number }
-  >();
-
-  for (const p of properties) {
-    const stats = cityMap.get(p.city) || {
-      count: 0,
-      totalPrice: 0,
-      totalPriceSqm: 0,
-      validSqm: 0,
-    };
-    stats.count++;
-    if (p.price) stats.totalPrice += p.price;
-    if (p.price_per_sqm) {
-      stats.totalPriceSqm += p.price_per_sqm;
-      stats.validSqm++;
-    }
-    cityMap.set(p.city, stats);
-  }
-
-  const citySlugMap: Record<string, string> = {
-    Caraguatatuba: 'caraguatatuba',
-    'Sao Sebastiao': 'sao-sebastiao',
-    Ubatuba: 'ubatuba',
-    Ilhabela: 'ilhabela',
+export async function filterProperties(filters: PropertyFilters) {
+  const where: Prisma.PropertyWhereInput = {
+    status: 'ACTIVE',
   };
 
-  return Array.from(cityMap.entries()).map(([name, stats]) => ({
-    name,
-    slug: citySlugMap[name] || name.toLowerCase(),
-    count: stats.count,
-    avgPrice: stats.count > 0 ? Math.round(stats.totalPrice / stats.count) : 0,
-    avgPriceSqm:
-      stats.validSqm > 0
-        ? Math.round(stats.totalPriceSqm / stats.validSqm)
-        : 0,
+  if (filters.city) {
+    where.city = filters.city;
+  }
+
+  if (filters.minPrice || filters.maxPrice) {
+    where.price = {};
+    if (filters.minPrice) where.price.gte = filters.minPrice;
+    if (filters.maxPrice) where.price.lte = filters.maxPrice;
+  }
+
+  if (filters.bedrooms) {
+    if (filters.bedrooms >= 4) {
+      where.bedrooms = { gte: 4 };
+    } else {
+      where.bedrooms = filters.bedrooms;
+    }
+  }
+
+  if (filters.propertyType) {
+    where.propertyType = filters.propertyType;
+  }
+
+  if (filters.onlyDeals) {
+    where.dealScore = { gte: 60 };
+  }
+
+  if (filters.searchTerm) {
+    const term = filters.searchTerm;
+    where.OR = [
+      { title: { contains: term, mode: 'insensitive' } },
+      { neighborhood: { contains: term, mode: 'insensitive' } },
+      { address: { contains: term, mode: 'insensitive' } },
+      { city: { contains: term, mode: 'insensitive' } },
+      { propertyType: { contains: term, mode: 'insensitive' } },
+    ];
+  }
+
+  return prisma.property.findMany({
+    where,
+    include: { photos: { orderBy: { order: 'asc' } } },
+    orderBy: { createdAt: 'desc' },
+  });
+}
+
+export async function getPropertyById(id: string) {
+  // Tentar buscar por externalId primeiro (compatibilidade com dados scraped)
+  const property = await prisma.property.findFirst({
+    where: {
+      OR: [
+        { externalId: id },
+        { id: id },
+      ],
+    },
+    include: {
+      photos: { orderBy: { order: 'asc' } },
+      owner: { select: { id: true, name: true, phone: true, avatarUrl: true } },
+    },
+  });
+
+  return property;
+}
+
+export async function getTopDeals(limit: number = 10) {
+  return prisma.property.findMany({
+    where: {
+      status: 'ACTIVE',
+      dealScore: { gte: 60 },
+    },
+    include: { photos: { orderBy: { order: 'asc' } } },
+    orderBy: { dealScore: 'desc' },
+    take: limit,
+  });
+}
+
+export async function getCityStats(): Promise<CityStats[]> {
+  const stats = await prisma.property.groupBy({
+    by: ['city', 'citySlug'],
+    where: { status: 'ACTIVE' },
+    _count: { id: true },
+    _avg: { price: true, pricePerSqm: true },
+  });
+
+  return stats.map((s) => ({
+    name: s.city,
+    slug: s.citySlug || s.city.toLowerCase(),
+    count: s._count.id,
+    avgPrice: Math.round(s._avg.price || 0),
+    avgPriceSqm: Math.round(s._avg.pricePerSqm || 0),
   }));
 }
 
-export function getUniqueCities(): string[] {
-  const properties = getAllProperties();
-  return Array.from(new Set(properties.map((p) => p.city))).sort();
+export async function getUniqueCities(): Promise<string[]> {
+  const cities = await prisma.property.findMany({
+    where: { status: 'ACTIVE' },
+    select: { city: true },
+    distinct: ['city'],
+    orderBy: { city: 'asc' },
+  });
+
+  return cities.map((c) => c.city);
 }

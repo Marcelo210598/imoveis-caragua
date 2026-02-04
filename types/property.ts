@@ -1,25 +1,48 @@
+export interface PropertyPhoto {
+  id: string;
+  url: string;
+  order: number;
+  propertyId?: string;
+  createdAt?: Date | string;
+}
+
+export interface PropertyOwner {
+  id: string;
+  name: string | null;
+  phone: string;
+  avatarUrl: string | null;
+}
+
 export interface Property {
-  external_id: string;
+  id: string;
+  externalId: string | null;
   source: string;
+  status: string;
   type: string;
-  property_type: string;
+  propertyType: string;
   title: string | null;
+  description: string | null;
   price: number | null;
   area: number | null;
   bedrooms: number | null;
   bathrooms: number | null;
-  parking_spaces: number | null;
+  parkingSpaces: number | null;
   city: string;
-  city_slug?: string;
+  citySlug: string | null;
   neighborhood: string | null;
   address: string | null;
-  url: string;
-  photos: string[];
-  price_per_sqm: number | null;
-  deal_score: number;
-  avg_neighborhood_price_sqm?: number | null;
-  sources?: string[];
-  scraped_at?: string;
+  url: string | null;
+  latitude: number | null;
+  longitude: number | null;
+  pricePerSqm: number | null;
+  dealScore: number;
+  avgNeighborhoodPriceSqm: number | null;
+  scrapedAt: Date | string | null;
+  createdAt: Date | string;
+  updatedAt: Date | string;
+  ownerId: string | null;
+  photos: PropertyPhoto[];
+  owner?: PropertyOwner | null;
 }
 
 export interface PropertyFilters {

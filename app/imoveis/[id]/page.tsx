@@ -18,16 +18,16 @@ interface PageProps {
   params: { id: string };
 }
 
-export default function PropertyDetailPage({ params }: PageProps) {
-  const property = getPropertyById(decodeURIComponent(params.id));
+export default async function PropertyDetailPage({ params }: PageProps) {
+  const property = await getPropertyById(decodeURIComponent(params.id));
 
   if (!property) {
     notFound();
   }
 
-  const photos = property.photos?.filter(Boolean) || [];
-  const mainPhoto = photos[0] || null;
-  const thumbPhotos = photos.slice(1, 5);
+  const photoUrls = property.photos?.map((p) => p.url).filter(Boolean) || [];
+  const mainPhoto = photoUrls[0] || null;
+  const thumbPhotos = photoUrls.slice(1, 5);
 
   const features = [
     {
@@ -42,7 +42,7 @@ export default function PropertyDetailPage({ params }: PageProps) {
     },
     {
       icon: <Car size={22} />,
-      value: property.parking_spaces,
+      value: property.parkingSpaces,
       label: 'Vagas',
     },
     {
@@ -105,11 +105,11 @@ export default function PropertyDetailPage({ params }: PageProps) {
         <div className="lg:col-span-2 space-y-6">
           {/* Title and badge */}
           <div>
-            {property.deal_score >= 60 && (
-              <DealBadge score={property.deal_score} className="mb-3" />
+            {property.dealScore >= 60 && (
+              <DealBadge score={property.dealScore} className="mb-3" />
             )}
             <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">
-              {property.title || `${getPropertyTypeLabel(property.property_type)} em ${property.city}`}
+              {property.title || `${getPropertyTypeLabel(property.propertyType)} em ${property.city}`}
             </h1>
             <div className="flex items-center gap-2 text-gray-500">
               <MapPin size={16} />
@@ -126,9 +126,9 @@ export default function PropertyDetailPage({ params }: PageProps) {
             <p className="text-3xl font-bold text-gray-900">
               {formatPrice(property.price)}
             </p>
-            {property.price_per_sqm && (
+            {property.pricePerSqm && (
               <p className="text-gray-500 mt-1">
-                {formatPriceSqm(property.price_per_sqm)}
+                {formatPriceSqm(property.pricePerSqm)}
               </p>
             )}
           </div>
@@ -155,14 +155,14 @@ export default function PropertyDetailPage({ params }: PageProps) {
           )}
 
           {/* Price comparison chart */}
-          {property.price_per_sqm && property.avg_neighborhood_price_sqm && (
+          {property.pricePerSqm && property.avgNeighborhoodPriceSqm && (
             <div className="bg-white rounded-2xl border border-gray-100 p-6">
               <h2 className="font-semibold text-gray-800 mb-4">
                 Comparativo de Preco (R$/m²)
               </h2>
               <PriceChart
-                propertyPrice={property.price_per_sqm}
-                avgPrice={property.avg_neighborhood_price_sqm}
+                propertyPrice={property.pricePerSqm}
+                avgPrice={property.avgNeighborhoodPriceSqm}
               />
             </div>
           )}
@@ -171,32 +171,34 @@ export default function PropertyDetailPage({ params }: PageProps) {
         {/* Sidebar */}
         <div className="space-y-4">
           {/* CTA - Ver no portal */}
-          <a
-            href={property.url}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center justify-center gap-2 w-full bg-primary-500 text-white font-semibold py-3.5 rounded-xl hover:bg-primary-600 transition-colors"
-          >
-            <ExternalLink size={18} />
-            Ver no {property.source === 'ZAP' ? 'ZAP Imoveis' : 'VivaReal'}
-          </a>
+          {property.url && (
+            <a
+              href={property.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center justify-center gap-2 w-full bg-primary-500 text-white font-semibold py-3.5 rounded-xl hover:bg-primary-600 transition-colors"
+            >
+              <ExternalLink size={18} />
+              Ver no {property.source === 'ZAP' ? 'ZAP Imoveis' : 'VivaReal'}
+            </a>
+          )}
 
           {/* Info card */}
           <div className="bg-white rounded-2xl border border-gray-100 p-5 space-y-3 text-sm">
             <div className="flex justify-between">
               <span className="text-gray-500">Tipo</span>
               <span className="font-medium">
-                {getPropertyTypeLabel(property.property_type)}
+                {getPropertyTypeLabel(property.propertyType)}
               </span>
             </div>
             <div className="flex justify-between">
               <span className="text-gray-500">Fonte</span>
               <span className="font-medium">{property.source}</span>
             </div>
-            {property.deal_score > 0 && (
+            {property.dealScore > 0 && (
               <div className="flex justify-between">
                 <span className="text-gray-500">Deal Score</span>
-                <span className="font-medium">{property.deal_score}/100</span>
+                <span className="font-medium">{property.dealScore}/100</span>
               </div>
             )}
             {property.address && (

@@ -5,7 +5,7 @@ export async function GET(
   _request: NextRequest,
   { params }: { params: { id: string } }
 ) {
-  const property = getPropertyById(decodeURIComponent(params.id));
+  const property = await getPropertyById(decodeURIComponent(params.id));
 
   if (!property) {
     return NextResponse.json(

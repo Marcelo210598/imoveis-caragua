@@ -1,0 +1,145 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../lib/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+
+enum PropertySource {
+  ZAP
+  VIVAREAL
+  MULTIPLE
+  USER
+}
+
+enum PropertyStatus {
+  ACTIVE
+  SOLD
+  RENTED
+  INACTIVE
+}
+
+model User {
+  id           String   @id @default(cuid())
+  phone        String   @unique
+  name         String?
+  avatarUrl    String?
+  whatsappOptIn Boolean @default(false)
+  role         Role     @default(USER)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  properties   Property[]
+  favorites    Favorite[]
+  sentMessages     Message[] @relation("SentMessages")
+  receivedMessages Message[] @relation("ReceivedMessages")
+
+  @@map("users")
+}
+
+model Property {
+  id              String         @id @default(cuid())
+  externalId      String?        @unique @map("external_id")
+  source          PropertySource
+  status          PropertyStatus @default(ACTIVE)
+  type            String         // venda, aluguel
+  propertyType    String         @map("property_type") // casa, apartamento, terreno...
+  title           String?
+  description     String?
+  price           Float?
+  area            Float?
+  bedrooms        Int?
+  bathrooms       Int?
+  parkingSpaces   Int?           @map("parking_spaces")
+  city            String
+  citySlug        String?        @map("city_slug")
+  neighborhood    String?
+  address         String?
+  url             String?
+  latitude        Float?
+  longitude       Float?
+  pricePerSqm     Float?         @map("price_per_sqm")
+  dealScore       Float          @default(0) @map("deal_score")
+  avgNeighborhoodPriceSqm Float? @map("avg_neighborhood_price_sqm")
+  scrapedAt       DateTime?      @map("scraped_at")
+  createdAt       DateTime       @default(now()) @map("created_at")
+  updatedAt       DateTime       @updatedAt @map("updated_at")
+
+  ownerId         String?        @map("owner_id")
+  owner           User?          @relation(fields: [ownerId], references: [id])
+
+  photos          PropertyPhoto[]
+  favorites       Favorite[]
+  messages        Message[]
+
+  @@index([city])
+  @@index([source])
+  @@index([status])
+  @@index([type])
+  @@index([propertyType])
+  @@index([dealScore])
+  @@map("properties")
+}
+
+model PropertyPhoto {
+  id         String   @id @default(cuid())
+  url        String
+  order      Int      @default(0)
+  propertyId String   @map("property_id")
+  property   Property @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+  createdAt  DateTime @default(now()) @map("created_at")
+
+  @@index([propertyId])
+  @@map("property_photos")
+}
+
+model Favorite {
+  id         String   @id @default(cuid())
+  userId     String   @map("user_id")
+  propertyId String   @map("property_id")
+  createdAt  DateTime @default(now()) @map("created_at")
+
+  user     User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  property Property @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, propertyId])
+  @@map("favorites")
+}
+
+model Message {
+  id         String   @id @default(cuid())
+  content    String
+  read       Boolean  @default(false)
+  senderId   String   @map("sender_id")
+  receiverId String   @map("receiver_id")
+  propertyId String   @map("property_id")
+  createdAt  DateTime @default(now()) @map("created_at")
+
+  sender   User     @relation("SentMessages", fields: [senderId], references: [id], onDelete: Cascade)
+  receiver User     @relation("ReceivedMessages", fields: [receiverId], references: [id], onDelete: Cascade)
+  property Property @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+
+  @@index([senderId])
+  @@index([receiverId])
+  @@index([propertyId])
+  @@map("messages")
+}
+
+model VerificationCode {
+  id        String   @id @default(cuid())
+  phone     String
+  code      String
+  expiresAt DateTime @map("expires_at")
+  used      Boolean  @default(false)
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@index([phone])
+  @@map("verification_codes")
+}

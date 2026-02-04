@@ -11,11 +11,14 @@ interface PropertyCardProps {
 export default function PropertyCard({ property }: PropertyCardProps) {
   const imgSrc =
     property.photos && property.photos.length > 0
-      ? property.photos[0]
+      ? property.photos[0].url
       : null;
 
+  // Usar externalId para imoveis scraped, id para os criados por usuarios
+  const propertySlug = property.externalId || property.id;
+
   return (
-    <Link href={`/imoveis/${encodeURIComponent(property.external_id)}`}>
+    <Link href={`/imoveis/${encodeURIComponent(propertySlug)}`}>
       <div className="bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100 card-hover cursor-pointer">
         {/* Image */}
         <div className="relative aspect-[4/3] bg-gray-100 overflow-hidden">
@@ -34,9 +37,9 @@ export default function PropertyCard({ property }: PropertyCardProps) {
           )}
 
           {/* Deal badge */}
-          {property.deal_score >= 60 && (
+          {property.dealScore >= 60 && (
             <div className="absolute top-3 right-3">
-              <DealBadge score={property.deal_score} />
+              <DealBadge score={property.dealScore} />
             </div>
           )}
 
@@ -55,7 +58,7 @@ export default function PropertyCard({ property }: PropertyCardProps) {
           </p>
 
           <p className="text-sm text-gray-500 line-clamp-2 mb-3 min-h-[2.5rem]">
-            {property.title || `${property.property_type} em ${property.city}`}
+            {property.title || `${property.propertyType} em ${property.city}`}
           </p>
 
           <p className="text-sm text-primary-600 font-medium mb-3">
@@ -78,10 +81,10 @@ export default function PropertyCard({ property }: PropertyCardProps) {
                 {property.bathrooms}
               </span>
             )}
-            {property.parking_spaces != null && (
+            {property.parkingSpaces != null && (
               <span className="flex items-center gap-1">
                 <Car size={16} />
-                {property.parking_spaces}
+                {property.parkingSpaces}
               </span>
             )}
             {property.area != null && (

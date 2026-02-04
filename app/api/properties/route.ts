@@ -1,9 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import {
-  getAllProperties,
-  filterProperties,
-  getUniqueCities,
-} from '@/lib/properties';
+import { filterProperties, getUniqueCities } from '@/lib/properties';
 import { PropertyFilters } from '@/types/property';
 
 export async function GET(request: NextRequest) {
@@ -29,9 +25,10 @@ export async function GET(request: NextRequest) {
   const search = searchParams.get('search');
   if (search) filters.searchTerm = search;
 
-  const allProperties = getAllProperties();
-  const filtered = filterProperties(allProperties, filters);
-  const cities = getUniqueCities();
+  const [filtered, cities] = await Promise.all([
+    filterProperties(filters),
+    getUniqueCities(),
+  ]);
 
   return NextResponse.json({
     properties: filtered,

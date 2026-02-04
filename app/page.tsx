@@ -12,10 +12,12 @@ const cityColors: Record<string, string> = {
 
 const defaultColor = 'from-primary-500 to-primary-700';
 
-export default function HomePage() {
-  const allProperties = getAllProperties();
-  const topDeals = getTopDeals(6);
-  const cityStats = getCityStats();
+export default async function HomePage() {
+  const [allProperties, topDeals, cityStats] = await Promise.all([
+    getAllProperties(),
+    getTopDeals(6),
+    getCityStats(),
+  ]);
 
   return (
     <div>
