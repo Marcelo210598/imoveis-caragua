@@ -255,4 +255,47 @@ Ver imagens capturadas durante a sessão:
 
 ---
 
+---
+
+## 🔄 Sessão 2: Implementação de Scraping Automatizado
+
+**Horário**: 22:00 - 23:00  
+**Status**: ✅ Concluído e Deployed
+
+### 🎯 Objetivos Alcançados
+
+#### 1. ✅ Sistema de Coleta Integrado
+
+- **Fontes**: ZapImóveis, VivaReal, OLX
+- **Funcionalidades**:
+  - Rate limiting (proteção contra bloqueios)
+  - Normalização de dados (preço, tipo, cidade)
+  - Detecção de duplicatas (via ID externo)
+
+#### 2. ✅ Interface Administrativa
+
+- Criada página `/admin/scraper` para controle manual
+- Logs em tempo real via Server Actions
+
+#### 3. ✅ Automação (Cron Job)
+
+- Configurado `vercel.json` para rodar diariamente às 02:00 AM
+- Rota segura `/api/scraper/cron`
+
+### 🛠️ Problemas Resolvidos (Troubleshooting)
+
+1. **Dependências Faltando**: Build falhou por falta de `cheerio`. Corrigido adicionando ao `package.json`.
+2. **Importação Prisma**: Build falhou por caminho incorreto do gerador client. Corrigido para `@/lib/generated/prisma/client`.
+3. **Conflito Git**: Resolvido conflito no `PropertyForm.tsx` durante push.
+
+### 📦 Deploy Final
+
+- **Commits Relevantes**:
+  - `3edbd2a`: Implementação base
+  - `bcd2383`: Fix dependências
+  - `955ca85`: Fix Prisma imports
+- **Status Vercel**: ✅ Build Sucesso (visto logs finais)
+
+---
+
 **Fim do Relatório**
