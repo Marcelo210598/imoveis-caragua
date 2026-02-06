@@ -1,7 +1,7 @@
-'use client';
-
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
+"use client";
+// Dark mode fix - feb 2026
+import { useState } from "react";
+import { useRouter } from "next/navigation";
 import {
   ChevronLeft,
   ChevronRight,
@@ -11,23 +11,18 @@ import {
   Camera,
   Check,
   Loader2,
-} from 'lucide-react';
-import ImageUploader from './ImageUploader';
+} from "lucide-react";
+import ImageUploader from "./ImageUploader";
 
-const CITIES = [
-  'Caraguatatuba',
-  'Ubatuba',
-  'Sao Sebastiao',
-  'Ilhabela',
-];
+const CITIES = ["Caraguatatuba", "Ubatuba", "Sao Sebastiao", "Ilhabela"];
 
 const PROPERTY_TYPES = [
-  { value: 'apartamento', label: 'Apartamento' },
-  { value: 'casa', label: 'Casa' },
-  { value: 'terreno', label: 'Terreno' },
-  { value: 'comercial', label: 'Comercial' },
-  { value: 'rural', label: 'Rural' },
-  { value: 'outro', label: 'Outro' },
+  { value: "apartamento", label: "Apartamento" },
+  { value: "casa", label: "Casa" },
+  { value: "terreno", label: "Terreno" },
+  { value: "comercial", label: "Comercial" },
+  { value: "rural", label: "Rural" },
+  { value: "outro", label: "Outro" },
 ];
 
 interface FormData {
@@ -47,26 +42,26 @@ interface FormData {
 }
 
 const INITIAL_FORM: FormData = {
-  type: '',
-  propertyType: '',
-  city: '',
-  neighborhood: '',
-  title: '',
-  description: '',
-  price: '',
-  area: '',
-  bedrooms: '',
-  bathrooms: '',
-  parkingSpaces: '',
-  address: '',
+  type: "",
+  propertyType: "",
+  city: "",
+  neighborhood: "",
+  title: "",
+  description: "",
+  price: "",
+  area: "",
+  bedrooms: "",
+  bathrooms: "",
+  parkingSpaces: "",
+  address: "",
   photoUrls: [],
 };
 
 const STEPS = [
-  { icon: Home, label: 'Tipo' },
-  { icon: FileText, label: 'Detalhes' },
-  { icon: Camera, label: 'Fotos' },
-  { icon: Check, label: 'Revisar' },
+  { icon: Home, label: "Tipo" },
+  { icon: FileText, label: "Detalhes" },
+  { icon: Camera, label: "Fotos" },
+  { icon: Check, label: "Revisar" },
 ];
 
 export default function PropertyForm() {
@@ -92,21 +87,21 @@ export default function PropertyForm() {
     const errs: Record<string, string> = {};
 
     if (s === 0) {
-      if (!form.type) errs.type = 'Selecione venda ou aluguel';
-      if (!form.propertyType) errs.propertyType = 'Selecione o tipo de imovel';
-      if (!form.city) errs.city = 'Selecione a cidade';
+      if (!form.type) errs.type = "Selecione venda ou aluguel";
+      if (!form.propertyType) errs.propertyType = "Selecione o tipo de imovel";
+      if (!form.city) errs.city = "Selecione a cidade";
     }
 
     if (s === 1) {
       if (!form.title || form.title.length < 5)
-        errs.title = 'Titulo deve ter no minimo 5 caracteres';
+        errs.title = "Titulo deve ter no minimo 5 caracteres";
       if (!form.price || Number(form.price) <= 0)
-        errs.price = 'Informe o preco';
+        errs.price = "Informe o preco";
     }
 
     if (s === 2) {
       if (form.photoUrls.length === 0)
-        errs.photoUrls = 'Adicione pelo menos 1 foto';
+        errs.photoUrls = "Adicione pelo menos 1 foto";
     }
 
     setErrors(errs);
@@ -144,35 +139,39 @@ export default function PropertyForm() {
         area: form.area ? Number(form.area) : undefined,
         bedrooms: form.bedrooms ? Number(form.bedrooms) : undefined,
         bathrooms: form.bathrooms ? Number(form.bathrooms) : undefined,
-        parkingSpaces: form.parkingSpaces ? Number(form.parkingSpaces) : undefined,
+        parkingSpaces: form.parkingSpaces
+          ? Number(form.parkingSpaces)
+          : undefined,
         address: form.address || undefined,
         photoUrls: form.photoUrls,
       };
 
-      const res = await fetch('/api/properties', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+      const res = await fetch("/api/properties", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
       });
 
       const data = await res.json();
 
       if (!res.ok) {
-        throw new Error(data.error || 'Erro ao criar imovel');
+        throw new Error(data.error || "Erro ao criar imovel");
       }
 
       router.push(`/imoveis/${data.property.id}`);
     } catch (err) {
-      setSubmitError(err instanceof Error ? err.message : 'Erro ao criar imovel');
+      setSubmitError(
+        err instanceof Error ? err.message : "Erro ao criar imovel",
+      );
     } finally {
       setSubmitting(false);
     }
   }
 
   function formatPriceInput(value: string): string {
-    const num = value.replace(/\D/g, '');
-    if (!num) return '';
-    return Number(num).toLocaleString('pt-BR');
+    const num = value.replace(/\D/g, "");
+    if (!num) return "";
+    return Number(num).toLocaleString("pt-BR");
   }
 
   return (
@@ -189,17 +188,17 @@ export default function PropertyForm() {
                 <div
                   className={`w-10 h-10 rounded-full flex items-center justify-center transition-colors ${
                     done
-                      ? 'bg-primary-600 text-white'
+                      ? "bg-primary-600 text-white"
                       : active
-                      ? 'bg-primary-100 text-primary-600 ring-2 ring-primary-600'
-                      : 'bg-gray-100 text-gray-400'
+                        ? "bg-primary-100 text-primary-600 ring-2 ring-primary-600"
+                        : "bg-gray-100 text-gray-400"
                   }`}
                 >
                   {done ? <Check size={18} /> : <Icon size={18} />}
                 </div>
                 <span
                   className={`text-xs mt-1 ${
-                    active ? 'text-primary-600 font-medium' : 'text-gray-400'
+                    active ? "text-primary-600 font-medium" : "text-gray-400"
                   }`}
                 >
                   {s.label}
@@ -208,7 +207,7 @@ export default function PropertyForm() {
               {i < STEPS.length - 1 && (
                 <div
                   className={`w-12 sm:w-20 h-0.5 mx-1 ${
-                    i < step ? 'bg-primary-600' : 'bg-gray-200'
+                    i < step ? "bg-primary-600" : "bg-gray-200"
                   }`}
                 />
               )}
@@ -220,26 +219,28 @@ export default function PropertyForm() {
       {/* Step 0: Tipo e Localizacao */}
       {step === 0 && (
         <div className="space-y-6">
-          <h2 className="text-xl font-bold text-gray-900">Tipo e localizacao</h2>
+          <h2 className="text-xl font-bold text-gray-900 dark:text-gray-100">
+            Tipo e localizacao
+          </h2>
 
           {/* Venda / Aluguel */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
               Modalidade *
             </label>
             <div className="grid grid-cols-2 gap-3">
-              {['venda', 'aluguel'].map((t) => (
+              {["venda", "aluguel"].map((t) => (
                 <button
                   key={t}
                   type="button"
                   onClick={() => updateForm({ type: t })}
                   className={`py-3 px-4 rounded-xl border-2 text-sm font-medium transition-colors capitalize ${
                     form.type === t
-                      ? 'border-primary-600 bg-primary-50 text-primary-700'
-                      : 'border-gray-200 hover:border-gray-300 text-gray-600'
+                      ? "border-primary-600 bg-primary-50 text-primary-700 dark:bg-primary-900 dark:text-primary-300"
+                      : "border-gray-200 dark:border-gray-700 hover:border-gray-300 dark:hover:border-gray-600 text-gray-600 dark:text-gray-300"
                   }`}
                 >
-                  {t === 'venda' ? 'Venda' : 'Aluguel'}
+                  {t === "venda" ? "Venda" : "Aluguel"}
                 </button>
               ))}
             </div>
@@ -250,7 +251,7 @@ export default function PropertyForm() {
 
           {/* Tipo de imovel */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
               Tipo de imovel *
             </label>
             <div className="grid grid-cols-3 gap-3">
@@ -261,8 +262,8 @@ export default function PropertyForm() {
                   onClick={() => updateForm({ propertyType: pt.value })}
                   className={`py-3 px-3 rounded-xl border-2 text-sm font-medium transition-colors ${
                     form.propertyType === pt.value
-                      ? 'border-primary-600 bg-primary-50 text-primary-700'
-                      : 'border-gray-200 hover:border-gray-300 text-gray-600'
+                      ? "border-primary-600 bg-primary-50 text-primary-700 dark:bg-primary-900 dark:text-primary-300"
+                      : "border-gray-200 dark:border-gray-700 hover:border-gray-300 dark:hover:border-gray-600 text-gray-600 dark:text-gray-300"
                   }`}
                 >
                   {pt.label}
@@ -276,7 +277,7 @@ export default function PropertyForm() {
 
           {/* Cidade */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
               Cidade *
             </label>
             <div className="grid grid-cols-2 gap-3">
@@ -287,8 +288,8 @@ export default function PropertyForm() {
                   onClick={() => updateForm({ city: c })}
                   className={`py-3 px-4 rounded-xl border-2 text-sm font-medium transition-colors ${
                     form.city === c
-                      ? 'border-primary-600 bg-primary-50 text-primary-700'
-                      : 'border-gray-200 hover:border-gray-300 text-gray-600'
+                      ? "border-primary-600 bg-primary-50 text-primary-700 dark:bg-primary-900 dark:text-primary-300"
+                      : "border-gray-200 dark:border-gray-700 hover:border-gray-300 dark:hover:border-gray-600 text-gray-600 dark:text-gray-300"
                   }`}
                 >
                   {c}
@@ -302,7 +303,7 @@ export default function PropertyForm() {
 
           {/* Bairro */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
               Bairro
             </label>
             <input
@@ -310,7 +311,7 @@ export default function PropertyForm() {
               value={form.neighborhood}
               onChange={(e) => updateForm({ neighborhood: e.target.value })}
               placeholder="Ex: Martim de Sa, Praia Grande..."
-              className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-primary-500 text-sm"
+              className="w-full px-4 py-3 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-primary-500 text-sm"
             />
           </div>
         </div>
@@ -319,11 +320,13 @@ export default function PropertyForm() {
       {/* Step 1: Detalhes */}
       {step === 1 && (
         <div className="space-y-6">
-          <h2 className="text-xl font-bold text-gray-900">Detalhes do imovel</h2>
+          <h2 className="text-xl font-bold text-gray-900 dark:text-gray-100">
+            Detalhes do imovel
+          </h2>
 
           {/* Titulo */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
               Titulo do anuncio *
             </label>
             <input
@@ -332,9 +335,11 @@ export default function PropertyForm() {
               onChange={(e) => updateForm({ title: e.target.value })}
               placeholder="Ex: Casa 3 quartos com piscina na praia"
               maxLength={120}
-              className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-primary-500 text-sm"
+              className="w-full px-4 py-3 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-primary-500 text-sm"
             />
-            <p className="text-xs text-gray-400 mt-1">{form.title.length}/120</p>
+            <p className="text-xs text-gray-400 mt-1">
+              {form.title.length}/120
+            </p>
             {errors.title && (
               <p className="text-red-500 text-sm mt-1">{errors.title}</p>
             )}
@@ -342,7 +347,7 @@ export default function PropertyForm() {
 
           {/* Descricao */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
               Descricao
             </label>
             <textarea
@@ -351,7 +356,7 @@ export default function PropertyForm() {
               placeholder="Descreva o imovel, diferenciais, pontos de referencia..."
               maxLength={2000}
               rows={4}
-              className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-primary-500 text-sm resize-none"
+              className="w-full px-4 py-3 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-primary-500 text-sm resize-none"
             />
             <p className="text-xs text-gray-400 mt-1">
               {form.description.length}/2000
@@ -360,19 +365,19 @@ export default function PropertyForm() {
 
           {/* Preco */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
               Preco (R$) *
             </label>
             <input
               type="text"
               inputMode="numeric"
-              value={form.price ? formatPriceInput(form.price) : ''}
+              value={form.price ? formatPriceInput(form.price) : ""}
               onChange={(e) => {
-                const raw = e.target.value.replace(/\D/g, '');
+                const raw = e.target.value.replace(/\D/g, "");
                 updateForm({ price: raw });
               }}
               placeholder="500.000"
-              className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-primary-500 text-sm"
+              className="w-full px-4 py-3 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-primary-500 text-sm"
             />
             {errors.price && (
               <p className="text-red-500 text-sm mt-1">{errors.price}</p>
@@ -381,7 +386,7 @@ export default function PropertyForm() {
 
           {/* Area */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
               Area (m2)
             </label>
             <input
@@ -389,14 +394,14 @@ export default function PropertyForm() {
               value={form.area}
               onChange={(e) => updateForm({ area: e.target.value })}
               placeholder="120"
-              className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-primary-500 text-sm"
+              className="w-full px-4 py-3 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-primary-500 text-sm"
             />
           </div>
 
           {/* Quartos, Banheiros, Vagas */}
           <div className="grid grid-cols-3 gap-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                 Quartos
               </label>
               <input
@@ -406,11 +411,11 @@ export default function PropertyForm() {
                 value={form.bedrooms}
                 onChange={(e) => updateForm({ bedrooms: e.target.value })}
                 placeholder="0"
-                className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-primary-500 text-sm"
+                className="w-full px-4 py-3 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-primary-500 text-sm"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                 Banheiros
               </label>
               <input
@@ -420,11 +425,11 @@ export default function PropertyForm() {
                 value={form.bathrooms}
                 onChange={(e) => updateForm({ bathrooms: e.target.value })}
                 placeholder="0"
-                className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-primary-500 text-sm"
+                className="w-full px-4 py-3 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-primary-500 text-sm"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                 Vagas
               </label>
               <input
@@ -434,14 +439,14 @@ export default function PropertyForm() {
                 value={form.parkingSpaces}
                 onChange={(e) => updateForm({ parkingSpaces: e.target.value })}
                 placeholder="0"
-                className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-primary-500 text-sm"
+                className="w-full px-4 py-3 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-primary-500 text-sm"
               />
             </div>
           </div>
 
           {/* Endereco */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
               Endereco
             </label>
             <input
@@ -450,7 +455,7 @@ export default function PropertyForm() {
               onChange={(e) => updateForm({ address: e.target.value })}
               placeholder="Rua, numero (opcional)"
               maxLength={200}
-              className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-primary-500 text-sm"
+              className="w-full px-4 py-3 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-primary-500 text-sm"
             />
           </div>
         </div>
@@ -476,7 +481,9 @@ export default function PropertyForm() {
       {/* Step 3: Revisao */}
       {step === 3 && (
         <div className="space-y-6">
-          <h2 className="text-xl font-bold text-gray-900">Revisar e publicar</h2>
+          <h2 className="text-xl font-bold text-gray-900">
+            Revisar e publicar
+          </h2>
 
           <div className="bg-white rounded-xl border border-gray-200 divide-y divide-gray-100">
             {/* Preview da foto */}
@@ -526,7 +533,8 @@ export default function PropertyForm() {
               </div>
 
               <p className="text-xs text-gray-400">
-                {form.photoUrls.length} foto{form.photoUrls.length !== 1 ? 's' : ''}
+                {form.photoUrls.length} foto
+                {form.photoUrls.length !== 1 ? "s" : ""}
               </p>
             </div>
           </div>
