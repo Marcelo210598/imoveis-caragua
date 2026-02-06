@@ -1,5 +1,5 @@
 import { BaseScraper, ScrapedProperty, ScraperConfig } from "./base";
-import { PropertySource } from "@prisma/client";
+import { PropertySource } from "@/lib/generated/prisma";
 import axios from "axios";
 import * as cheerio from "cheerio";
 import { DataNormalizer } from "./normalizer";
