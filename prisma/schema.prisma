@@ -15,9 +15,11 @@ enum Role {
 enum PropertySource {
   ZAP
   VIVAREAL
+  OLX
   MULTIPLE
   USER
 }
+
 
 enum PropertyStatus {
   ACTIVE

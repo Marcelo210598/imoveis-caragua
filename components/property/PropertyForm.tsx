@@ -1,5 +1,5 @@
 "use client";
-// Dark mode fix - feb 2026
+// Dark mode fix applied - feb 2026
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import {
@@ -464,7 +464,9 @@ export default function PropertyForm() {
       {/* Step 2: Fotos */}
       {step === 2 && (
         <div className="space-y-6">
-          <h2 className="text-xl font-bold text-gray-900">Fotos do imovel</h2>
+          <h2 className="text-xl font-bold text-gray-900 dark:text-gray-100">
+            Fotos do imovel
+          </h2>
           <p className="text-gray-500 text-sm">
             Boas fotos fazem toda a diferenca. Adicione ate 10 fotos do imovel.
           </p>
@@ -481,7 +483,7 @@ export default function PropertyForm() {
       {/* Step 3: Revisao */}
       {step === 3 && (
         <div className="space-y-6">
-          <h2 className="text-xl font-bold text-gray-900">
+          <h2 className="text-xl font-bold text-gray-900 dark:text-gray-100">
             Revisar e publicar
           </h2>
 
