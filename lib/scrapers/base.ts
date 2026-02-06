@@ -1,4 +1,4 @@
-import { PropertySource } from "@/lib/generated/prisma";
+import { PropertySource } from "@/lib/generated/prisma/client";
 import { ScraperLogger } from "./logger";
 
 export interface ScrapedProperty {

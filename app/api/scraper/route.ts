@@ -3,7 +3,7 @@ import { ZapScraper } from "@/lib/scrapers/zap";
 import { VivaRealScraper } from "@/lib/scrapers/vivareal";
 import { OLXScraper } from "@/lib/scrapers/olx";
 import { prisma } from "@/lib/prisma";
-import { PropertySource } from "@/lib/generated/prisma";
+import { PropertySource } from "@/lib/generated/prisma/client";
 
 // Impede que a rota seja cacheada (importante para scraping on-demand)
 export const dynamic = "force-dynamic";
