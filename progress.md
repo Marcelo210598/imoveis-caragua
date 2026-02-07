@@ -1,15 +1,17 @@
 # Litoral Norte Imoveis - Progresso
 
-## Ultima atualizacao: 2026-02-04
+## Ultima atualizacao: 2026-02-06
 
 ## Visao Geral
+
 - **Objetivo**: Marketplace de imoveis do Litoral Norte de SP (proprietarios anunciam, usuarios favoritam e contactam)
 - **Stack**: Next.js 14, React 18, TypeScript, Tailwind CSS, Prisma 7, Neon PostgreSQL, NextAuth v5, Twilio, Vercel Blob
-- **Status**: v1.0 - Marketplace funcional com 5 sprints implementados
+- **Status**: v1.1 - Marketplace funcional com scraping automatizado
 
 ## Concluido
 
 ### Sprint 1 - Banco de Dados
+
 - [x] Prisma 7 com Neon PostgreSQL (adapter-pg)
 - [x] Schema: User, Property, PropertyPhoto, Favorite, Message, VerificationCode
 - [x] Seed de 110 imoveis do JSON para o banco
@@ -17,6 +19,7 @@
 - [x] Todas as paginas adaptadas para dados do banco
 
 ### Sprint 2 - Autenticacao
+
 - [x] NextAuth v5 com CredentialsProvider (phone-otp)
 - [x] Twilio Verify para envio/validacao de OTP por SMS
 - [x] LoginModal com input de telefone e 6 digitos OTP
@@ -24,6 +27,7 @@
 - [x] AuthProvider e SessionProvider no layout
 
 ### Sprint 3 - Favoritos
+
 - [x] API POST/DELETE /api/property/[id]/favorite
 - [x] API GET /api/user/favorites e /api/user/favorites/ids
 - [x] FavoritesProvider com estado global e atualizacao otimista
@@ -32,6 +36,7 @@
 - [x] Login modal quando nao autenticado tenta favoritar
 
 ### Sprint 4 - Upload e Criacao de Imoveis
+
 - [x] Upload de fotos via Vercel Blob (/api/upload)
 - [x] ImageUploader com drag-and-drop, preview, reordenacao
 - [x] Formulario multi-step (tipo, detalhes, fotos, revisao)
@@ -41,6 +46,7 @@
 - [x] Botao "Anunciar" no Header
 
 ### Sprint 5 - Dashboard e Contato
+
 - [x] Dashboard /meus-imoveis (listar, ativar/desativar, remover)
 - [x] API PUT/DELETE para gerenciar imoveis do proprietario
 - [x] ContactButton: WhatsApp para imoveis de usuarios, link pro portal para scraped
@@ -49,25 +55,58 @@
 - [x] Secao de descricao na pagina de detalhe
 
 ### Extras
+
 - [x] Dark mode com ThemeProvider e toggle (respeita preferencia do sistema)
 - [x] Responsividade mobile melhorada (homepage, city cards, hero, stats)
 - [x] Logo SVG e favicon personalizados
 - [x] Script inline no head para evitar flash de tema
 
-## Em progresso
-- Nenhum item em progresso
+### Sprint 5.5 - Scraping & Correcoes (05/02/2026)
 
-## Proximos passos (Sprint 6 - Polish & Deploy)
-- [ ] Configurar env vars de producao no Vercel (TWILIO, NEXTAUTH)
-- [ ] SEO metadata dinamica por pagina de imovel
-- [ ] Rate limit de 3 OTP/hora por telefone (ja implementado parcialmente)
-- [ ] Testar fluxo completo em producao
-- [ ] Melhorar fallback de imagens quebradas
-- [ ] Notificacao in-app quando favoritam seu imovel (badge no Header)
-- [ ] Open Graph images dinamicas
-- [ ] ISR para paginas de imoveis
+- [x] Sistema de scraping automatizado (ZapImoveis, VivaReal, OLX)
+- [x] Scrapers com rate limiting e normalizacao de dados
+- [x] Cron job diario via vercel.json (02:00 AM)
+- [x] Pagina admin /admin/scraper para controle manual
+- [x] API POST /api/scraper e GET /api/scraper/cron
+- [x] Correcao de contraste dark mode no PropertyForm
+- [x] Hard delete implementado (antes era soft delete)
+- [x] Cascade delete para fotos e favoritos
+
+## Status: Sprint 6 COMPLETO! 🎉
+
+### Sprint 6 - Polish & Deploy (Ja Implementado)
+
+- [x] SEO metadata dinamica (generateMetadata em app/imoveis/[id]/page.tsx)
+- [x] Open Graph images dinamicas (/api/og/property/[id]/route.tsx)
+- [x] Rate limit de 3 OTP/hora por telefone (app/api/auth/send-otp)
+- [x] ISR para paginas de imoveis (revalidate = 3600)
+- [x] Fallback de imagens quebradas (ImageWithFallback component)
+- [x] Notificacao in-app quando favoritam seu imovel (NotificationBell + API)
+
+## Em Progresso: Sprint 7 - Filtros Avancados + Analytics 🚀
+
+### Implementado
+
+- [x] Filtro por tipo de imovel (Casa, Apt, Terreno, Comercial)
+- [x] Filtro por area (min/max m²) com debounce
+- [x] Backend: filterProperties + API route suporta novos filtros
+- [x] Frontend: FilterSidebar com novos botões e inputs
+- [x] Vercel Analytics + SpeedInsights no layout
+
+### Pendente
+
+- [ ] npm install @vercel/analytics (lento)
+- [ ] Build e deploy
+
+## Proximos (Sprint 8 - Seguranca OWASP)
+
+- [ ] Implementar OWASP Top 10
+- [ ] CSP Headers
+- [ ] Rate limiting geral
+- [ ] Input sanitization audit
 
 ## Variaveis de Ambiente
+
 ```
 DATABASE_URL=postgresql://... (Neon)
 NEXTAUTH_SECRET=...
@@ -79,6 +118,7 @@ BLOB_READ_WRITE_TOKEN=... (Vercel Blob - configurado via Storage)
 ```
 
 ## Dependencias principais
+
 - next 14.2, react 18.2, typescript 5
 - prisma 7.3, @prisma/client, @prisma/adapter-pg, pg
 - next-auth 5.0.0-beta.30

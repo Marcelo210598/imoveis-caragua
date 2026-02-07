@@ -1,22 +1,32 @@
-'use client';
+"use client";
 
-import { Suspense, useEffect, useState, useCallback, useMemo, useRef } from 'react';
-import { useSearchParams } from 'next/navigation';
-import { Property, PropertyFilters } from '@/types/property';
-import PropertyGrid from '@/components/PropertyGrid';
-import FilterSidebar from '@/components/FilterSidebar';
+import {
+  Suspense,
+  useEffect,
+  useState,
+  useCallback,
+  useMemo,
+  useRef,
+} from "react";
+import { useSearchParams } from "next/navigation";
+import { Property, PropertyFilters } from "@/types/property";
+import PropertyGrid from "@/components/PropertyGrid";
+import FilterSidebar from "@/components/FilterSidebar";
 
 const ITEMS_PER_PAGE = 24;
 
 function serializeFilters(f: PropertyFilters): string {
   return JSON.stringify({
-    city: f.city || '',
-    type: f.type || '',
+    city: f.city || "",
+    type: f.type || "",
+    propertyType: f.propertyType || "",
     minPrice: f.minPrice || 0,
     maxPrice: f.maxPrice || 0,
+    minArea: f.minArea || 0,
+    maxArea: f.maxArea || 0,
     bedrooms: f.bedrooms || 0,
     onlyDeals: f.onlyDeals || false,
-    searchTerm: f.searchTerm || '',
+    searchTerm: f.searchTerm || "",
   });
 }
 
@@ -26,7 +36,7 @@ function ImoveisContent() {
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(1);
 
-  const initialCity = searchParams.get('city') || undefined;
+  const initialCity = searchParams.get("city") || undefined;
 
   const [filters, setFilters] = useState<PropertyFilters>({
     city: initialCity,
@@ -45,13 +55,17 @@ function ImoveisContent() {
       setLoading(true);
       try {
         const params = new URLSearchParams();
-        if (filters.city) params.set('city', filters.city);
-        if (filters.type) params.set('type', filters.type);
-        if (filters.minPrice) params.set('minPrice', String(filters.minPrice));
-        if (filters.maxPrice) params.set('maxPrice', String(filters.maxPrice));
-        if (filters.bedrooms) params.set('bedrooms', String(filters.bedrooms));
-        if (filters.onlyDeals) params.set('onlyDeals', 'true');
-        if (filters.searchTerm) params.set('search', filters.searchTerm);
+        if (filters.city) params.set("city", filters.city);
+        if (filters.type) params.set("type", filters.type);
+        if (filters.propertyType)
+          params.set("propertyType", filters.propertyType);
+        if (filters.minPrice) params.set("minPrice", String(filters.minPrice));
+        if (filters.maxPrice) params.set("maxPrice", String(filters.maxPrice));
+        if (filters.minArea) params.set("minArea", String(filters.minArea));
+        if (filters.maxArea) params.set("maxArea", String(filters.maxArea));
+        if (filters.bedrooms) params.set("bedrooms", String(filters.bedrooms));
+        if (filters.onlyDeals) params.set("onlyDeals", "true");
+        if (filters.searchTerm) params.set("search", filters.searchTerm);
 
         const res = await fetch(`/api/properties?${params.toString()}`, {
           signal: controller.signal,
@@ -61,8 +75,8 @@ function ImoveisContent() {
         if (data.cities) setCities(data.cities);
         setPage(1);
       } catch (err) {
-        if (err instanceof DOMException && err.name === 'AbortError') return;
-        console.error('Erro ao carregar imoveis:', err);
+        if (err instanceof DOMException && err.name === "AbortError") return;
+        console.error("Erro ao carregar imoveis:", err);
       } finally {
         if (!controller.signal.aborted) {
           setLoading(false);
@@ -86,11 +100,11 @@ function ImoveisContent() {
 
   return (
     <>
-      <h1 className="text-3xl font-bold text-gray-900 mb-2">Todos os Imoveis</h1>
+      <h1 className="text-3xl font-bold text-gray-900 mb-2">
+        Todos os Imoveis
+      </h1>
       <p className="text-gray-500 mb-8">
-        {loading
-          ? 'Carregando...'
-          : `${properties.length} imoveis encontrados`}
+        {loading ? "Carregando..." : `${properties.length} imoveis encontrados`}
       </p>
 
       <div className="flex gap-8">

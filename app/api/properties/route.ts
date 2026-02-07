@@ -1,10 +1,10 @@
-import { NextRequest, NextResponse } from 'next/server';
-import { filterProperties, getUniqueCities } from '@/lib/properties';
-import { PropertyFilters } from '@/types/property';
-import { auth } from '@/lib/auth';
-import { prisma } from '@/lib/prisma';
-import { createPropertySchema } from '@/lib/validations';
-import { slugify } from '@/lib/utils';
+import { NextRequest, NextResponse } from "next/server";
+import { filterProperties, getUniqueCities } from "@/lib/properties";
+import { PropertyFilters } from "@/types/property";
+import { auth } from "@/lib/auth";
+import { prisma } from "@/lib/prisma";
+import { createPropertySchema } from "@/lib/validations";
+import { slugify } from "@/lib/utils";
 
 const MAX_PROPERTIES_PER_USER = 5;
 
@@ -13,26 +13,35 @@ export async function GET(request: NextRequest) {
 
   const filters: PropertyFilters = {};
 
-  const city = searchParams.get('city');
+  const city = searchParams.get("city");
   if (city) filters.city = city;
 
-  const minPrice = searchParams.get('minPrice');
+  const minPrice = searchParams.get("minPrice");
   if (minPrice) filters.minPrice = Number(minPrice);
 
-  const maxPrice = searchParams.get('maxPrice');
+  const maxPrice = searchParams.get("maxPrice");
   if (maxPrice) filters.maxPrice = Number(maxPrice);
 
-  const bedrooms = searchParams.get('bedrooms');
+  const bedrooms = searchParams.get("bedrooms");
   if (bedrooms) filters.bedrooms = Number(bedrooms);
 
-  const onlyDeals = searchParams.get('onlyDeals');
-  if (onlyDeals === 'true') filters.onlyDeals = true;
+  const onlyDeals = searchParams.get("onlyDeals");
+  if (onlyDeals === "true") filters.onlyDeals = true;
 
-  const search = searchParams.get('search');
+  const search = searchParams.get("search");
   if (search) filters.searchTerm = search;
 
-  const type = searchParams.get('type');
+  const type = searchParams.get("type");
   if (type) filters.type = type;
+
+  const propertyType = searchParams.get("propertyType");
+  if (propertyType) filters.propertyType = propertyType;
+
+  const minArea = searchParams.get("minArea");
+  if (minArea) filters.minArea = Number(minArea);
+
+  const maxArea = searchParams.get("maxArea");
+  if (maxArea) filters.maxArea = Number(maxArea);
 
   const [filtered, cities] = await Promise.all([
     filterProperties(filters),
@@ -49,18 +58,20 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   const session = await auth();
   if (!session?.user?.id) {
-    return NextResponse.json({ error: 'Nao autenticado' }, { status: 401 });
+    return NextResponse.json({ error: "Nao autenticado" }, { status: 401 });
   }
 
   // Limite anti-spam
   const userPropertyCount = await prisma.property.count({
-    where: { ownerId: session.user.id, status: 'ACTIVE' },
+    where: { ownerId: session.user.id, status: "ACTIVE" },
   });
 
   if (userPropertyCount >= MAX_PROPERTIES_PER_USER) {
     return NextResponse.json(
-      { error: `Limite de ${MAX_PROPERTIES_PER_USER} imoveis ativos por usuario.` },
-      { status: 403 }
+      {
+        error: `Limite de ${MAX_PROPERTIES_PER_USER} imoveis ativos por usuario.`,
+      },
+      { status: 403 },
     );
   }
 
@@ -69,8 +80,8 @@ export async function POST(request: NextRequest) {
 
   if (!parsed.success) {
     return NextResponse.json(
-      { error: 'Dados invalidos', details: parsed.error.flatten().fieldErrors },
-      { status: 400 }
+      { error: "Dados invalidos", details: parsed.error.flatten().fieldErrors },
+      { status: 400 },
     );
   }
 
@@ -78,8 +89,8 @@ export async function POST(request: NextRequest) {
 
   const property = await prisma.property.create({
     data: {
-      source: 'USER',
-      status: 'ACTIVE',
+      source: "USER",
+      status: "ACTIVE",
       type: data.type,
       propertyType: data.propertyType,
       title: data.title,
@@ -102,7 +113,7 @@ export async function POST(request: NextRequest) {
       },
     },
     include: {
-      photos: { orderBy: { order: 'asc' } },
+      photos: { orderBy: { order: "asc" } },
     },
   });
 

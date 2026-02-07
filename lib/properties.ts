@@ -1,18 +1,18 @@
-import { prisma } from '@/lib/prisma';
-import { PropertyFilters, CityStats } from '@/types/property';
-import { Prisma } from '@/lib/generated/prisma/client';
+import { prisma } from "@/lib/prisma";
+import { PropertyFilters, CityStats } from "@/types/property";
+import { Prisma } from "@/lib/generated/prisma/client";
 
 export async function getAllProperties() {
   return prisma.property.findMany({
-    where: { status: 'ACTIVE' },
-    include: { photos: { orderBy: { order: 'asc' } } },
-    orderBy: { createdAt: 'desc' },
+    where: { status: "ACTIVE" },
+    include: { photos: { orderBy: { order: "asc" } } },
+    orderBy: { createdAt: "desc" },
   });
 }
 
 export async function filterProperties(filters: PropertyFilters) {
   const where: Prisma.PropertyWhereInput = {
-    status: 'ACTIVE',
+    status: "ACTIVE",
   };
 
   if (filters.type) {
@@ -45,21 +45,27 @@ export async function filterProperties(filters: PropertyFilters) {
     where.dealScore = { gte: 60 };
   }
 
+  if (filters.minArea || filters.maxArea) {
+    where.area = {};
+    if (filters.minArea) where.area.gte = filters.minArea;
+    if (filters.maxArea) where.area.lte = filters.maxArea;
+  }
+
   if (filters.searchTerm) {
     const term = filters.searchTerm;
     where.OR = [
-      { title: { contains: term, mode: 'insensitive' } },
-      { neighborhood: { contains: term, mode: 'insensitive' } },
-      { address: { contains: term, mode: 'insensitive' } },
-      { city: { contains: term, mode: 'insensitive' } },
-      { propertyType: { contains: term, mode: 'insensitive' } },
+      { title: { contains: term, mode: "insensitive" } },
+      { neighborhood: { contains: term, mode: "insensitive" } },
+      { address: { contains: term, mode: "insensitive" } },
+      { city: { contains: term, mode: "insensitive" } },
+      { propertyType: { contains: term, mode: "insensitive" } },
     ];
   }
 
   return prisma.property.findMany({
     where,
-    include: { photos: { orderBy: { order: 'asc' } } },
-    orderBy: { createdAt: 'desc' },
+    include: { photos: { orderBy: { order: "asc" } } },
+    orderBy: { createdAt: "desc" },
   });
 }
 
@@ -67,13 +73,10 @@ export async function getPropertyById(id: string) {
   // Tentar buscar por externalId primeiro (compatibilidade com dados scraped)
   const property = await prisma.property.findFirst({
     where: {
-      OR: [
-        { externalId: id },
-        { id: id },
-      ],
+      OR: [{ externalId: id }, { id: id }],
     },
     include: {
-      photos: { orderBy: { order: 'asc' } },
+      photos: { orderBy: { order: "asc" } },
       owner: { select: { id: true, name: true, phone: true, avatarUrl: true } },
     },
   });
@@ -84,19 +87,19 @@ export async function getPropertyById(id: string) {
 export async function getTopDeals(limit: number = 10) {
   return prisma.property.findMany({
     where: {
-      status: 'ACTIVE',
+      status: "ACTIVE",
       dealScore: { gte: 60 },
     },
-    include: { photos: { orderBy: { order: 'asc' } } },
-    orderBy: { dealScore: 'desc' },
+    include: { photos: { orderBy: { order: "asc" } } },
+    orderBy: { dealScore: "desc" },
     take: limit,
   });
 }
 
 export async function getCityStats(): Promise<CityStats[]> {
   const stats = await prisma.property.groupBy({
-    by: ['city', 'citySlug'],
-    where: { status: 'ACTIVE' },
+    by: ["city", "citySlug"],
+    where: { status: "ACTIVE" },
     _count: { id: true },
     _avg: { price: true, pricePerSqm: true },
   });
@@ -112,10 +115,10 @@ export async function getCityStats(): Promise<CityStats[]> {
 
 export async function getUniqueCities(): Promise<string[]> {
   const cities = await prisma.property.findMany({
-    where: { status: 'ACTIVE' },
+    where: { status: "ACTIVE" },
     select: { city: true },
-    distinct: ['city'],
-    orderBy: { city: 'asc' },
+    distinct: ["city"],
+    orderBy: { city: "asc" },
   });
 
   return cities.map((c) => c.city);

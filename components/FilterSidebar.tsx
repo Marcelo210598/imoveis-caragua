@@ -1,9 +1,9 @@
-'use client';
+"use client";
 
-import { useState, useRef, useEffect, useCallback } from 'react';
-import { SlidersHorizontal, X } from 'lucide-react';
-import { PropertyFilters } from '@/types/property';
-import SearchBar from './SearchBar';
+import { useState, useRef, useEffect, useCallback } from "react";
+import { SlidersHorizontal, X } from "lucide-react";
+import { PropertyFilters } from "@/types/property";
+import SearchBar from "./SearchBar";
 
 interface FilterSidebarProps {
   cities: string[];
@@ -19,8 +19,18 @@ export default function FilterSidebar({
   totalCount,
 }: FilterSidebarProps) {
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [localMinPrice, setLocalMinPrice] = useState(filters.minPrice?.toString() || '');
-  const [localMaxPrice, setLocalMaxPrice] = useState(filters.maxPrice?.toString() || '');
+  const [localMinPrice, setLocalMinPrice] = useState(
+    filters.minPrice?.toString() || "",
+  );
+  const [localMaxPrice, setLocalMaxPrice] = useState(
+    filters.maxPrice?.toString() || "",
+  );
+  const [localMinArea, setLocalMinArea] = useState(
+    filters.minArea?.toString() || "",
+  );
+  const [localMaxArea, setLocalMaxArea] = useState(
+    filters.maxArea?.toString() || "",
+  );
   const filtersRef = useRef(filters);
   filtersRef.current = filters;
   const onFilterChangeRef = useRef(onFilterChange);
@@ -35,32 +45,52 @@ export default function FilterSidebar({
     const timer = setTimeout(() => {
       const minPrice = localMinPrice ? Number(localMinPrice) : undefined;
       const maxPrice = localMaxPrice ? Number(localMaxPrice) : undefined;
-      if (minPrice !== filtersRef.current.minPrice || maxPrice !== filtersRef.current.maxPrice) {
+      if (
+        minPrice !== filtersRef.current.minPrice ||
+        maxPrice !== filtersRef.current.maxPrice
+      ) {
         update({ minPrice, maxPrice });
       }
     }, 600);
     return () => clearTimeout(timer);
   }, [localMinPrice, localMaxPrice, update]);
 
+  // Debounce area inputs
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      const minArea = localMinArea ? Number(localMinArea) : undefined;
+      const maxArea = localMaxArea ? Number(localMaxArea) : undefined;
+      if (
+        minArea !== filtersRef.current.minArea ||
+        maxArea !== filtersRef.current.maxArea
+      ) {
+        update({ minArea, maxArea });
+      }
+    }, 600);
+    return () => clearTimeout(timer);
+  }, [localMinArea, localMaxArea, update]);
+
   const clearFilters = () => {
-    setLocalMinPrice('');
-    setLocalMaxPrice('');
+    setLocalMinPrice("");
+    setLocalMaxPrice("");
+    setLocalMinArea("");
+    setLocalMaxArea("");
     onFilterChange({});
   };
 
   const hasFilters = Object.values(filters).some(
-    (v) => v !== undefined && v !== '' && v !== false
+    (v) => v !== undefined && v !== "" && v !== false,
   );
 
   const btnClass = (active: boolean) =>
     `px-3 py-1.5 rounded-lg text-sm border transition-colors ${
       active
-        ? 'bg-primary-500 text-white border-primary-500'
-        : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 border-gray-200 dark:border-gray-700 hover:border-primary-300'
+        ? "bg-primary-500 text-white border-primary-500"
+        : "bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 border-gray-200 dark:border-gray-700 hover:border-primary-300"
     }`;
 
   const inputClass =
-    'px-3 py-2 border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary-500';
+    "px-3 py-2 border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary-500";
 
   const filterContent = (
     <div className="space-y-6">
@@ -72,11 +102,13 @@ export default function FilterSidebar({
 
       {/* Venda / Aluguel */}
       <div>
-        <h3 className="font-semibold text-gray-800 dark:text-gray-200 mb-2">Modalidade</h3>
+        <h3 className="font-semibold text-gray-800 dark:text-gray-200 mb-2">
+          Modalidade
+        </h3>
         <div className="flex gap-2">
           {[
-            { value: 'venda', label: 'Venda' },
-            { value: 'aluguel', label: 'Aluguel' },
+            { value: "venda", label: "Venda" },
+            { value: "aluguel", label: "Aluguel" },
           ].map((t) => (
             <button
               key={t.value}
@@ -91,12 +123,45 @@ export default function FilterSidebar({
         </div>
       </div>
 
+      {/* Property Type */}
+      <div>
+        <h3 className="font-semibold text-gray-800 dark:text-gray-200 mb-2">
+          Tipo de Imovel
+        </h3>
+        <div className="flex flex-wrap gap-2">
+          {[
+            { value: "casa", label: "Casa" },
+            { value: "apartamento", label: "Apt" },
+            { value: "terreno", label: "Terreno" },
+            { value: "comercial", label: "Comercial" },
+          ].map((t) => (
+            <button
+              key={t.value}
+              onClick={() =>
+                update({
+                  propertyType:
+                    filters.propertyType === t.value ? undefined : t.value,
+                })
+              }
+              className={btnClass(filters.propertyType === t.value)}
+            >
+              {t.label}
+            </button>
+          ))}
+        </div>
+      </div>
+
       {/* City */}
       <div>
-        <h3 className="font-semibold text-gray-800 dark:text-gray-200 mb-2">Cidade</h3>
+        <h3 className="font-semibold text-gray-800 dark:text-gray-200 mb-2">
+          Cidade
+        </h3>
         <div className="space-y-2">
           {cities.map((city) => (
-            <label key={city} className="flex items-center gap-2 cursor-pointer">
+            <label
+              key={city}
+              className="flex items-center gap-2 cursor-pointer"
+            >
               <input
                 type="radio"
                 name="city"
@@ -106,7 +171,9 @@ export default function FilterSidebar({
                 }
                 className="accent-primary-500"
               />
-              <span className="text-sm text-gray-700 dark:text-gray-300">{city}</span>
+              <span className="text-sm text-gray-700 dark:text-gray-300">
+                {city}
+              </span>
             </label>
           ))}
           {filters.city && (
@@ -122,7 +189,9 @@ export default function FilterSidebar({
 
       {/* Price Range */}
       <div>
-        <h3 className="font-semibold text-gray-800 dark:text-gray-200 mb-2">Faixa de preco</h3>
+        <h3 className="font-semibold text-gray-800 dark:text-gray-200 mb-2">
+          Faixa de preco
+        </h3>
         <div className="grid grid-cols-2 gap-2">
           <input
             type="number"
@@ -141,9 +210,34 @@ export default function FilterSidebar({
         </div>
       </div>
 
+      {/* Area Range */}
+      <div>
+        <h3 className="font-semibold text-gray-800 dark:text-gray-200 mb-2">
+          Area (m²)
+        </h3>
+        <div className="grid grid-cols-2 gap-2">
+          <input
+            type="number"
+            placeholder="Min"
+            value={localMinArea}
+            onChange={(e) => setLocalMinArea(e.target.value)}
+            className={inputClass}
+          />
+          <input
+            type="number"
+            placeholder="Max"
+            value={localMaxArea}
+            onChange={(e) => setLocalMaxArea(e.target.value)}
+            className={inputClass}
+          />
+        </div>
+      </div>
+
       {/* Bedrooms */}
       <div>
-        <h3 className="font-semibold text-gray-800 dark:text-gray-200 mb-2">Quartos</h3>
+        <h3 className="font-semibold text-gray-800 dark:text-gray-200 mb-2">
+          Quartos
+        </h3>
         <div className="flex gap-2">
           {[1, 2, 3, 4].map((n) => (
             <button
@@ -153,7 +247,7 @@ export default function FilterSidebar({
               }
               className={btnClass(filters.bedrooms === n)}
             >
-              {n === 4 ? '4+' : n}
+              {n === 4 ? "4+" : n}
             </button>
           ))}
         </div>
@@ -165,7 +259,9 @@ export default function FilterSidebar({
           <input
             type="checkbox"
             checked={filters.onlyDeals || false}
-            onChange={(e) => update({ onlyDeals: e.target.checked || undefined })}
+            onChange={(e) =>
+              update({ onlyDeals: e.target.checked || undefined })
+            }
             className="accent-primary-500 w-4 h-4"
           />
           <span className="text-sm font-medium text-gray-700 dark:text-gray-300">

@@ -54,6 +54,8 @@ export interface PropertyFilters {
   propertyType?: string;
   onlyDeals?: boolean;
   searchTerm?: string;
+  minArea?: number;
+  maxArea?: number;
 }
 
 export interface CityStats {
