@@ -17,10 +17,11 @@ Agora os usuários podem gerenciar seus anúncios com autonomia:
 - **Edição**: Fluxo completo para atualizar dados e preço (exceto fotos por enquanto).
 - **Exclusão**: Opção para remover anúncios.
 
-### 2. Integração WhatsApp & Analytics
+### 2. Contato & Suporte
 
-- **Botão Flutuante**: Acesso rápido ao contato em todas as páginas (exceto admin/dashboard).
-- **Tracking**: Cliques no botão são rastreados via Vercel Analytics (`WhatsApp Click`).
+- **Página de Contato**: `/contato` com informações de suporte.
+- **Link no Rodapé**: Acesso rápido via "Fale Conosco".
+- **Botão Flutuante**: Removido para evitar confusão com o contato do proprietário.
 
 ### 3. Polimento de UI/UX
 
@@ -34,15 +35,15 @@ Agora os usuários podem gerenciar seus anúncios com autonomia:
 
 ### Arquivos Criados
 
-| Arquivo                                     | Descrição                    |
-| ------------------------------------------- | ---------------------------- |
-| `app/dashboard/page.tsx`                    | Página principal do painel   |
-| `app/imoveis/[id]/editar/page.tsx`          | Página de edição             |
-| `components/dashboard/MyPropertiesList.tsx` | Lista interativa de imóveis  |
-| `components/WhatsAppButton.tsx`             | Botão flutuante com tracking |
-| `components/ui/sonner.tsx`                  | Componente de toasts         |
-| `app/not-found.tsx`                         | Página 404 personalizada     |
-| `app/error.tsx`                             | Página de erro genérico      |
+| Arquivo                                     | Descrição                   |
+| ------------------------------------------- | --------------------------- |
+| `app/dashboard/page.tsx`                    | Página principal do painel  |
+| `app/imoveis/[id]/editar/page.tsx`          | Página de edição            |
+| `components/dashboard/MyPropertiesList.tsx` | Lista interativa de imóveis |
+| `app/contato/page.tsx`                      | Página de contato/suporte   |
+| `components/ui/sonner.tsx`                  | Componente de toasts        |
+| `app/not-found.tsx`                         | Página 404 personalizada    |
+| `app/error.tsx`                             | Página de erro genérico     |
 
 ### API Updates
 
