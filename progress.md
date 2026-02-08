@@ -2,15 +2,17 @@
 
 ## Ultima atualizacao: 2026-02-08
 
-**Status**: v1.4 - Sprint 9 Completo (Mega Sprint)
+**Status**: v1.5 - Sprint 9 Completo (Mega Sprint + SEO)
 
 ---
 
 ## 🚀 Em Progresso (Sprint 10)
 
-- [ ] Testes automatizados com CI/CD
 - [ ] Notificações push no PWA
 - [ ] Redis para rate limiting (Upstash)
+- [ ] CI/CD com GitHub Actions
+- [ ] Integração com WhatsApp API
+- [ ] Sistema de avaliações de imóveis
 
 ---
 
@@ -20,8 +22,9 @@
 
 - **PWA**: Manifest, ícones 192/512, meta tags Apple
 - **Admin Dashboard**: `/admin/dashboard` com métricas e gráficos
-- **E2E Tests**: Playwright config, testes homepage e properties
+- **E2E Tests**: Playwright config, testes homepage e properties (6/7 ✓)
 - **Sistema de Mensagens**: API + UI de chat em `/mensagens`
+- **SEO/GEO**: Meta tags, JSON-LD Schema.org, H1 semântico, texto descritivo
 
 ### Sprint 8 - Segurança OWASP (08/02/2026)
 
