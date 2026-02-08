@@ -15,13 +15,26 @@ export const metadata: Metadata = {
   title: "Litoral Norte Imoveis - Encontre seu imovel de praia",
   description:
     "Encontre casas e apartamentos no Litoral Norte de SP: Caraguatatuba, Ubatuba, Ilhabela e Sao Sebastiao. Precos atualizados de ZAP e VivaReal.",
+  manifest: "/manifest.json",
   icons: {
     icon: "/icon.svg",
+    apple: "/icon-192.png",
+  },
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "default",
+    title: "LN Imóveis",
+  },
+  formatDetection: {
+    telephone: true,
   },
   openGraph: {
     title: "Litoral Norte Imoveis",
     description: "Os melhores imoveis no Litoral Norte de Sao Paulo",
     type: "website",
+  },
+  other: {
+    "mobile-web-app-capable": "yes",
   },
 };
 
@@ -33,6 +46,7 @@ export default function RootLayout({
   return (
     <html lang="pt-BR" suppressHydrationWarning>
       <head>
+        <meta name="theme-color" content="#3b82f6" />
         <script
           dangerouslySetInnerHTML={{
             __html: `

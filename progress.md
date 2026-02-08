@@ -2,19 +2,26 @@
 
 ## Ultima atualizacao: 2026-02-08
 
-**Status**: v1.3 - Sprint 8 Completo (Segurança OWASP)
+**Status**: v1.4 - Sprint 9 Completo (Mega Sprint)
 
 ---
 
-## 🚀 Em Progresso (Sprint 9 - Melhorias)
+## 🚀 Em Progresso (Sprint 10)
 
-- [ ] Testes E2E com Playwright
-- [ ] Migrar rate limiting para Redis (produção)
-- [ ] PWA para mobile
+- [ ] Testes automatizados com CI/CD
+- [ ] Notificações push no PWA
+- [ ] Redis para rate limiting (Upstash)
 
 ---
 
 ## ✅ Concluído
+
+### Sprint 9 - Mega Sprint (08/02/2026)
+
+- **PWA**: Manifest, ícones 192/512, meta tags Apple
+- **Admin Dashboard**: `/admin/dashboard` com métricas e gráficos
+- **E2E Tests**: Playwright config, testes homepage e properties
+- **Sistema de Mensagens**: API + UI de chat em `/mensagens`
 
 ### Sprint 8 - Segurança OWASP (08/02/2026)
 
