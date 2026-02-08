@@ -1,0 +1,711 @@
+# Page snapshot
+
+```yaml
+- generic [active] [ref=e1]:
+  - banner [ref=e2]:
+    - generic [ref=e4]:
+      - link "Logo Litoral Norte Imoveis" [ref=e5] [cursor=pointer]:
+        - /url: /
+        - img "Logo" [ref=e6]
+        - generic [ref=e7]: Litoral Norte Imoveis
+      - navigation [ref=e8]:
+        - link "Inicio" [ref=e9] [cursor=pointer]:
+          - /url: /
+        - link "Imoveis" [ref=e10] [cursor=pointer]:
+          - /url: /imoveis
+        - link "Oportunidades" [ref=e11] [cursor=pointer]:
+          - /url: /deals
+        - link "Favoritos" [ref=e12] [cursor=pointer]:
+          - /url: /favoritos
+      - generic [ref=e13]:
+        - link "Anunciar" [ref=e14] [cursor=pointer]:
+          - /url: /imoveis/novo
+          - img [ref=e15]
+          - text: Anunciar
+        - button "Modo escuro" [ref=e16] [cursor=pointer]:
+          - img [ref=e17]
+        - button "Entrar" [ref=e19] [cursor=pointer]:
+          - img [ref=e20]
+          - text: Entrar
+  - main [ref=e23]:
+    - generic [ref=e24]:
+      - heading "Todos os Imoveis" [level=1] [ref=e25]
+      - paragraph [ref=e26]: 110 imoveis encontrados
+      - generic [ref=e27]:
+        - generic [ref=e29]:
+          - heading "Filtros" [level=2] [ref=e30]
+          - generic [ref=e31]:
+            - generic [ref=e32]:
+              - img [ref=e33]
+              - textbox "Buscar..." [ref=e36]
+            - generic [ref=e37]:
+              - heading "Modalidade" [level=3] [ref=e38]
+              - generic [ref=e39]:
+                - button "Venda" [ref=e40] [cursor=pointer]
+                - button "Aluguel" [ref=e41] [cursor=pointer]
+            - generic [ref=e42]:
+              - heading "Tipo de Imovel" [level=3] [ref=e43]
+              - generic [ref=e44]:
+                - button "Casa" [ref=e45] [cursor=pointer]
+                - button "Apt" [ref=e46] [cursor=pointer]
+                - button "Terreno" [ref=e47] [cursor=pointer]
+                - button "Comercial" [ref=e48] [cursor=pointer]
+            - generic [ref=e49]:
+              - heading "Cidade" [level=3] [ref=e50]
+              - generic [ref=e51]:
+                - generic [ref=e52] [cursor=pointer]:
+                  - radio "Caraguatatuba" [ref=e53]
+                  - generic [ref=e54]: Caraguatatuba
+                - generic [ref=e55] [cursor=pointer]:
+                  - radio "Ilhabela" [ref=e56]
+                  - generic [ref=e57]: Ilhabela
+                - generic [ref=e58] [cursor=pointer]:
+                  - radio "São Sebastião" [ref=e59]
+                  - generic [ref=e60]: São Sebastião
+                - generic [ref=e61] [cursor=pointer]:
+                  - radio "Ubatuba" [ref=e62]
+                  - generic [ref=e63]: Ubatuba
+            - generic [ref=e64]:
+              - heading "Faixa de preco" [level=3] [ref=e65]
+              - generic [ref=e66]:
+                - spinbutton [ref=e67]
+                - spinbutton [ref=e68]
+            - generic [ref=e69]:
+              - heading "Area (m²)" [level=3] [ref=e70]
+              - generic [ref=e71]:
+                - spinbutton [ref=e72]
+                - spinbutton [ref=e73]
+            - generic [ref=e74]:
+              - heading "Quartos" [level=3] [ref=e75]
+              - generic [ref=e76]:
+                - button "1" [ref=e77] [cursor=pointer]
+                - button "2" [ref=e78] [cursor=pointer]
+                - button "3" [ref=e79] [cursor=pointer]
+                - button "4+" [ref=e80] [cursor=pointer]
+            - generic [ref=e82] [cursor=pointer]:
+              - checkbox "🔥 So oportunidades" [ref=e83]
+              - generic [ref=e84]: 🔥 So oportunidades
+            - paragraph [ref=e85]: 110 imoveis encontrados
+        - generic [ref=e86]:
+          - generic [ref=e87]:
+            - link "Apartamento 2 Quartos Lagoinha Ubatuba Com Garagem 57M2 Venda Rs410000 Id VIVAREAL Favoritar R$ 410.000 Apartamento 2 Quartos Lagoinha Ubatuba Com Garagem 57M2 Venda Rs410000 Id Apartamento para comprar com 57 m², Ubatuba 2 2 1 57 m²" [ref=e88] [cursor=pointer]:
+              - /url: /imoveis/vivareal_2867602479
+              - generic [ref=e89]:
+                - generic [ref=e90]:
+                  - img "Apartamento 2 Quartos Lagoinha Ubatuba Com Garagem 57M2 Venda Rs410000 Id" [ref=e91]
+                  - generic [ref=e92]: VIVAREAL
+                  - button "Favoritar" [ref=e93]:
+                    - img [ref=e94]
+                - generic [ref=e96]:
+                  - paragraph [ref=e97]: R$ 410.000
+                  - paragraph [ref=e98]: Apartamento 2 Quartos Lagoinha Ubatuba Com Garagem 57M2 Venda Rs410000 Id
+                  - paragraph [ref=e99]: Apartamento para comprar com 57 m², Ubatuba
+                  - generic [ref=e100]:
+                    - generic [ref=e101]:
+                      - img [ref=e102]
+                      - text: "2"
+                    - generic [ref=e104]:
+                      - img [ref=e105]
+                      - text: "2"
+                    - generic [ref=e108]:
+                      - img [ref=e109]
+                      - text: "1"
+                    - generic [ref=e113]:
+                      - img [ref=e114]
+                      - text: 57 m²
+            - link "Apartamento 2 Quartos Toninhas Ubatuba Com Garagem 63M2 Venda Rs477000 Id 🔥 Bom Negocio VIVAREAL Favoritar R$ 477.000 Apartamento 2 Quartos Toninhas Ubatuba Com Garagem 63M2 Venda Rs477000 Id Apartamento para comprar com 63 m², Ubatuba 2 3 1 63 m²" [ref=e119] [cursor=pointer]:
+              - /url: /imoveis/vivareal_2868067883
+              - generic [ref=e120]:
+                - generic [ref=e121]:
+                  - img "Apartamento 2 Quartos Toninhas Ubatuba Com Garagem 63M2 Venda Rs477000 Id" [ref=e122]
+                  - generic [ref=e124]: 🔥 Bom Negocio
+                  - generic [ref=e125]: VIVAREAL
+                  - button "Favoritar" [ref=e126]:
+                    - img [ref=e127]
+                - generic [ref=e129]:
+                  - paragraph [ref=e130]: R$ 477.000
+                  - paragraph [ref=e131]: Apartamento 2 Quartos Toninhas Ubatuba Com Garagem 63M2 Venda Rs477000 Id
+                  - paragraph [ref=e132]: Apartamento para comprar com 63 m², Ubatuba
+                  - generic [ref=e133]:
+                    - generic [ref=e134]:
+                      - img [ref=e135]
+                      - text: "2"
+                    - generic [ref=e137]:
+                      - img [ref=e138]
+                      - text: "3"
+                    - generic [ref=e141]:
+                      - img [ref=e142]
+                      - text: "1"
+                    - generic [ref=e146]:
+                      - img [ref=e147]
+                      - text: 63 m²
+            - link "Apartamento 2 Quartos Toninhas Ubatuba Com Garagem 70M2 Venda Rs670000 Id VIVAREAL Favoritar R$ 670.000 Apartamento 2 Quartos Toninhas Ubatuba Com Garagem 70M2 Venda Rs670000 Id Apartamento para comprar com 70 m², Ubatuba 2 2 1 70 m²" [ref=e152] [cursor=pointer]:
+              - /url: /imoveis/vivareal_2866727625
+              - generic [ref=e153]:
+                - generic [ref=e154]:
+                  - img "Apartamento 2 Quartos Toninhas Ubatuba Com Garagem 70M2 Venda Rs670000 Id" [ref=e155]
+                  - generic [ref=e156]: VIVAREAL
+                  - button "Favoritar" [ref=e157]:
+                    - img [ref=e158]
+                - generic [ref=e160]:
+                  - paragraph [ref=e161]: R$ 670.000
+                  - paragraph [ref=e162]: Apartamento 2 Quartos Toninhas Ubatuba Com Garagem 70M2 Venda Rs670000 Id
+                  - paragraph [ref=e163]: Apartamento para comprar com 70 m², Ubatuba
+                  - generic [ref=e164]:
+                    - generic [ref=e165]:
+                      - img [ref=e166]
+                      - text: "2"
+                    - generic [ref=e168]:
+                      - img [ref=e169]
+                      - text: "2"
+                    - generic [ref=e172]:
+                      - img [ref=e173]
+                      - text: "1"
+                    - generic [ref=e177]:
+                      - img [ref=e178]
+                      - text: 70 m²
+            - link "Apartamento 2 Quartos Toninhas Ubatuba Com Garagem 58M2 Venda Rs839040 Id VIVAREAL Favoritar R$ 839.040 Apartamento 2 Quartos Toninhas Ubatuba Com Garagem 58M2 Venda Rs839040 Id Apartamento para comprar com 58 m², Ubatuba 2 2 1 58 m²" [ref=e183] [cursor=pointer]:
+              - /url: /imoveis/vivareal_2867089107
+              - generic [ref=e184]:
+                - generic [ref=e185]:
+                  - img "Apartamento 2 Quartos Toninhas Ubatuba Com Garagem 58M2 Venda Rs839040 Id" [ref=e186]
+                  - generic [ref=e187]: VIVAREAL
+                  - button "Favoritar" [ref=e188]:
+                    - img [ref=e189]
+                - generic [ref=e191]:
+                  - paragraph [ref=e192]: R$ 839.040
+                  - paragraph [ref=e193]: Apartamento 2 Quartos Toninhas Ubatuba Com Garagem 58M2 Venda Rs839040 Id
+                  - paragraph [ref=e194]: Apartamento para comprar com 58 m², Ubatuba
+                  - generic [ref=e195]:
+                    - generic [ref=e196]:
+                      - img [ref=e197]
+                      - text: "2"
+                    - generic [ref=e199]:
+                      - img [ref=e200]
+                      - text: "2"
+                    - generic [ref=e203]:
+                      - img [ref=e204]
+                      - text: "1"
+                    - generic [ref=e208]:
+                      - img [ref=e209]
+                      - text: 58 m²
+            - link "Venda Apartamento 2 Quartos Com Piscina Centro Ubatuba 70M2 Id MULTIPLE Favoritar R$ 498.450 Venda Apartamento 2 Quartos Com Piscina Centro Ubatuba 70M2 Id Apartamento para comprar com 70 m², Ubatuba 2 2 1 70 m²" [ref=e214] [cursor=pointer]:
+              - /url: /imoveis/zap_2868099297
+              - generic [ref=e215]:
+                - generic [ref=e216]:
+                  - img "Venda Apartamento 2 Quartos Com Piscina Centro Ubatuba 70M2 Id" [ref=e217]
+                  - generic [ref=e218]: MULTIPLE
+                  - button "Favoritar" [ref=e219]:
+                    - img [ref=e220]
+                - generic [ref=e222]:
+                  - paragraph [ref=e223]: R$ 498.450
+                  - paragraph [ref=e224]: Venda Apartamento 2 Quartos Com Piscina Centro Ubatuba 70M2 Id
+                  - paragraph [ref=e225]: Apartamento para comprar com 70 m², Ubatuba
+                  - generic [ref=e226]:
+                    - generic [ref=e227]:
+                      - img [ref=e228]
+                      - text: "2"
+                    - generic [ref=e230]:
+                      - img [ref=e231]
+                      - text: "2"
+                    - generic [ref=e234]:
+                      - img [ref=e235]
+                      - text: "1"
+                    - generic [ref=e239]:
+                      - img [ref=e240]
+                      - text: 70 m²
+            - link "Venda Apartamento 2 Quartos Mobiliado Praia Grande Ubatuba 88M2 Id 🔥 Otima Oportunidade MULTIPLE Favoritar R$ 620.000 Venda Apartamento 2 Quartos Mobiliado Praia Grande Ubatuba 88M2 Id Apartamento para comprar com 88 m², Ubatuba 2 2 1 88 m²" [ref=e245] [cursor=pointer]:
+              - /url: /imoveis/zap_2868065594
+              - generic [ref=e246]:
+                - generic [ref=e247]:
+                  - img "Venda Apartamento 2 Quartos Mobiliado Praia Grande Ubatuba 88M2 Id" [ref=e248]
+                  - generic [ref=e250]: 🔥 Otima Oportunidade
+                  - generic [ref=e251]: MULTIPLE
+                  - button "Favoritar" [ref=e252]:
+                    - img [ref=e253]
+                - generic [ref=e255]:
+                  - paragraph [ref=e256]: R$ 620.000
+                  - paragraph [ref=e257]: Venda Apartamento 2 Quartos Mobiliado Praia Grande Ubatuba 88M2 Id
+                  - paragraph [ref=e258]: Apartamento para comprar com 88 m², Ubatuba
+                  - generic [ref=e259]:
+                    - generic [ref=e260]:
+                      - img [ref=e261]
+                      - text: "2"
+                    - generic [ref=e263]:
+                      - img [ref=e264]
+                      - text: "2"
+                    - generic [ref=e267]:
+                      - img [ref=e268]
+                      - text: "1"
+                    - generic [ref=e272]:
+                      - img [ref=e273]
+                      - text: 88 m²
+            - link "Venda Apartamento 1 Quarto Com Piscina Ubatuba Ubatuba 44M2 Id MULTIPLE Favoritar R$ 375.000 Venda Apartamento 1 Quarto Com Piscina Ubatuba Ubatuba 44M2 Id Apartamento para comprar com 44 m², Ubatuba 1 1 1 44 m²" [ref=e278] [cursor=pointer]:
+              - /url: /imoveis/zap_2868066688
+              - generic [ref=e279]:
+                - generic [ref=e280]:
+                  - img "Venda Apartamento 1 Quarto Com Piscina Ubatuba Ubatuba 44M2 Id" [ref=e281]
+                  - generic [ref=e282]: MULTIPLE
+                  - button "Favoritar" [ref=e283]:
+                    - img [ref=e284]
+                - generic [ref=e286]:
+                  - paragraph [ref=e287]: R$ 375.000
+                  - paragraph [ref=e288]: Venda Apartamento 1 Quarto Com Piscina Ubatuba Ubatuba 44M2 Id
+                  - paragraph [ref=e289]: Apartamento para comprar com 44 m², Ubatuba
+                  - generic [ref=e290]:
+                    - generic [ref=e291]:
+                      - img [ref=e292]
+                      - text: "1"
+                    - generic [ref=e294]:
+                      - img [ref=e295]
+                      - text: "1"
+                    - generic [ref=e298]:
+                      - img [ref=e299]
+                      - text: "1"
+                    - generic [ref=e303]:
+                      - img [ref=e304]
+                      - text: 44 m²
+            - link "Venda Apartamento 2 Quartos Mobiliado Itagua Ubatuba 72M2 Id MULTIPLE Favoritar R$ 689.000 Venda Apartamento 2 Quartos Mobiliado Itagua Ubatuba 72M2 Id Apartamento para comprar com 72 m², Ubatuba 2 3 1 72 m²" [ref=e309] [cursor=pointer]:
+              - /url: /imoveis/zap_2868068954
+              - generic [ref=e310]:
+                - generic [ref=e311]:
+                  - img "Venda Apartamento 2 Quartos Mobiliado Itagua Ubatuba 72M2 Id" [ref=e312]
+                  - generic [ref=e313]: MULTIPLE
+                  - button "Favoritar" [ref=e314]:
+                    - img [ref=e315]
+                - generic [ref=e317]:
+                  - paragraph [ref=e318]: R$ 689.000
+                  - paragraph [ref=e319]: Venda Apartamento 2 Quartos Mobiliado Itagua Ubatuba 72M2 Id
+                  - paragraph [ref=e320]: Apartamento para comprar com 72 m², Ubatuba
+                  - generic [ref=e321]:
+                    - generic [ref=e322]:
+                      - img [ref=e323]
+                      - text: "2"
+                    - generic [ref=e325]:
+                      - img [ref=e326]
+                      - text: "3"
+                    - generic [ref=e329]:
+                      - img [ref=e330]
+                      - text: "1"
+                    - generic [ref=e334]:
+                      - img [ref=e335]
+                      - text: 72 m²
+            - link "Venda Apartamento 2 Quartos Com Piscina Lagoinha Ubatuba 56M2 Id MULTIPLE Favoritar R$ 465.000 Venda Apartamento 2 Quartos Com Piscina Lagoinha Ubatuba 56M2 Id Apartamento para comprar com 56 m², Ubatuba 2 2 1 56 m²" [ref=e340] [cursor=pointer]:
+              - /url: /imoveis/zap_2868026691
+              - generic [ref=e341]:
+                - generic [ref=e342]:
+                  - img "Venda Apartamento 2 Quartos Com Piscina Lagoinha Ubatuba 56M2 Id" [ref=e343]
+                  - generic [ref=e344]: MULTIPLE
+                  - button "Favoritar" [ref=e345]:
+                    - img [ref=e346]
+                - generic [ref=e348]:
+                  - paragraph [ref=e349]: R$ 465.000
+                  - paragraph [ref=e350]: Venda Apartamento 2 Quartos Com Piscina Lagoinha Ubatuba 56M2 Id
+                  - paragraph [ref=e351]: Apartamento para comprar com 56 m², Ubatuba
+                  - generic [ref=e352]:
+                    - generic [ref=e353]:
+                      - img [ref=e354]
+                      - text: "2"
+                    - generic [ref=e356]:
+                      - img [ref=e357]
+                      - text: "2"
+                    - generic [ref=e360]:
+                      - img [ref=e361]
+                      - text: "1"
+                    - generic [ref=e365]:
+                      - img [ref=e366]
+                      - text: 56 m²
+            - link "Venda Apartamento 2 Quartos Com Piscina Barra Da Lagoa Ubatuba 84M2 Id MULTIPLE Favoritar R$ 750.000 Venda Apartamento 2 Quartos Com Piscina Barra Da Lagoa Ubatuba 84M2 Id Apartamento para comprar com 84 m², Ubatuba 2 2 2 84 m²" [ref=e371] [cursor=pointer]:
+              - /url: /imoveis/zap_2864735759
+              - generic [ref=e372]:
+                - generic [ref=e373]:
+                  - img "Venda Apartamento 2 Quartos Com Piscina Barra Da Lagoa Ubatuba 84M2 Id" [ref=e374]
+                  - generic [ref=e375]: MULTIPLE
+                  - button "Favoritar" [ref=e376]:
+                    - img [ref=e377]
+                - generic [ref=e379]:
+                  - paragraph [ref=e380]: R$ 750.000
+                  - paragraph [ref=e381]: Venda Apartamento 2 Quartos Com Piscina Barra Da Lagoa Ubatuba 84M2 Id
+                  - paragraph [ref=e382]: Apartamento para comprar com 84 m², Ubatuba
+                  - generic [ref=e383]:
+                    - generic [ref=e384]:
+                      - img [ref=e385]
+                      - text: "2"
+                    - generic [ref=e387]:
+                      - img [ref=e388]
+                      - text: "2"
+                    - generic [ref=e391]:
+                      - img [ref=e392]
+                      - text: "2"
+                    - generic [ref=e396]:
+                      - img [ref=e397]
+                      - text: 84 m²
+            - link "Venda Apartamento 2 Quartos Com Piscina Centro Ubatuba 82M2 Id MULTIPLE Favoritar R$ 559.000 Venda Apartamento 2 Quartos Com Piscina Centro Ubatuba 82M2 Id Apartamento para comprar com 82 m², Ubatuba 2 2 1 82 m²" [ref=e402] [cursor=pointer]:
+              - /url: /imoveis/zap_2868067576
+              - generic [ref=e403]:
+                - generic [ref=e404]:
+                  - img "Venda Apartamento 2 Quartos Com Piscina Centro Ubatuba 82M2 Id" [ref=e405]
+                  - generic [ref=e406]: MULTIPLE
+                  - button "Favoritar" [ref=e407]:
+                    - img [ref=e408]
+                - generic [ref=e410]:
+                  - paragraph [ref=e411]: R$ 559.000
+                  - paragraph [ref=e412]: Venda Apartamento 2 Quartos Com Piscina Centro Ubatuba 82M2 Id
+                  - paragraph [ref=e413]: Apartamento para comprar com 82 m², Ubatuba
+                  - generic [ref=e414]:
+                    - generic [ref=e415]:
+                      - img [ref=e416]
+                      - text: "2"
+                    - generic [ref=e418]:
+                      - img [ref=e419]
+                      - text: "2"
+                    - generic [ref=e422]:
+                      - img [ref=e423]
+                      - text: "1"
+                    - generic [ref=e427]:
+                      - img [ref=e428]
+                      - text: 82 m²
+            - link "Venda Apartamento 2 Quartos Mobiliado Toninhas Ubatuba 69M2 Id MULTIPLE Favoritar R$ 650.000 Venda Apartamento 2 Quartos Mobiliado Toninhas Ubatuba 69M2 Id Apartamento para comprar com 69 m², Ubatuba 2 2 1 69 m²" [ref=e433] [cursor=pointer]:
+              - /url: /imoveis/zap_2867278105
+              - generic [ref=e434]:
+                - generic [ref=e435]:
+                  - img "Venda Apartamento 2 Quartos Mobiliado Toninhas Ubatuba 69M2 Id" [ref=e436]
+                  - generic [ref=e437]: MULTIPLE
+                  - button "Favoritar" [ref=e438]:
+                    - img [ref=e439]
+                - generic [ref=e441]:
+                  - paragraph [ref=e442]: R$ 650.000
+                  - paragraph [ref=e443]: Venda Apartamento 2 Quartos Mobiliado Toninhas Ubatuba 69M2 Id
+                  - paragraph [ref=e444]: Apartamento para comprar com 69 m², Ubatuba
+                  - generic [ref=e445]:
+                    - generic [ref=e446]:
+                      - img [ref=e447]
+                      - text: "2"
+                    - generic [ref=e449]:
+                      - img [ref=e450]
+                      - text: "2"
+                    - generic [ref=e453]:
+                      - img [ref=e454]
+                      - text: "1"
+                    - generic [ref=e458]:
+                      - img [ref=e459]
+                      - text: 69 m²
+            - link "Venda Apartamento 3 Quartos Com Piscina Toninhas Ubatuba 90M2 Id MULTIPLE Favoritar R$ 899.620 Venda Apartamento 3 Quartos Com Piscina Toninhas Ubatuba 90M2 Id Apartamento para comprar com 90 m², Ubatuba 3 2 2 90 m²" [ref=e464] [cursor=pointer]:
+              - /url: /imoveis/zap_2867657986
+              - generic [ref=e465]:
+                - generic [ref=e466]:
+                  - img "Venda Apartamento 3 Quartos Com Piscina Toninhas Ubatuba 90M2 Id" [ref=e467]
+                  - generic [ref=e468]: MULTIPLE
+                  - button "Favoritar" [ref=e469]:
+                    - img [ref=e470]
+                - generic [ref=e472]:
+                  - paragraph [ref=e473]: R$ 899.620
+                  - paragraph [ref=e474]: Venda Apartamento 3 Quartos Com Piscina Toninhas Ubatuba 90M2 Id
+                  - paragraph [ref=e475]: Apartamento para comprar com 90 m², Ubatuba
+                  - generic [ref=e476]:
+                    - generic [ref=e477]:
+                      - img [ref=e478]
+                      - text: "3"
+                    - generic [ref=e480]:
+                      - img [ref=e481]
+                      - text: "2"
+                    - generic [ref=e484]:
+                      - img [ref=e485]
+                      - text: "2"
+                    - generic [ref=e489]:
+                      - img [ref=e490]
+                      - text: 90 m²
+            - link "Venda Apartamento 2 Quartos Com Elevador Praia Grande Ubatuba 78M2 Id MULTIPLE Favoritar R$ 530.000 Venda Apartamento 2 Quartos Com Elevador Praia Grande Ubatuba 78M2 Id Apartamento para comprar com 78 m², Ubatuba 2 2 1 78 m²" [ref=e495] [cursor=pointer]:
+              - /url: /imoveis/zap_2867873079
+              - generic [ref=e496]:
+                - generic [ref=e497]:
+                  - img "Venda Apartamento 2 Quartos Com Elevador Praia Grande Ubatuba 78M2 Id" [ref=e498]
+                  - generic [ref=e499]: MULTIPLE
+                  - button "Favoritar" [ref=e500]:
+                    - img [ref=e501]
+                - generic [ref=e503]:
+                  - paragraph [ref=e504]: R$ 530.000
+                  - paragraph [ref=e505]: Venda Apartamento 2 Quartos Com Elevador Praia Grande Ubatuba 78M2 Id
+                  - paragraph [ref=e506]: Apartamento para comprar com 78 m², Ubatuba
+                  - generic [ref=e507]:
+                    - generic [ref=e508]:
+                      - img [ref=e509]
+                      - text: "2"
+                    - generic [ref=e511]:
+                      - img [ref=e512]
+                      - text: "2"
+                    - generic [ref=e515]:
+                      - img [ref=e516]
+                      - text: "1"
+                    - generic [ref=e520]:
+                      - img [ref=e521]
+                      - text: 78 m²
+            - link "Venda Casa 3 Quartos Sertao Da Quina Ubatuba 150M2 Id MULTIPLE Favoritar R$ 380.000 Venda Casa 3 Quartos Sertao Da Quina Ubatuba 150M2 Id Casa para comprar com 150 m², Ubatuba 3 2 2 150 m²" [ref=e526] [cursor=pointer]:
+              - /url: /imoveis/zap_2868069175
+              - generic [ref=e527]:
+                - generic [ref=e528]:
+                  - img "Venda Casa 3 Quartos Sertao Da Quina Ubatuba 150M2 Id" [ref=e529]
+                  - generic [ref=e530]: MULTIPLE
+                  - button "Favoritar" [ref=e531]:
+                    - img [ref=e532]
+                - generic [ref=e534]:
+                  - paragraph [ref=e535]: R$ 380.000
+                  - paragraph [ref=e536]: Venda Casa 3 Quartos Sertao Da Quina Ubatuba 150M2 Id
+                  - paragraph [ref=e537]: Casa para comprar com 150 m², Ubatuba
+                  - generic [ref=e538]:
+                    - generic [ref=e539]:
+                      - img [ref=e540]
+                      - text: "3"
+                    - generic [ref=e542]:
+                      - img [ref=e543]
+                      - text: "2"
+                    - generic [ref=e546]:
+                      - img [ref=e547]
+                      - text: "2"
+                    - generic [ref=e551]:
+                      - img [ref=e552]
+                      - text: 150 m²
+            - link "Venda Apartamento 2 Quartos Mobiliado Sape Ubatuba 65M2 Id MULTIPLE Favoritar R$ 350.000 Venda Apartamento 2 Quartos Mobiliado Sape Ubatuba 65M2 Id Apartamento para comprar com 65 m², Ubatuba 2 2 1 65 m²" [ref=e557] [cursor=pointer]:
+              - /url: /imoveis/zap_2868025418
+              - generic [ref=e558]:
+                - generic [ref=e559]:
+                  - img "Venda Apartamento 2 Quartos Mobiliado Sape Ubatuba 65M2 Id" [ref=e560]
+                  - generic [ref=e561]: MULTIPLE
+                  - button "Favoritar" [ref=e562]:
+                    - img [ref=e563]
+                - generic [ref=e565]:
+                  - paragraph [ref=e566]: R$ 350.000
+                  - paragraph [ref=e567]: Venda Apartamento 2 Quartos Mobiliado Sape Ubatuba 65M2 Id
+                  - paragraph [ref=e568]: Apartamento para comprar com 65 m², Ubatuba
+                  - generic [ref=e569]:
+                    - generic [ref=e570]:
+                      - img [ref=e571]
+                      - text: "2"
+                    - generic [ref=e573]:
+                      - img [ref=e574]
+                      - text: "2"
+                    - generic [ref=e577]:
+                      - img [ref=e578]
+                      - text: "1"
+                    - generic [ref=e582]:
+                      - img [ref=e583]
+                      - text: 65 m²
+            - link "Venda Apartamento 2 Quartos Com Piscina Toninhas Ubatuba 63M2 Id MULTIPLE Favoritar R$ 799.880 Venda Apartamento 2 Quartos Com Piscina Toninhas Ubatuba 63M2 Id Apartamento para comprar com 63 m², Ubatuba 2 2 1 63 m²" [ref=e588] [cursor=pointer]:
+              - /url: /imoveis/zap_2867086477
+              - generic [ref=e589]:
+                - generic [ref=e590]:
+                  - img "Venda Apartamento 2 Quartos Com Piscina Toninhas Ubatuba 63M2 Id" [ref=e591]
+                  - generic [ref=e592]: MULTIPLE
+                  - button "Favoritar" [ref=e593]:
+                    - img [ref=e594]
+                - generic [ref=e596]:
+                  - paragraph [ref=e597]: R$ 799.880
+                  - paragraph [ref=e598]: Venda Apartamento 2 Quartos Com Piscina Toninhas Ubatuba 63M2 Id
+                  - paragraph [ref=e599]: Apartamento para comprar com 63 m², Ubatuba
+                  - generic [ref=e600]:
+                    - generic [ref=e601]:
+                      - img [ref=e602]
+                      - text: "2"
+                    - generic [ref=e604]:
+                      - img [ref=e605]
+                      - text: "2"
+                    - generic [ref=e608]:
+                      - img [ref=e609]
+                      - text: "1"
+                    - generic [ref=e613]:
+                      - img [ref=e614]
+                      - text: 63 m²
+            - link "Venda Apartamento 2 Quartos Mobiliado Itagua Ubatuba 70M2 Id 🔥 Bom Negocio MULTIPLE Favoritar R$ 477.000 Venda Apartamento 2 Quartos Mobiliado Itagua Ubatuba 70M2 Id Apartamento para comprar com 70 m², Ubatuba 2 2 1 70 m²" [ref=e619] [cursor=pointer]:
+              - /url: /imoveis/zap_2867952057
+              - generic [ref=e620]:
+                - generic [ref=e621]:
+                  - img "Venda Apartamento 2 Quartos Mobiliado Itagua Ubatuba 70M2 Id" [ref=e622]
+                  - generic [ref=e624]: 🔥 Bom Negocio
+                  - generic [ref=e625]: MULTIPLE
+                  - button "Favoritar" [ref=e626]:
+                    - img [ref=e627]
+                - generic [ref=e629]:
+                  - paragraph [ref=e630]: R$ 477.000
+                  - paragraph [ref=e631]: Venda Apartamento 2 Quartos Mobiliado Itagua Ubatuba 70M2 Id
+                  - paragraph [ref=e632]: Apartamento para comprar com 70 m², Ubatuba
+                  - generic [ref=e633]:
+                    - generic [ref=e634]:
+                      - img [ref=e635]
+                      - text: "2"
+                    - generic [ref=e637]:
+                      - img [ref=e638]
+                      - text: "2"
+                    - generic [ref=e641]:
+                      - img [ref=e642]
+                      - text: "1"
+                    - generic [ref=e646]:
+                      - img [ref=e647]
+                      - text: 70 m²
+            - link "Venda Apartamento 2 Quartos Com Churrasqueira Sape Ubatuba 63M2 Id 🔥 Otima Oportunidade MULTIPLE Favoritar R$ 340.000 Venda Apartamento 2 Quartos Com Churrasqueira Sape Ubatuba 63M2 Id Apartamento para comprar com 63 m², Ubatuba 2 2 1 63 m²" [ref=e652] [cursor=pointer]:
+              - /url: /imoveis/zap_2868028562
+              - generic [ref=e653]:
+                - generic [ref=e654]:
+                  - img "Venda Apartamento 2 Quartos Com Churrasqueira Sape Ubatuba 63M2 Id" [ref=e655]
+                  - generic [ref=e657]: 🔥 Otima Oportunidade
+                  - generic [ref=e658]: MULTIPLE
+                  - button "Favoritar" [ref=e659]:
+                    - img [ref=e660]
+                - generic [ref=e662]:
+                  - paragraph [ref=e663]: R$ 340.000
+                  - paragraph [ref=e664]: Venda Apartamento 2 Quartos Com Churrasqueira Sape Ubatuba 63M2 Id
+                  - paragraph [ref=e665]: Apartamento para comprar com 63 m², Ubatuba
+                  - generic [ref=e666]:
+                    - generic [ref=e667]:
+                      - img [ref=e668]
+                      - text: "2"
+                    - generic [ref=e670]:
+                      - img [ref=e671]
+                      - text: "2"
+                    - generic [ref=e674]:
+                      - img [ref=e675]
+                      - text: "1"
+                    - generic [ref=e679]:
+                      - img [ref=e680]
+                      - text: 63 m²
+            - link "Venda Apartamento 2 Quartos Com Piscina Pereque Acu Ubatuba 66M2 Id MULTIPLE Favoritar R$ 480.000 Venda Apartamento 2 Quartos Com Piscina Pereque Acu Ubatuba 66M2 Id Apartamento para comprar com 66 m², Ubatuba 2 2 1 66 m²" [ref=e685] [cursor=pointer]:
+              - /url: /imoveis/zap_2868068957
+              - generic [ref=e686]:
+                - generic [ref=e687]:
+                  - img "Venda Apartamento 2 Quartos Com Piscina Pereque Acu Ubatuba 66M2 Id" [ref=e688]
+                  - generic [ref=e689]: MULTIPLE
+                  - button "Favoritar" [ref=e690]:
+                    - img [ref=e691]
+                - generic [ref=e693]:
+                  - paragraph [ref=e694]: R$ 480.000
+                  - paragraph [ref=e695]: Venda Apartamento 2 Quartos Com Piscina Pereque Acu Ubatuba 66M2 Id
+                  - paragraph [ref=e696]: Apartamento para comprar com 66 m², Ubatuba
+                  - generic [ref=e697]:
+                    - generic [ref=e698]:
+                      - img [ref=e699]
+                      - text: "2"
+                    - generic [ref=e701]:
+                      - img [ref=e702]
+                      - text: "2"
+                    - generic [ref=e705]:
+                      - img [ref=e706]
+                      - text: "1"
+                    - generic [ref=e710]:
+                      - img [ref=e711]
+                      - text: 66 m²
+            - link "Venda Sobrados 2 Quartos Com Ambientes Integrados Toninhas Ubatuba 85M2 Id MULTIPLE Favoritar R$ 450.000 Venda Sobrados 2 Quartos Com Ambientes Integrados Toninhas Ubatuba 85M2 Id Sobrado para comprar com 85 m², Ubatuba 2 2 1 85 m²" [ref=e716] [cursor=pointer]:
+              - /url: /imoveis/zap_2868067784
+              - generic [ref=e717]:
+                - generic [ref=e718]:
+                  - img "Venda Sobrados 2 Quartos Com Ambientes Integrados Toninhas Ubatuba 85M2 Id" [ref=e719]
+                  - generic [ref=e720]: MULTIPLE
+                  - button "Favoritar" [ref=e721]:
+                    - img [ref=e722]
+                - generic [ref=e724]:
+                  - paragraph [ref=e725]: R$ 450.000
+                  - paragraph [ref=e726]: Venda Sobrados 2 Quartos Com Ambientes Integrados Toninhas Ubatuba 85M2 Id
+                  - paragraph [ref=e727]: Sobrado para comprar com 85 m², Ubatuba
+                  - generic [ref=e728]:
+                    - generic [ref=e729]:
+                      - img [ref=e730]
+                      - text: "2"
+                    - generic [ref=e732]:
+                      - img [ref=e733]
+                      - text: "2"
+                    - generic [ref=e736]:
+                      - img [ref=e737]
+                      - text: "1"
+                    - generic [ref=e741]:
+                      - img [ref=e742]
+                      - text: 85 m²
+            - link "Venda Apartamento 2 Quartos Com Piscina Itagua Ubatuba 60M2 Id MULTIPLE Favoritar R$ 610.000 Venda Apartamento 2 Quartos Com Piscina Itagua Ubatuba 60M2 Id Apartamento para comprar com 60 m², Ubatuba 2 2 1 60 m²" [ref=e747] [cursor=pointer]:
+              - /url: /imoveis/zap_2868068956
+              - generic [ref=e748]:
+                - generic [ref=e749]:
+                  - img "Venda Apartamento 2 Quartos Com Piscina Itagua Ubatuba 60M2 Id" [ref=e750]
+                  - generic [ref=e751]: MULTIPLE
+                  - button "Favoritar" [ref=e752]:
+                    - img [ref=e753]
+                - generic [ref=e755]:
+                  - paragraph [ref=e756]: R$ 610.000
+                  - paragraph [ref=e757]: Venda Apartamento 2 Quartos Com Piscina Itagua Ubatuba 60M2 Id
+                  - paragraph [ref=e758]: Apartamento para comprar com 60 m², Ubatuba
+                  - generic [ref=e759]:
+                    - generic [ref=e760]:
+                      - img [ref=e761]
+                      - text: "2"
+                    - generic [ref=e763]:
+                      - img [ref=e764]
+                      - text: "2"
+                    - generic [ref=e767]:
+                      - img [ref=e768]
+                      - text: "1"
+                    - generic [ref=e772]:
+                      - img [ref=e773]
+                      - text: 60 m²
+            - link "Venda Terreno Lote Condominio Sertao Da Quina Ubatuba 360M2 Id MULTIPLE Favoritar R$ 160.000 Venda Terreno Lote Condominio Sertao Da Quina Ubatuba 360M2 Id Lote/Terreno para comprar com 360 m² em Sertão da Quina, Ubatuba 360 m²" [ref=e778] [cursor=pointer]:
+              - /url: /imoveis/zap_2864676158
+              - generic [ref=e779]:
+                - generic [ref=e780]:
+                  - img "Venda Terreno Lote Condominio Sertao Da Quina Ubatuba 360M2 Id" [ref=e781]
+                  - generic [ref=e782]: MULTIPLE
+                  - button "Favoritar" [ref=e783]:
+                    - img [ref=e784]
+                - generic [ref=e786]:
+                  - paragraph [ref=e787]: R$ 160.000
+                  - paragraph [ref=e788]: Venda Terreno Lote Condominio Sertao Da Quina Ubatuba 360M2 Id
+                  - paragraph [ref=e789]: Lote/Terreno para comprar com 360 m² em Sertão da Quina, Ubatuba
+                  - generic [ref=e791]:
+                    - img [ref=e792]
+                    - text: 360 m²
+            - link "Venda Apartamento 2 Quartos Mobiliado Praia Das Toninhas Ubatuba Sp 88M2 Id ZAP Favoritar R$ 970.000 Venda Apartamento 2 Quartos Mobiliado Praia Das Toninhas Ubatuba Sp 88M2 Id Apartamento para comprar com 88 m², Ubatuba 2 2 2 88 m²" [ref=e797] [cursor=pointer]:
+              - /url: /imoveis/zap_2833804433
+              - generic [ref=e798]:
+                - generic [ref=e799]:
+                  - img "Venda Apartamento 2 Quartos Mobiliado Praia Das Toninhas Ubatuba Sp 88M2 Id" [ref=e800]
+                  - generic [ref=e801]: ZAP
+                  - button "Favoritar" [ref=e802]:
+                    - img [ref=e803]
+                - generic [ref=e805]:
+                  - paragraph [ref=e806]: R$ 970.000
+                  - paragraph [ref=e807]: Venda Apartamento 2 Quartos Mobiliado Praia Das Toninhas Ubatuba Sp 88M2 Id
+                  - paragraph [ref=e808]: Apartamento para comprar com 88 m², Ubatuba
+                  - generic [ref=e809]:
+                    - generic [ref=e810]:
+                      - img [ref=e811]
+                      - text: "2"
+                    - generic [ref=e813]:
+                      - img [ref=e814]
+                      - text: "2"
+                    - generic [ref=e817]:
+                      - img [ref=e818]
+                      - text: "2"
+                    - generic [ref=e822]:
+                      - img [ref=e823]
+                      - text: 88 m²
+          - button "Carregar mais" [ref=e829] [cursor=pointer]
+  - contentinfo [ref=e830]:
+    - generic [ref=e831]:
+      - generic [ref=e832]:
+        - generic [ref=e833]:
+          - heading "Logo Litoral Norte Imoveis" [level=3] [ref=e834]:
+            - img "Logo" [ref=e835]
+            - text: Litoral Norte Imoveis
+          - paragraph [ref=e836]: Encontre os melhores imoveis no Litoral Norte de Sao Paulo.
+        - generic [ref=e837]:
+          - heading "Cidades" [level=4] [ref=e838]
+          - list [ref=e839]:
+            - listitem [ref=e840]:
+              - link "Caraguatatuba" [ref=e841] [cursor=pointer]:
+                - /url: /imoveis?city=Caraguatatuba
+            - listitem [ref=e842]:
+              - link "Ubatuba" [ref=e843] [cursor=pointer]:
+                - /url: /imoveis?city=Ubatuba
+            - listitem [ref=e844]:
+              - link "Ilhabela" [ref=e845] [cursor=pointer]:
+                - /url: /imoveis?city=Ilhabela
+        - generic [ref=e846]:
+          - heading "Sobre" [level=4] [ref=e847]
+          - paragraph [ref=e848]: Dados coletados automaticamente e atualizados regularmente. Os precos e informacoes sao de responsabilidade dos portais de origem.
+      - paragraph [ref=e850]: © 2026 Litoral Norte Imoveis. Dados de ZAP e VivaReal.
+  - alert [ref=e851]
+```
