@@ -22,11 +22,12 @@ function cleanupExpiredEntries() {
   if (now - lastCleanup < CLEANUP_INTERVAL) return;
 
   lastCleanup = now;
-  for (const [key, entry] of rateLimitStore.entries()) {
+  // Convert to array to avoid iterator compatibility issues
+  Array.from(rateLimitStore.entries()).forEach(([key, entry]) => {
     if (now > entry.resetTime) {
       rateLimitStore.delete(key);
     }
-  }
+  });
 }
 
 export type RateLimitConfig = {
