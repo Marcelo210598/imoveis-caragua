@@ -1,16 +1,18 @@
 /**
  * Rate Limiting para Next.js API Routes
  *
- * Implementação in-memory usando Map.
- * Nota: será resetado a cada deploy. Para produção escalável, usar Redis.
+ * Implementação com Redis (Upstash) e fallback para in-memory.
+ * Redis é preferido para produção escalável e persistência entre deploys.
  */
+
+import { redis } from "./redis";
 
 type RateLimitEntry = {
   count: number;
   resetTime: number;
 };
 
-// Store de rate limiting por IP
+// Fallback store de rate limiting por IP (usado quando Redis não está configurado)
 const rateLimitStore = new Map<string, RateLimitEntry>();
 
 // Limpar entradas expiradas periodicamente (a cada 5 minutos)
@@ -22,7 +24,6 @@ function cleanupExpiredEntries() {
   if (now - lastCleanup < CLEANUP_INTERVAL) return;
 
   lastCleanup = now;
-  // Convert to array to avoid iterator compatibility issues
   Array.from(rateLimitStore.entries()).forEach(([key, entry]) => {
     if (now > entry.resetTime) {
       rateLimitStore.delete(key);
@@ -47,13 +48,52 @@ export type RateLimitResult = {
 };
 
 /**
- * Verifica se um IP atingiu o rate limit
- *
- * @param identifier - IP ou outro identificador único
- * @param config - Configuração do rate limit
- * @returns Resultado com status e informações do limite
+ * Verifica se um IP atingiu o rate limit usando Redis
  */
-export function checkRateLimit(
+async function checkRateLimitRedis(
+  identifier: string,
+  config: RateLimitConfig,
+): Promise<RateLimitResult> {
+  const key = `ratelimit:${identifier}`;
+  const now = Date.now();
+  const windowMs = config.windowSeconds * 1000;
+
+  // Incrementar contador
+  const count = await redis.incr(key);
+
+  if (count === null) {
+    // Fallback para in-memory se Redis falhar
+    return checkRateLimitMemory(identifier, config);
+  }
+
+  // Se é o primeiro request, definir TTL
+  if (count === 1) {
+    await redis.expire(key, config.windowSeconds);
+  }
+
+  // Calcular reset time baseado no TTL
+  const ttl = await redis.ttl(key);
+  const resetTime = now + (ttl || config.windowSeconds) * 1000;
+
+  if (count > config.limit) {
+    return {
+      success: false,
+      remaining: 0,
+      resetTime,
+    };
+  }
+
+  return {
+    success: true,
+    remaining: config.limit - count,
+    resetTime,
+  };
+}
+
+/**
+ * Verifica se um IP atingiu o rate limit usando in-memory Map
+ */
+function checkRateLimitMemory(
   identifier: string,
   config: RateLimitConfig,
 ): RateLimitResult {
@@ -93,6 +133,29 @@ export function checkRateLimit(
     remaining: config.limit - existing.count,
     resetTime: existing.resetTime,
   };
+}
+
+/**
+ * Verifica rate limit (Redis first, fallback to in-memory)
+ */
+export async function checkRateLimit(
+  identifier: string,
+  config: RateLimitConfig,
+): Promise<RateLimitResult> {
+  if (redis.isConfigured()) {
+    return checkRateLimitRedis(identifier, config);
+  }
+  return checkRateLimitMemory(identifier, config);
+}
+
+/**
+ * Versão síncrona para compatibilidade (usa apenas in-memory)
+ */
+export function checkRateLimitSync(
+  identifier: string,
+  config: RateLimitConfig,
+): RateLimitResult {
+  return checkRateLimitMemory(identifier, config);
 }
 
 /**
