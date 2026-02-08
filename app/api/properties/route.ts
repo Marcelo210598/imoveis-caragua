@@ -64,7 +64,7 @@ export async function POST(request: NextRequest) {
 
   // Rate limiting - 10 req/min por IP
   const ip = getClientIP(request);
-  const rateLimit = checkRateLimit(
+  const rateLimit = await checkRateLimit(
     `create-property:${ip}`,
     RATE_LIMITS.CREATE_PROPERTY,
   );
