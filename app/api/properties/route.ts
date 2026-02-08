@@ -5,6 +5,7 @@ import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { createPropertySchema } from "@/lib/validations";
 import { slugify } from "@/lib/utils";
+import { checkRateLimit, getClientIP, RATE_LIMITS } from "@/lib/rate-limit";
 
 const MAX_PROPERTIES_PER_USER = 5;
 
@@ -59,6 +60,25 @@ export async function POST(request: NextRequest) {
   const session = await auth();
   if (!session?.user?.id) {
     return NextResponse.json({ error: "Nao autenticado" }, { status: 401 });
+  }
+
+  // Rate limiting - 10 req/min por IP
+  const ip = getClientIP(request);
+  const rateLimit = checkRateLimit(
+    `create-property:${ip}`,
+    RATE_LIMITS.CREATE_PROPERTY,
+  );
+  if (!rateLimit.success) {
+    return NextResponse.json(
+      { error: "Muitas requisicoes. Tente novamente em 1 minuto." },
+      {
+        status: 429,
+        headers: {
+          "X-RateLimit-Remaining": "0",
+          "X-RateLimit-Reset": String(rateLimit.resetTime),
+        },
+      },
+    );
   }
 
   // Limite anti-spam

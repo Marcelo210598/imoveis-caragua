@@ -1,127 +1,136 @@
-# Litoral Norte Imoveis - Progresso
+# Litoral Norte Imóveis - Progresso
 
-## Ultima atualizacao: 2026-02-06
+## Ultima atualizacao: 2026-02-08
 
-## Visao Geral
+**Status**: v1.3 - Sprint 8 Completo (Segurança OWASP)
 
-- **Objetivo**: Marketplace de imoveis do Litoral Norte de SP (proprietarios anunciam, usuarios favoritam e contactam)
-- **Stack**: Next.js 14, React 18, TypeScript, Tailwind CSS, Prisma 7, Neon PostgreSQL, NextAuth v5, Twilio, Vercel Blob
-- **Status**: v1.1 - Marketplace funcional com scraping automatizado
+---
 
-## Concluido
+## 🚀 Em Progresso (Sprint 9 - Melhorias)
 
-### Sprint 1 - Banco de Dados
+- [ ] Testes E2E com Playwright
+- [ ] Migrar rate limiting para Redis (produção)
+- [ ] PWA para mobile
 
-- [x] Prisma 7 com Neon PostgreSQL (adapter-pg)
-- [x] Schema: User, Property, PropertyPhoto, Favorite, Message, VerificationCode
-- [x] Seed de 110 imoveis do JSON para o banco
-- [x] lib/properties.ts reescrito com queries Prisma async
-- [x] Todas as paginas adaptadas para dados do banco
+---
 
-### Sprint 2 - Autenticacao
+## ✅ Concluído
 
-- [x] NextAuth v5 com CredentialsProvider (phone-otp)
-- [x] Twilio Verify para envio/validacao de OTP por SMS
-- [x] LoginModal com input de telefone e 6 digitos OTP
-- [x] UserMenu no Header (avatar, links, logout)
-- [x] AuthProvider e SessionProvider no layout
+### Sprint 8 - Segurança OWASP (08/02/2026)
 
-### Sprint 3 - Favoritos
+- **Security Headers via Middleware**:
+  - CSP, HSTS, X-Frame-Options, X-Content-Type-Options
+  - Permissions-Policy, Referrer-Policy
+- **Rate Limiting**:
+  - 10 req/min criação, 20 req/min modificação, 30 req/min upload
+- **Input Sanitization**:
+  - XSS prevention em campos de texto
+  - UUID validation schema
 
-- [x] API POST/DELETE /api/property/[id]/favorite
-- [x] API GET /api/user/favorites e /api/user/favorites/ids
-- [x] FavoritesProvider com estado global e atualizacao otimista
-- [x] Coracao animado no PropertyCard
-- [x] Pagina /favoritos com grid dos imoveis salvos
-- [x] Login modal quando nao autenticado tenta favoritar
+### Sprint 7 - Filtros Avançados + Analytics (06/02/2026)
 
-### Sprint 4 - Upload e Criacao de Imoveis
+- **Filtros Avançados**:
+  - Tipo de Imóvel (Casa, Apt, Terreno, Comercial)
+  - Área (m²) com inputs min/max e debounce
+  - Backend API atualizada para suportar novos filtros
+- **Analytics**:
+  - Setup do Vercel Analytics e Speed Insights no layout
+  - Monitoramento de visitas e Web Vitals
 
-- [x] Upload de fotos via Vercel Blob (/api/upload)
-- [x] ImageUploader com drag-and-drop, preview, reordenacao
-- [x] Formulario multi-step (tipo, detalhes, fotos, revisao)
-- [x] Validacao com Zod 4 no backend
-- [x] Limite de 5 imoveis ativos por usuario
-- [x] Filtro venda/aluguel no FilterSidebar e API
-- [x] Botao "Anunciar" no Header
+### Sprint 6 - Polish & Deploy (05/02/2026)
+
+- SEO metadata dinâmico (`generateMetadata`)
+- Open Graph images dinâmicas
+- Rate limit de 3 OTP/hora
+- ISR para páginas de imóveis (1h)
+- Fallback de imagens quebradas
+- Notificação in-app (Sino + API)
+
+### Sprint 5.5 - Scraping Automatizado (05/02/2026)
+
+- Sistema multi-fonte: ZapImóveis, VivaReal, OLX
+- Rate limiting e normalização de dados
+- Cron job diário (02:00 AM) via `vercel.json`
+- Admin panel `/admin/scraper` para controle manual
+- API `/api/scraper` e `/api/scraper/cron`
 
 ### Sprint 5 - Dashboard e Contato
 
-- [x] Dashboard /meus-imoveis (listar, ativar/desativar, remover)
-- [x] API PUT/DELETE para gerenciar imoveis do proprietario
-- [x] ContactButton: WhatsApp para imoveis de usuarios, link pro portal para scraped
-- [x] OwnerInfo card na pagina de detalhe
-- [x] Pagina de perfil /perfil
-- [x] Secao de descricao na pagina de detalhe
+- Dashboard `/meus-imoveis`
+- Owner Info e Contact Button (WhatsApp/Link)
+- Dark mode completo com persistência
 
-### Extras
+### Sprint 4 - Upload e Criação
 
-- [x] Dark mode com ThemeProvider e toggle (respeita preferencia do sistema)
-- [x] Responsividade mobile melhorada (homepage, city cards, hero, stats)
-- [x] Logo SVG e favicon personalizados
-- [x] Script inline no head para evitar flash de tema
+- Upload via Vercel Blob
+- Formulário multi-step com validação Zod
+- Limite de 5 imóveis por usuário
 
-### Sprint 5.5 - Scraping & Correcoes (05/02/2026)
+### Sprint 3 - Favoritos
 
-- [x] Sistema de scraping automatizado (ZapImoveis, VivaReal, OLX)
-- [x] Scrapers com rate limiting e normalizacao de dados
-- [x] Cron job diario via vercel.json (02:00 AM)
-- [x] Pagina admin /admin/scraper para controle manual
-- [x] API POST /api/scraper e GET /api/scraper/cron
-- [x] Correcao de contraste dark mode no PropertyForm
-- [x] Hard delete implementado (antes era soft delete)
-- [x] Cascade delete para fotos e favoritos
+- Sistema de favoritos (Heart button)
+- Página `/favoritos`
+- Otimistic UI updates
 
-## Status: Sprint 6 COMPLETO! 🎉
+### Sprint 1 & 2 - Core & Auth
 
-### Sprint 6 - Polish & Deploy (Ja Implementado)
+- Prisma + Neon PostgreSQL
+- NextAuth v5 (Phone OTP via Twilio)
+- Schema DB: User, Property, Neighbor, etc.
 
-- [x] SEO metadata dinamica (generateMetadata em app/imoveis/[id]/page.tsx)
-- [x] Open Graph images dinamicas (/api/og/property/[id]/route.tsx)
-- [x] Rate limit de 3 OTP/hora por telefone (app/api/auth/send-otp)
-- [x] ISR para paginas de imoveis (revalidate = 3600)
-- [x] Fallback de imagens quebradas (ImageWithFallback component)
-- [x] Notificacao in-app quando favoritam seu imovel (NotificationBell + API)
+---
 
-## Em Progresso: Sprint 7 - Filtros Avancados + Analytics 🚀
+## 📚 Histórico Detalhado
 
-### Implementado
+### 05/02/2026 - Relatório de Melhorias (Scraping & Fixes)
 
-- [x] Filtro por tipo de imovel (Casa, Apt, Terreno, Comercial)
-- [x] Filtro por area (min/max m²) com debounce
-- [x] Backend: filterProperties + API route suporta novos filtros
-- [x] Frontend: FilterSidebar com novos botões e inputs
-- [x] Vercel Analytics + SpeedInsights no layout
+- **Dark Mode Fix**: Contraste corrigido em todo o formulário de propriedade.
+- **Hard Delete**: Implementada remoção permanente de imóveis (antes era soft delete).
+- **Git Push**: Resolvidos problemas de travamento do git no terminal.
+- **Scraping**: Implementação completa dos scrapers de ZAP, VivaReal e OLX.
 
-### Pendente
+### 04/02/2026 - Sprints 3, 4 e 5
 
-- [ ] npm install @vercel/analytics (lento)
-- [ ] Build e deploy
+- Foco em funcionalidades de usuário: Favoritos, Upload, Criação de Imóveis.
+- Implementação do Dashboard do Proprietário.
+- Criação da identidade visual (Logo, Favicon).
 
-## Proximos (Sprint 8 - Seguranca OWASP)
+### 03/02/2026 - Setup Inicial
 
-- [ ] Implementar OWASP Top 10
-- [ ] CSP Headers
-- [ ] Rate limiting geral
-- [ ] Input sanitization audit
+- Configuração do Next.js 14, Tailwind, Prisma.
+- Criação dos componentes base (Header, Footer, PropertyCard).
+- Setup do Vercel e deploy inicial.
 
-## Variaveis de Ambiente
+---
+
+## 🛠️ Stack & Vars
+
+### Tech Stack
+
+- **Frontend**: Next.js 14, React 18, Tailwind CSS, Lucide Icons
+- **Backend**: Next.js API Routes, Prisma ORM
+- **DB**: Neon PostgreSQL
+- **Auth**: NextAuth v5 + Twilio Verify
+- **Storage**: Vercel Blob
+- **Analytics**: Vercel Analytics + Speed Insights
+
+### Env Vars (Produção)
 
 ```
-DATABASE_URL=postgresql://... (Neon)
+DATABASE_URL=postgresql://...
 NEXTAUTH_SECRET=...
-NEXTAUTH_URL=http://localhost:3002 (local) / https://imoveis-caragua.vercel.app (prod)
+NEXTAUTH_URL=https://imoveis-caragua.vercel.app
 TWILIO_ACCOUNT_SID=...
 TWILIO_AUTH_TOKEN=...
 TWILIO_VERIFY_SERVICE_SID=...
-BLOB_READ_WRITE_TOKEN=... (Vercel Blob - configurado via Storage)
+BLOB_READ_WRITE_TOKEN=...
 ```
 
-## Dependencias principais
+---
 
-- next 14.2, react 18.2, typescript 5
-- prisma 7.3, @prisma/client, @prisma/adapter-pg, pg
-- next-auth 5.0.0-beta.30
-- twilio 5.12
-- @vercel/blob, zod 4.3
-- lucide-react, recharts, clsx, tailwindcss 3.4
+## 📂 Estrutura de Pastas Importantes
+
+- `app/api/scraper`: Lógica dos scrapers e cron job
+- `lib/scrapers`: Classes de scraping (Zap, OLX, VivaReal)
+- `components/FilterSidebar`: Lógica de filtros (Preço, Área, Tipo)
+- `prisma/schema.prisma`: Definição do banco de dados

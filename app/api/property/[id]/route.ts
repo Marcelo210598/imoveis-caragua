@@ -3,6 +3,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { getPropertyById } from "@/lib/properties";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
+import { checkRateLimit, getClientIP, RATE_LIMITS } from "@/lib/rate-limit";
 
 export async function GET(
   _request: NextRequest,
@@ -28,6 +29,19 @@ export async function PUT(
   const session = await auth();
   if (!session?.user?.id) {
     return NextResponse.json({ error: "Nao autenticado" }, { status: 401 });
+  }
+
+  // Rate limiting - 20 req/min por IP
+  const ip = getClientIP(request);
+  const rateLimit = checkRateLimit(
+    `modify-property:${ip}`,
+    RATE_LIMITS.MODIFY_PROPERTY,
+  );
+  if (!rateLimit.success) {
+    return NextResponse.json(
+      { error: "Muitas requisicoes. Tente novamente em 1 minuto." },
+      { status: 429 },
+    );
   }
 
   const property = await prisma.property.findUnique({
@@ -66,12 +80,25 @@ export async function PUT(
 
 // Deletar imovel permanentemente (hard delete)
 export async function DELETE(
-  _request: NextRequest,
+  request: NextRequest,
   { params }: { params: { id: string } },
 ) {
   const session = await auth();
   if (!session?.user?.id) {
     return NextResponse.json({ error: "Nao autenticado" }, { status: 401 });
+  }
+
+  // Rate limiting - 20 req/min por IP
+  const ip = getClientIP(request);
+  const rateLimit = checkRateLimit(
+    `modify-property:${ip}`,
+    RATE_LIMITS.MODIFY_PROPERTY,
+  );
+  if (!rateLimit.success) {
+    return NextResponse.json(
+      { error: "Muitas requisicoes. Tente novamente em 1 minuto." },
+      { status: 429 },
+    );
   }
 
   const property = await prisma.property.findUnique({
