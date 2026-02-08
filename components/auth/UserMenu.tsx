@@ -1,10 +1,10 @@
-'use client';
+"use client";
 
-import { useState, useRef, useEffect } from 'react';
-import { useSession, signOut } from 'next-auth/react';
-import { User, LogOut, Heart, Home, ChevronDown } from 'lucide-react';
-import Link from 'next/link';
-import LoginModal from './LoginModal';
+import { useState, useRef, useEffect } from "react";
+import { useSession, signOut } from "next-auth/react";
+import { User, LogOut, Heart, Home, ChevronDown } from "lucide-react";
+import Link from "next/link";
+import LoginModal from "./LoginModal";
 
 export default function UserMenu() {
   const { data: session, status } = useSession();
@@ -19,14 +19,12 @@ export default function UserMenu() {
         setMenuOpen(false);
       }
     }
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  if (status === 'loading') {
-    return (
-      <div className="w-8 h-8 rounded-full bg-gray-200 animate-pulse" />
-    );
+  if (status === "loading") {
+    return <div className="w-8 h-8 rounded-full bg-gray-200 animate-pulse" />;
   }
 
   if (!session) {
@@ -44,7 +42,7 @@ export default function UserMenu() {
     );
   }
 
-  const userName = session.user.name || 'Usuario';
+  const userName = session.user.name || "Usuario";
   const userInitial = userName.charAt(0).toUpperCase();
 
   return (
@@ -67,7 +65,7 @@ export default function UserMenu() {
         )}
         <ChevronDown
           size={16}
-          className={`text-gray-500 transition-transform ${menuOpen ? 'rotate-180' : ''}`}
+          className={`text-gray-500 transition-transform ${menuOpen ? "rotate-180" : ""}`}
         />
       </button>
 
@@ -78,19 +76,19 @@ export default function UserMenu() {
           <div className="px-4 py-2 border-b border-gray-100">
             <p className="font-medium text-gray-900 text-sm">{userName}</p>
             <p className="text-xs text-gray-500">
-              {(session.user as { phone?: string }).phone || ''}
+              {(session.user as { phone?: string }).phone || ""}
             </p>
           </div>
 
           {/* Menu items */}
           <div className="py-1">
             <Link
-              href="/meus-imoveis"
+              href="/dashboard"
               onClick={() => setMenuOpen(false)}
               className="flex items-center gap-3 px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 transition-colors"
             >
               <Home size={16} className="text-gray-400" />
-              Meus imoveis
+              Painel (Imóveis)
             </Link>
             <Link
               href="/favoritos"
@@ -101,12 +99,12 @@ export default function UserMenu() {
               Favoritos
             </Link>
             <Link
-              href="/perfil"
+              href="/dashboard"
               onClick={() => setMenuOpen(false)}
               className="flex items-center gap-3 px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 transition-colors"
             >
               <User size={16} className="text-gray-400" />
-              Meu perfil
+              Meu Perfil
             </Link>
           </div>
 
