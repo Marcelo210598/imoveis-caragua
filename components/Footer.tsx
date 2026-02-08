@@ -1,9 +1,9 @@
-import Link from 'next/link';
+import Link from "next/link";
 
 const cities = [
-  { name: 'Caraguatatuba', href: '/imoveis?city=Caraguatatuba' },
-  { name: 'Ubatuba', href: '/imoveis?city=Ubatuba' },
-  { name: 'Ilhabela', href: '/imoveis?city=Ilhabela' },
+  { name: "Caraguatatuba", href: "/imoveis?city=Caraguatatuba" },
+  { name: "Ubatuba", href: "/imoveis?city=Ubatuba" },
+  { name: "Ilhabela", href: "/imoveis?city=Ilhabela" },
 ];
 
 export default function Footer() {
@@ -41,14 +41,26 @@ export default function Footer() {
           <div>
             <h4 className="text-white font-semibold mb-3">Sobre</h4>
             <p className="text-sm leading-relaxed">
-              Dados coletados automaticamente e atualizados regularmente.
-              Os precos e informacoes sao de responsabilidade dos portais de origem.
+              Dados coletados automaticamente e atualizados regularmente. Os
+              precos e informacoes sao de responsabilidade dos portais de
+              origem.
             </p>
+            <div className="mt-4">
+              <Link
+                href="/contato"
+                className="text-white hover:text-primary-400 font-medium transition-colors"
+              >
+                Fale Conosco
+              </Link>
+            </div>
           </div>
         </div>
 
         <div className="border-t border-gray-800 mt-8 pt-8 text-center text-sm">
-          <p>&copy; {new Date().getFullYear()} Litoral Norte Imoveis. Dados de ZAP e VivaReal.</p>
+          <p>
+            &copy; {new Date().getFullYear()} Litoral Norte Imoveis. Dados de
+            ZAP e VivaReal.
+          </p>
         </div>
       </div>
     </footer>
