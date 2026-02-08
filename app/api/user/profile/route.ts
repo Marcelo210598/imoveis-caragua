@@ -1,24 +1,28 @@
-import { NextRequest, NextResponse } from 'next/server';
-import { auth } from '@/lib/auth';
-import { prisma } from '@/lib/prisma';
+import { auth } from "@/lib/auth";
+import { prisma } from "@/lib/prisma";
+import { NextResponse } from "next/server";
 
-// Atualizar perfil do usuario
-export async function PUT(request: NextRequest) {
-  const session = await auth();
-  if (!session?.user?.id) {
-    return NextResponse.json({ error: 'Nao autenticado' }, { status: 401 });
+export async function PATCH(req: Request) {
+  try {
+    const session = await auth();
+
+    if (!session?.user?.email) {
+      return new NextResponse("Unauthorized", { status: 401 });
+    }
+
+    const { name, phone } = await req.json();
+
+    const user = await prisma.user.update({
+      where: { email: session.user.email },
+      data: {
+        name,
+        phone,
+      },
+    });
+
+    return NextResponse.json(user);
+  } catch (error) {
+    console.error("[PROFILE_UPDATE]", error);
+    return new NextResponse("Internal Error", { status: 500 });
   }
-
-  const body = await request.json();
-  const name = typeof body.name === 'string' ? body.name.trim().slice(0, 100) : undefined;
-
-  const updated = await prisma.user.update({
-    where: { id: session.user.id },
-    data: {
-      ...(name !== undefined && { name }),
-    },
-    select: { id: true, name: true, phone: true, avatarUrl: true },
-  });
-
-  return NextResponse.json({ user: updated });
 }
