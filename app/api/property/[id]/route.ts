@@ -90,7 +90,7 @@ export async function DELETE(
 
   // Rate limiting - 20 req/min por IP
   const ip = getClientIP(request);
-  const rateLimit = checkRateLimit(
+  const rateLimit = await checkRateLimit(
     `modify-property:${ip}`,
     RATE_LIMITS.MODIFY_PROPERTY,
   );
