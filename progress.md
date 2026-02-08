@@ -10,6 +10,7 @@
 
 - [ ] Edição de fotos dos imóveis
 - [ ] Admin Panel avançado
+- [ ] Sistema de Monetização (Destaques, Planos Premium)
 - [ ] Integração com Gateway de Pagamento (Futuro)
 
 ---
