@@ -137,5 +137,11 @@ export async function POST(request: NextRequest) {
     },
   });
 
+  // Notificar Admin via Telegram (Assíncrono, não bloqueia a resposta)
+  import("@/lib/telegram").then(({ sendTelegramMessage }) => {
+    const msg = `🏠 *Novo Imóvel Cadastrado!*\n\n*Título:* ${property.title}\n*Preço:* R$ ${property.price}\n*Cidade:* ${property.city}\n*Usuário:* ${session.user?.name || "Desconhecido"}\n\n[Ver Imóvel](https://imoveis-caragua.vercel.app/imoveis/${property.id})`;
+    sendTelegramMessage(msg).catch(console.error);
+  });
+
   return NextResponse.json({ property }, { status: 201 });
 }

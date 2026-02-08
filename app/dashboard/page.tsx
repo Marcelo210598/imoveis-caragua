@@ -5,6 +5,7 @@ import MyPropertiesList from "@/components/dashboard/MyPropertiesList";
 import ProfileCard from "@/components/dashboard/ProfileCard";
 import DashboardStats from "@/components/dashboard/DashboardStats";
 import InstallPrompt from "@/components/pwa/InstallPrompt";
+import NotificationManager from "@/components/push/NotificationManager";
 
 export const metadata = {
   title: "Painel do Proprietário | LN Imóveis",
@@ -61,7 +62,8 @@ export default async function DashboardPage() {
                 Aqui está o resumo dos seus anúncios hoje.
               </p>
             </div>
-            <div className="flex gap-3">
+            <div className="flex flex-wrap gap-3">
+              <NotificationManager />
               <a
                 href="/imoveis/novo"
                 className="w-full sm:w-auto inline-flex justify-center items-center px-6 py-3 border border-transparent text-sm font-semibold rounded-xl text-white bg-primary-600 hover:bg-primary-700 transition-colors shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500"

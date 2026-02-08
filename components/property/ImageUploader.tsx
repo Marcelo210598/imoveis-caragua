@@ -1,7 +1,14 @@
-'use client';
+"use client";
 
-import { useState, useCallback, useRef } from 'react';
-import { Upload, X, GripVertical, AlertCircle } from 'lucide-react';
+import { useState, useCallback, useRef } from "react";
+import {
+  Upload,
+  X,
+  GripVertical,
+  AlertCircle,
+  ChevronLeft,
+  ChevronRight,
+} from "lucide-react";
 
 interface ImageUploaderProps {
   images: string[];
@@ -22,23 +29,23 @@ export default function ImageUploader({
 
   const uploadFile = useCallback(async (file: File): Promise<string | null> => {
     const formData = new FormData();
-    formData.append('file', file);
+    formData.append("file", file);
 
     try {
-      const res = await fetch('/api/upload', {
-        method: 'POST',
+      const res = await fetch("/api/upload", {
+        method: "POST",
         body: formData,
       });
 
       if (!res.ok) {
         const data = await res.json();
-        throw new Error(data.error || 'Erro no upload');
+        throw new Error(data.error || "Erro no upload");
       }
 
       const data = await res.json();
       return data.url;
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Erro no upload');
+      setError(err instanceof Error ? err.message : "Erro no upload");
       return null;
     }
   }, []);
@@ -66,7 +73,7 @@ export default function ImageUploader({
 
       setUploading(false);
     },
-    [images, maxImages, onChange, uploadFile]
+    [images, maxImages, onChange, uploadFile],
   );
 
   const handleDrop = useCallback(
@@ -78,7 +85,7 @@ export default function ImageUploader({
         handleFiles(e.dataTransfer.files);
       }
     },
-    [handleFiles]
+    [handleFiles],
   );
 
   const removeImage = (index: number) => {
@@ -118,8 +125,8 @@ export default function ImageUploader({
         onClick={() => fileInputRef.current?.click()}
         className={`border-2 border-dashed rounded-xl p-8 text-center cursor-pointer transition-colors ${
           dragOver
-            ? 'border-primary-500 bg-primary-50'
-            : 'border-gray-300 hover:border-primary-400 hover:bg-gray-50'
+            ? "border-primary-500 bg-primary-50"
+            : "border-gray-300 hover:border-primary-400 hover:bg-gray-50"
         }`}
       >
         <input
@@ -129,14 +136,16 @@ export default function ImageUploader({
           multiple
           onChange={(e) => {
             if (e.target.files) handleFiles(e.target.files);
-            e.target.value = '';
+            e.target.value = "";
           }}
           className="hidden"
         />
 
         <Upload size={32} className="mx-auto text-gray-400 mb-3" />
         <p className="text-gray-600 font-medium">
-          {uploading ? 'Enviando...' : 'Arraste fotos aqui ou clique para selecionar'}
+          {uploading
+            ? "Enviando..."
+            : "Arraste fotos aqui ou clique para selecionar"}
         </p>
         <p className="text-sm text-gray-400 mt-1">
           JPG, PNG ou WebP. Max 5MB cada. Ate {maxImages} fotos.
@@ -163,8 +172,8 @@ export default function ImageUploader({
               onDragEnd={handleDragEnd}
               className={`relative group aspect-square rounded-xl overflow-hidden border-2 transition-all ${
                 dragIndex === index
-                  ? 'border-primary-500 opacity-50'
-                  : 'border-gray-200'
+                  ? "border-primary-500 opacity-50"
+                  : "border-gray-200"
               }`}
             >
               {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -174,22 +183,56 @@ export default function ImageUploader({
                 className="w-full h-full object-cover"
               />
 
-              {/* Overlay */}
-              <div className="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-colors">
+              {/* Overlay with actions */}
+              <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2">
+                {/* Move Left */}
+                {index > 0 && (
+                  <button
+                    type="button"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      const newImages = [...images];
+                      const [moved] = newImages.splice(index, 1);
+                      newImages.splice(index - 1, 0, moved);
+                      onChange(newImages);
+                    }}
+                    className="p-1.5 bg-white text-gray-700 rounded-full hover:bg-gray-100 transition-colors"
+                    title="Mover para esquerda"
+                  >
+                    <ChevronLeft size={16} />
+                  </button>
+                )}
+
+                {/* Remove */}
                 <button
                   type="button"
                   onClick={(e) => {
                     e.stopPropagation();
                     removeImage(index);
                   }}
-                  className="absolute top-2 right-2 p-1 bg-red-500 text-white rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
+                  className="p-1.5 bg-red-500 text-white rounded-full hover:bg-red-600 transition-colors"
+                  title="Remover foto"
                 >
-                  <X size={14} />
+                  <X size={16} />
                 </button>
 
-                <div className="absolute top-2 left-2 p-1 bg-white/80 rounded text-gray-600 opacity-0 group-hover:opacity-100 transition-opacity cursor-grab">
-                  <GripVertical size={14} />
-                </div>
+                {/* Move Right */}
+                {index < images.length - 1 && (
+                  <button
+                    type="button"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      const newImages = [...images];
+                      const [moved] = newImages.splice(index, 1);
+                      newImages.splice(index + 1, 0, moved);
+                      onChange(newImages);
+                    }}
+                    className="p-1.5 bg-white text-gray-700 rounded-full hover:bg-gray-100 transition-colors"
+                    title="Mover para direita"
+                  >
+                    <ChevronRight size={16} />
+                  </button>
+                )}
               </div>
 
               {/* Badge primeira foto */}
@@ -204,7 +247,8 @@ export default function ImageUploader({
       )}
 
       <p className="text-xs text-gray-400">
-        {images.length}/{maxImages} fotos. Arraste para reordenar. A primeira sera a capa.
+        {images.length}/{maxImages} fotos. Arraste para reordenar. A primeira
+        sera a capa.
       </p>
     </div>
   );
