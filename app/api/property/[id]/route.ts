@@ -60,18 +60,49 @@ export async function PUT(
   }
 
   const body = await request.json();
-  const allowedFields = ["status", "title", "description", "price"] as const;
-  const data: Record<string, unknown> = {};
 
-  for (const field of allowedFields) {
-    if (body[field] !== undefined) {
-      data[field] = body[field];
-    }
+  // Converter tipos numéricos se necessário (embora o frontend deva mandar certo)
+  // Mas Prisma espera os tipos corretos.
+
+  const data: any = { ...body };
+
+  // Remover campos que não devem ser alterados diretamente ou tratados separadamente
+  delete data.id;
+  delete data.createdAt;
+  delete data.updatedAt;
+  delete data.ownerId;
+  delete data.views;
+
+  // Se houver fotos, tratar separadamente se for substituir tudo
+  // Por simplificacao, vamos assumir que o frontend manda photoUrls e substituimos
+  if (data.photoUrls) {
+    const photoUrls = data.photoUrls as string[];
+    delete data.photoUrls;
+
+    // Atualizar dados básicos primeiro
+    await prisma.property.update({
+      where: { id: params.id },
+      data: {
+        ...data,
+        photos: {
+          deleteMany: {},
+          create: photoUrls.map((url, index) => ({
+            url,
+            order: index,
+          })),
+        },
+      },
+    });
+  } else {
+    // Atualizar sem mexer nas fotos
+    await prisma.property.update({
+      where: { id: params.id },
+      data,
+    });
   }
 
-  const updated = await prisma.property.update({
+  const updated = await prisma.property.findUnique({
     where: { id: params.id },
-    data,
     include: { photos: { orderBy: { order: "asc" } } },
   });
 

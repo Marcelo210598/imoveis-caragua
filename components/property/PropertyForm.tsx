@@ -64,10 +64,32 @@ const STEPS = [
   { icon: Check, label: "Revisar" },
 ];
 
-export default function PropertyForm() {
+interface PropertyFormProps {
+  initialData?: any;
+}
+
+export default function PropertyForm({ initialData }: PropertyFormProps) {
   const router = useRouter();
   const [step, setStep] = useState(0);
-  const [form, setForm] = useState<FormData>(INITIAL_FORM);
+  const [form, setForm] = useState<FormData>(() => {
+    if (initialData) {
+      return {
+        ...INITIAL_FORM,
+        ...initialData,
+        price: String(initialData.price || ""),
+        area: initialData.area ? String(initialData.area) : "",
+        bedrooms: initialData.bedrooms ? String(initialData.bedrooms) : "",
+        bathrooms: initialData.bathrooms ? String(initialData.bathrooms) : "",
+        parkingSpaces: initialData.parkingSpaces
+          ? String(initialData.parkingSpaces)
+          : "",
+        photoUrls: initialData.photos
+          ? initialData.photos.map((p: any) => p.url)
+          : [],
+      };
+    }
+    return INITIAL_FORM;
+  });
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [submitting, setSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
@@ -146,8 +168,14 @@ export default function PropertyForm() {
         photoUrls: form.photoUrls,
       };
 
-      const res = await fetch("/api/properties", {
-        method: "POST",
+      const url = initialData?.id
+        ? `/api/property/${initialData.id}`
+        : "/api/properties";
+
+      const method = initialData?.id ? "PUT" : "POST";
+
+      const res = await fetch(url, {
+        method,
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
       });
@@ -155,10 +183,13 @@ export default function PropertyForm() {
       const data = await res.json();
 
       if (!res.ok) {
-        throw new Error(data.error || "Erro ao criar imovel");
+        throw new Error(data.error || "Erro ao salvar imovel");
       }
 
-      router.push(`/imoveis/${data.property.id}`);
+      router.push(
+        initialData?.id ? "/dashboard" : `/imoveis/${data.property.id}`,
+      );
+      router.refresh();
     } catch (err) {
       setSubmitError(
         err instanceof Error ? err.message : "Erro ao criar imovel",

@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import WhatsAppButton from "@/components/WhatsAppButton";
+import { Toaster } from "@/components/ui/sonner";
 import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -100,6 +102,8 @@ export default function RootLayout({
         </AuthProvider>
         <Analytics />
         <SpeedInsights />
+        <Toaster />
+        <WhatsAppButton />
       </body>
     </html>
   );
