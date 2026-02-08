@@ -1,5 +1,11 @@
 # Relatório Sprint 8 - 08/02/2026
 
+## 🎯 Resultado
+
+**Nota: A** no [SecurityHeaders.com](https://securityheaders.com)
+
+---
+
 ## 🎯 Objetivos Alcançados
 
 ### 1. Security Headers (Middleware)
