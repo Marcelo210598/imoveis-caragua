@@ -1,20 +1,28 @@
-import { getAllProperties } from "@/lib/properties";
+import { getAllProperties, getUniqueNeighborhoods } from "@/lib/properties";
 import { MetadataRoute } from "next";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl =
     process.env.NEXTAUTH_URL || "https://imoveis-caragua.vercel.app";
 
-  // Fetch all properties
-  // Note: For very large sites, we might need to paginate sitemaps,
-  // but for < 50k URLs this is fine.
-  const properties = await getAllProperties();
+  // Fetch all properties and neighborhoods
+  const [properties, neighborhoods] = await Promise.all([
+    getAllProperties(),
+    getUniqueNeighborhoods(),
+  ]);
 
   const propertyUrls = properties.map((property) => ({
     url: `${baseUrl}/imoveis/${property.id}`,
     lastModified: property.updatedAt || property.createdAt,
     changeFrequency: "weekly" as const,
     priority: 0.8,
+  }));
+
+  const neighborhoodUrls = neighborhoods.map((n) => ({
+    url: `${baseUrl}/imoveis/bairro/${n.toLowerCase().replace(/\s+/g, "-")}`,
+    lastModified: new Date(),
+    changeFrequency: "weekly" as const,
+    priority: 0.7,
   }));
 
   return [
@@ -42,6 +50,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: "monthly",
       priority: 0.6,
     },
+    ...neighborhoodUrls,
     ...propertyUrls,
   ];
 }

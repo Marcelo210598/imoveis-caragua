@@ -123,3 +123,27 @@ export async function getUniqueCities(): Promise<string[]> {
 
   return cities.map((c) => c.city);
 }
+
+export async function getUniqueNeighborhoods(): Promise<string[]> {
+  const neighborhoods = await prisma.property.findMany({
+    where: { status: "ACTIVE", neighborhood: { not: null } },
+    select: { neighborhood: true },
+    distinct: ["neighborhood"],
+    orderBy: { neighborhood: "asc" },
+  });
+
+  return neighborhoods
+    .map((n) => n.neighborhood)
+    .filter((n): n is string => n !== null);
+}
+
+export async function getPropertiesByNeighborhood(neighborhood: string) {
+  return prisma.property.findMany({
+    where: {
+      status: "ACTIVE",
+      neighborhood: { equals: neighborhood, mode: "insensitive" },
+    },
+    include: { photos: { orderBy: { order: "asc" } } },
+    orderBy: { createdAt: "desc" },
+  });
+}
