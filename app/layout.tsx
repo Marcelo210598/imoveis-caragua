@@ -12,9 +12,18 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Litoral Norte Imoveis - Encontre seu imovel de praia",
+  title: "Imóveis no Litoral Norte | Venda e Locação",
   description:
-    "Encontre casas e apartamentos no Litoral Norte de SP: Caraguatatuba, Ubatuba, Ilhabela e Sao Sebastiao. Precos atualizados de ZAP e VivaReal.",
+    "Anuncie ou encontre imóveis para venda e locação no Litoral Norte. Casas e apartamentos em Caraguatatuba, Ubatuba, Ilhabela e São Sebastião.",
+  keywords: [
+    "imóveis litoral norte",
+    "casas caraguatatuba",
+    "apartamentos ubatuba",
+    "imóveis ilhabela",
+    "aluguel são sebastião",
+    "venda imóveis praia",
+    "litoral norte sp",
+  ],
   manifest: "/manifest.json",
   icons: {
     icon: "/icon.svg",
@@ -29,9 +38,26 @@ export const metadata: Metadata = {
     telephone: true,
   },
   openGraph: {
-    title: "Litoral Norte Imoveis",
-    description: "Os melhores imoveis no Litoral Norte de Sao Paulo",
+    title: "LN Imóveis - Imóveis no Litoral Norte de São Paulo",
+    description:
+      "Plataforma para anunciar e encontrar imóveis para venda e locação no Litoral Norte de São Paulo.",
     type: "website",
+    url: "https://imoveis-caragua.vercel.app",
+    siteName: "LN Imóveis",
+    locale: "pt_BR",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "LN Imóveis - Imóveis no Litoral Norte",
+    description:
+      "Encontre casas e apartamentos em Caraguatatuba, Ubatuba, Ilhabela e São Sebastião.",
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
+  alternates: {
+    canonical: "https://imoveis-caragua.vercel.app",
   },
   other: {
     "mobile-web-app-capable": "yes",

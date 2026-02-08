@@ -1,16 +1,16 @@
-import Link from 'next/link';
-import { MapPin, TrendingDown, Home, ArrowRight } from 'lucide-react';
-import { getAllProperties, getTopDeals, getCityStats } from '@/lib/properties';
-import { formatPrice, formatPriceSqm } from '@/lib/utils';
-import PropertyGrid from '@/components/PropertyGrid';
+import Link from "next/link";
+import { MapPin, TrendingDown, Home, ArrowRight } from "lucide-react";
+import { getAllProperties, getTopDeals, getCityStats } from "@/lib/properties";
+import { formatPrice, formatPriceSqm } from "@/lib/utils";
+import PropertyGrid from "@/components/PropertyGrid";
 
 const cityColors: Record<string, string> = {
-  Caraguatatuba: 'from-blue-500 to-blue-600',
-  Ubatuba: 'from-emerald-500 to-emerald-600',
-  Ilhabela: 'from-cyan-500 to-cyan-600',
+  Caraguatatuba: "from-blue-500 to-blue-600",
+  Ubatuba: "from-emerald-500 to-emerald-600",
+  Ilhabela: "from-cyan-500 to-cyan-600",
 };
 
-const defaultColor = 'from-primary-500 to-primary-700';
+const defaultColor = "from-primary-500 to-primary-700";
 
 export default async function HomePage() {
   const [allProperties, topDeals, cityStats] = await Promise.all([
@@ -21,15 +21,47 @@ export default async function HomePage() {
 
   return (
     <div>
+      {/* JSON-LD Structured Data */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "RealEstateAgent",
+            name: "LN Imóveis",
+            url: "https://imoveis-caragua.vercel.app",
+            description:
+              "Plataforma para anunciar e encontrar imóveis para venda e locação no Litoral Norte de São Paulo.",
+            areaServed: {
+              "@type": "Place",
+              name: "Litoral Norte de São Paulo",
+              containsPlace: [
+                { "@type": "City", name: "Caraguatatuba" },
+                { "@type": "City", name: "Ubatuba" },
+                { "@type": "City", name: "Ilhabela" },
+                { "@type": "City", name: "São Sebastião" },
+              ],
+            },
+            knowsAbout: [
+              "Venda de imóveis",
+              "Locação de imóveis",
+              "Casas de praia",
+              "Apartamentos no litoral",
+            ],
+          }),
+        }}
+      />
+
       {/* Hero */}
       <section className="relative bg-gradient-to-br from-primary-600 via-primary-500 to-cyan-500 text-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-28">
           <div className="text-center max-w-3xl mx-auto">
             <h1 className="text-3xl sm:text-5xl lg:text-6xl font-bold tracking-tight mb-6">
-              Encontre Seu Imovel de Praia
+              Imóveis à Venda e para Locação no Litoral Norte de São Paulo
             </h1>
             <p className="text-base sm:text-xl text-blue-100 mb-8 sm:mb-10">
-              Os melhores imoveis do Litoral Norte de Sao Paulo em um so lugar.
+              Encontre casas, apartamentos e terrenos em Caraguatatuba, Ubatuba,
+              Ilhabela e São Sebastião.
             </p>
             <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center">
               <Link
@@ -37,13 +69,13 @@ export default async function HomePage() {
                 className="inline-flex items-center justify-center gap-2 bg-white text-primary-600 font-semibold px-6 sm:px-8 py-3 sm:py-3.5 rounded-xl hover:bg-blue-50 transition-colors text-sm sm:text-base"
               >
                 <Home size={20} />
-                Ver todos os imoveis
+                Ver todos os imóveis
               </Link>
               <Link
-                href="/deals"
+                href="/imoveis/novo"
                 className="inline-flex items-center justify-center gap-2 bg-white/10 text-white font-semibold px-6 sm:px-8 py-3 sm:py-3.5 rounded-xl border border-white/20 hover:bg-white/20 transition-colors text-sm sm:text-base"
               >
-                🔥 Oportunidades
+                Anunciar imóvel
               </Link>
             </div>
           </div>
@@ -60,10 +92,22 @@ export default async function HomePage() {
         </div>
       </section>
 
+      {/* Bloco descritivo para SEO/GEO */}
+      <section className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
+        <p className="text-gray-600 dark:text-gray-400 text-center text-base sm:text-lg leading-relaxed">
+          O <strong>LN Imóveis</strong> é uma plataforma para anunciar e
+          encontrar imóveis no Litoral Norte de São Paulo. Proprietários podem
+          cadastrar casas, apartamentos e terrenos para venda ou locação em
+          cidades como <strong>Caraguatatuba</strong>, <strong>Ubatuba</strong>,{" "}
+          <strong>Ilhabela</strong> e <strong>São Sebastião</strong>. Encontre
+          seu imóvel de praia ideal ou anuncie para milhares de interessados.
+        </p>
+      </section>
+
       {/* City Cards */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
         <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-gray-100 mb-8 text-center">
-          Explore por cidade
+          Imóveis por Cidade no Litoral Norte
         </h2>
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
           {cityStats.map((city) => (
@@ -72,13 +116,17 @@ export default async function HomePage() {
                 className={`bg-gradient-to-br ${cityColors[city.name] || defaultColor} rounded-2xl p-4 sm:p-6 text-white card-hover cursor-pointer h-full`}
               >
                 <MapPin size={28} className="mb-3 opacity-80 hidden sm:block" />
-                <h3 className="text-lg sm:text-xl font-bold mb-1">{city.name}</h3>
+                <h3 className="text-lg sm:text-xl font-bold mb-1">
+                  {city.name}
+                </h3>
                 <p className="text-white/80 text-xs sm:text-sm mb-3 sm:mb-4">
-                  {city.count} imoveis
+                  {city.count} imóveis disponíveis
                 </p>
                 <div className="text-xs sm:text-sm text-white/70">
-                  <p>Media: {formatPrice(city.avgPrice)}</p>
-                  <p className="hidden sm:block">{formatPriceSqm(city.avgPriceSqm)}</p>
+                  <p>Média: {formatPrice(city.avgPrice)}</p>
+                  <p className="hidden sm:block">
+                    {formatPriceSqm(city.avgPriceSqm)}
+                  </p>
                 </div>
               </div>
             </Link>
@@ -128,23 +176,33 @@ export default async function HomePage() {
               <p className="text-2xl sm:text-3xl font-bold text-primary-600 dark:text-primary-400">
                 {allProperties.length}
               </p>
-              <p className="text-gray-500 dark:text-gray-400 mt-1 text-sm sm:text-base">Imoveis cadastrados</p>
+              <p className="text-gray-500 dark:text-gray-400 mt-1 text-sm sm:text-base">
+                Imoveis cadastrados
+              </p>
             </div>
             <div>
               <p className="text-2xl sm:text-3xl font-bold text-primary-600 dark:text-primary-400">
                 {cityStats.length}
               </p>
-              <p className="text-gray-500 dark:text-gray-400 mt-1 text-sm sm:text-base">Cidades</p>
+              <p className="text-gray-500 dark:text-gray-400 mt-1 text-sm sm:text-base">
+                Cidades
+              </p>
             </div>
             <div>
               <p className="text-2xl sm:text-3xl font-bold text-deal-high">
                 {topDeals.length}
               </p>
-              <p className="text-gray-500 dark:text-gray-400 mt-1 text-sm sm:text-base">Oportunidades</p>
+              <p className="text-gray-500 dark:text-gray-400 mt-1 text-sm sm:text-base">
+                Oportunidades
+              </p>
             </div>
             <div>
-              <p className="text-2xl sm:text-3xl font-bold text-primary-600 dark:text-primary-400">2</p>
-              <p className="text-gray-500 dark:text-gray-400 mt-1 text-sm sm:text-base">Portais monitorados</p>
+              <p className="text-2xl sm:text-3xl font-bold text-primary-600 dark:text-primary-400">
+                2
+              </p>
+              <p className="text-gray-500 dark:text-gray-400 mt-1 text-sm sm:text-base">
+                Portais monitorados
+              </p>
             </div>
           </div>
         </div>
