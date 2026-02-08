@@ -2,21 +2,26 @@
 
 ## Ultima atualizacao: 2026-02-08
 
-**Status**: v1.5 - Sprint 9 Completo (Mega Sprint + SEO)
+**Status**: v1.6 - Sprint 10 Completo (Reviews & Push)
 
 ---
 
-## 🚀 Em Progresso (Sprint 10)
+## 🚀 Em Progresso (Sprint 11)
 
-- [ ] Notificações push no PWA
-- [ ] Redis para rate limiting (Upstash)
-- [ ] CI/CD com GitHub Actions
-- [ ] Integração com WhatsApp API
-- [ ] Sistema de avaliações de imóveis
+- [ ] Melhorias na UI/UX (Feedback de usuários)
+- [ ] Otimização de Imagens (Next/Image loader)
+- [ ] Painel do Proprietário avançado
 
 ---
 
 ## ✅ Concluído
+
+### Sprint 10 - Features Gratuitas (08/02/2026)
+
+- **Sistema de Avaliações**: Reviews com estrelas e comentários
+- **Push Notifications**: Integração PWA com Service Worker
+- **Redis Rate Limiting**: Upstash Redis para proteção de API
+- **Integração Reviews**: Componente na página de detalhes
 
 ### Sprint 9 - Mega Sprint (08/02/2026)
 

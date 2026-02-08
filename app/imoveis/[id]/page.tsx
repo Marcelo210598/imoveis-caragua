@@ -1,21 +1,20 @@
-import type { Metadata } from 'next';
-import Link from 'next/link';
-import { notFound } from 'next/navigation';
+import type { Metadata } from "next";
+import Link from "next/link";
+import { notFound } from "next/navigation";
+import { ArrowLeft, Bed, Bath, Car, Maximize, MapPin } from "lucide-react";
+import { getPropertyById } from "@/lib/properties";
 import {
-  ArrowLeft,
-  Bed,
-  Bath,
-  Car,
-  Maximize,
-  MapPin,
-} from 'lucide-react';
-import { getPropertyById } from '@/lib/properties';
-import { formatPrice, formatPriceSqm, formatArea, getPropertyTypeLabel } from '@/lib/utils';
-import DealBadge from '@/components/DealBadge';
-import PriceChart from '@/components/PriceChart';
-import ContactButton from '@/components/contact/ContactButton';
-import OwnerInfo from '@/components/contact/OwnerInfo';
-import PropertyGallery from '@/components/property/PropertyGallery';
+  formatPrice,
+  formatPriceSqm,
+  formatArea,
+  getPropertyTypeLabel,
+} from "@/lib/utils";
+import DealBadge from "@/components/DealBadge";
+import PriceChart from "@/components/PriceChart";
+import ContactButton from "@/components/contact/ContactButton";
+import OwnerInfo from "@/components/contact/OwnerInfo";
+import PropertyGallery from "@/components/property/PropertyGallery";
+import PropertyReviews from "@/components/PropertyReviews";
 
 interface PageProps {
   params: { id: string };
@@ -24,21 +23,25 @@ interface PageProps {
 // ISR: regenerar pagina a cada 1 hora
 export const revalidate = 3600;
 
-export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+export async function generateMetadata({
+  params,
+}: PageProps): Promise<Metadata> {
   const property = await getPropertyById(decodeURIComponent(params.id));
 
   if (!property) {
-    return { title: 'Imovel nao encontrado' };
+    return { title: "Imovel nao encontrado" };
   }
 
-  const title = property.title
-    || `${getPropertyTypeLabel(property.propertyType)} em ${property.city}`;
+  const title =
+    property.title ||
+    `${getPropertyTypeLabel(property.propertyType)} em ${property.city}`;
   const price = formatPrice(property.price);
   const description = property.description
     ? property.description.slice(0, 160)
-    : `${title} - ${price}. ${property.bedrooms ? property.bedrooms + ' quartos, ' : ''}${property.neighborhood ? property.neighborhood + ', ' : ''}${property.city}.`;
+    : `${title} - ${price}. ${property.bedrooms ? property.bedrooms + " quartos, " : ""}${property.neighborhood ? property.neighborhood + ", " : ""}${property.city}.`;
 
-  const baseUrl = process.env.NEXTAUTH_URL || 'https://imoveis-caragua.vercel.app';
+  const baseUrl =
+    process.env.NEXTAUTH_URL || "https://imoveis-caragua.vercel.app";
   const ogImageUrl = `${baseUrl}/api/og/property/${encodeURIComponent(params.id)}`;
   const photoUrl = property.photos?.[0]?.url;
 
@@ -48,7 +51,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     openGraph: {
       title: `${title} - ${price}`,
       description,
-      type: 'article',
+      type: "article",
       images: [
         {
           url: ogImageUrl,
@@ -60,7 +63,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       ],
     },
     twitter: {
-      card: 'summary_large_image',
+      card: "summary_large_image",
       title: `${title} - ${price}`,
       description,
       images: [ogImageUrl],
@@ -83,22 +86,22 @@ export default async function PropertyDetailPage({ params }: PageProps) {
     {
       icon: <Bed size={22} />,
       value: property.bedrooms,
-      label: 'Quartos',
+      label: "Quartos",
     },
     {
       icon: <Bath size={22} />,
       value: property.bathrooms,
-      label: 'Banheiros',
+      label: "Banheiros",
     },
     {
       icon: <Car size={22} />,
       value: property.parkingSpaces,
-      label: 'Vagas',
+      label: "Vagas",
     },
     {
       icon: <Maximize size={22} />,
       value: property.area ? formatArea(property.area) : null,
-      label: 'Area',
+      label: "Area",
     },
   ].filter((f) => f.value != null);
 
@@ -118,7 +121,7 @@ export default async function PropertyDetailPage({ params }: PageProps) {
         <PropertyGallery
           mainPhoto={mainPhoto}
           thumbPhotos={thumbPhotos}
-          title={property.title || 'Imovel'}
+          title={property.title || "Imovel"}
         />
       </div>
 
@@ -131,7 +134,8 @@ export default async function PropertyDetailPage({ params }: PageProps) {
               <DealBadge score={property.dealScore} className="mb-3" />
             )}
             <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-gray-100 mb-2">
-              {property.title || `${getPropertyTypeLabel(property.propertyType)} em ${property.city}`}
+              {property.title ||
+                `${getPropertyTypeLabel(property.propertyType)} em ${property.city}`}
             </h1>
             <div className="flex items-center gap-2 text-gray-500">
               <MapPin size={16} />
@@ -158,15 +162,21 @@ export default async function PropertyDetailPage({ params }: PageProps) {
           {/* Description */}
           {property.description && (
             <div className="bg-white dark:bg-gray-900 rounded-2xl border border-gray-100 dark:border-gray-800 p-6">
-              <h2 className="font-semibold text-gray-800 dark:text-gray-200 mb-3">Descricao</h2>
-              <p className="text-gray-600 dark:text-gray-300 whitespace-pre-line">{property.description}</p>
+              <h2 className="font-semibold text-gray-800 dark:text-gray-200 mb-3">
+                Descricao
+              </h2>
+              <p className="text-gray-600 dark:text-gray-300 whitespace-pre-line">
+                {property.description}
+              </p>
             </div>
           )}
 
           {/* Features grid */}
           {features.length > 0 && (
             <div className="bg-white dark:bg-gray-900 rounded-2xl border border-gray-100 dark:border-gray-800 p-6">
-              <h2 className="font-semibold text-gray-800 dark:text-gray-200 mb-4">Detalhes</h2>
+              <h2 className="font-semibold text-gray-800 dark:text-gray-200 mb-4">
+                Detalhes
+              </h2>
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
                 {features.map((f, i) => (
                   <div
@@ -196,6 +206,9 @@ export default async function PropertyDetailPage({ params }: PageProps) {
               />
             </div>
           )}
+
+          {/* Reviews */}
+          <PropertyReviews propertyId={property.id} />
         </div>
 
         {/* Sidebar */}
@@ -210,7 +223,7 @@ export default async function PropertyDetailPage({ params }: PageProps) {
           />
 
           {/* Owner info for user-created properties */}
-          {property.source === 'USER' && property.owner && (
+          {property.source === "USER" && property.owner && (
             <OwnerInfo owner={property.owner} />
           )}
 
