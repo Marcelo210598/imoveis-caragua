@@ -2,6 +2,7 @@
 
 import { MessageCircle } from "lucide-react";
 import { usePathname } from "next/navigation";
+import { track } from "@vercel/analytics/react";
 
 export default function WhatsAppButton() {
   const pathname = usePathname();
@@ -18,16 +19,7 @@ export default function WhatsAppButton() {
   const whatsappUrl = `https://wa.me/${phoneNumber}?text=${message}`;
 
   const handleClick = () => {
-    // Analytics tracking could go here
-    try {
-      fetch("/api/analytics/click", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ type: "whatsapp_floating", path: pathname }),
-      });
-    } catch (e) {
-      // Ignore errors
-    }
+    track("WhatsApp Click", { path: pathname || "unknown" });
   };
 
   return (

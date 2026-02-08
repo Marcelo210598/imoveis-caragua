@@ -2,19 +2,26 @@
 
 ## Ultima atualizacao: 2026-02-08
 
-**Status**: v1.6 - Sprint 10 Completo (Reviews & Push)
+**Status**: v1.7 - Sprint 11 Concluída (Painel & UX)
 
 ---
 
-## 🚀 Em Progresso (Sprint 11)
+## 🚀 Próximos Passos (Backlog)
 
-- [ ] Melhorias na UI/UX (Feedback de usuários)
-- [ ] Otimização de Imagens (Next/Image loader)
-- [ ] Painel do Proprietário avançado
+- [ ] Edição de fotos dos imóveis
+- [ ] Admin Panel avançado
+- [ ] Integração com Gateway de Pagamento (Futuro)
 
 ---
 
 ## ✅ Concluído
+
+### Sprint 11: Painel do Proprietário & UX (v1.7)
+
+- [x] Dashboard (`/dashboard`) para gestão de imóveis
+- [x] Edição e Exclusão de imóveis pelo usuário
+- [x] UI Polish: Toasts, Skeletons, Error Pages
+- [x] WhatsApp Button com Analytics
 
 ### Sprint 10 - Features Gratuitas (08/02/2026)
 
