@@ -6,14 +6,14 @@ export async function PATCH(req: Request) {
   try {
     const session = await auth();
 
-    if (!session?.user?.email) {
+    if (!session?.user?.id) {
       return new NextResponse("Unauthorized", { status: 401 });
     }
 
     const { name, phone } = await req.json();
 
     const user = await prisma.user.update({
-      where: { email: session.user.email },
+      where: { id: session.user.id },
       data: {
         name,
         phone,

@@ -9,7 +9,6 @@ interface ProfileCardProps {
   user: {
     id: string;
     name: string | null;
-    email: string | null;
     phone: string | null;
     avatarUrl: string | null;
   };
@@ -46,9 +45,7 @@ export default function ProfileCard({ user }: ProfileCardProps) {
     }
   };
 
-  const initials = (user.name || user.email || "U")
-    .substring(0, 2)
-    .toUpperCase();
+  const initials = (user.name || "U").substring(0, 2).toUpperCase();
 
   return (
     <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 overflow-hidden">
@@ -110,11 +107,6 @@ export default function ProfileCard({ user }: ProfileCardProps) {
                 <div className="flex items-center gap-2 text-gray-500 dark:text-gray-400 text-sm mt-1">
                   <Phone size={14} />
                   <span>{user.phone || "Sem telefone cadastrado"}</span>
-                </div>
-                <div className="flex items-center gap-2 text-gray-500 dark:text-gray-400 text-xs mt-1">
-                  <span className="bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded text-xs font-medium">
-                    {user.email}
-                  </span>
                 </div>
               </>
             )}

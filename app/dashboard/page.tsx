@@ -12,17 +12,17 @@ export const metadata = {
 export default async function DashboardPage() {
   const session = await auth();
 
-  if (!session?.user?.email) {
+  if (!session?.user?.id) {
     redirect("/auth/entrar?callbackUrl=/dashboard");
   }
 
   // Fetch full user data including phone/name
   const user = await prisma.user.findUnique({
-    where: { email: session.user.email },
+    where: { id: session.user.id },
     select: {
       id: true,
       name: true,
-      email: true,
+      // email: true, // Removed as it is not in the schema
       phone: true,
       avatarUrl: true,
       role: true,
