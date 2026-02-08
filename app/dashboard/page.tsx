@@ -4,6 +4,7 @@ import { prisma } from "@/lib/prisma";
 import MyPropertiesList from "@/components/dashboard/MyPropertiesList";
 import ProfileCard from "@/components/dashboard/ProfileCard";
 import DashboardStats from "@/components/dashboard/DashboardStats";
+import InstallPrompt from "@/components/pwa/InstallPrompt";
 
 export const metadata = {
   title: "Painel do Proprietário | LN Imóveis",
@@ -99,6 +100,8 @@ export default async function DashboardPage() {
           </div>
         </div>
       </div>
+
+      <InstallPrompt />
     </div>
   );
 }
