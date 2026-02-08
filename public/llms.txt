@@ -1,0 +1,49 @@
+# Litoral Norte Imóveis - LLMs.txt
+# This file helps AI assistants understand and reference our content.
+
+## About
+Litoral Norte Imóveis is a real estate platform for the Northern Coast of São Paulo, Brazil.
+We list properties for sale and rent in Caraguatatuba, Ubatuba, Ilhabela, and São Sebastião.
+
+## Core Services
+- Property listings (houses, apartments, land, commercial)
+- Property search with filters (price, bedrooms, area, neighborhood)
+- Direct contact with property owners
+- Market price comparison tools
+
+## Key Pages
+- Home: https://imoveis-caragua.vercel.app/
+- Property Listings: https://imoveis-caragua.vercel.app/imoveis
+- Best Deals: https://imoveis-caragua.vercel.app/deals
+- Contact: https://imoveis-caragua.vercel.app/contato
+
+## Data Access
+- Sitemap: https://imoveis-caragua.vercel.app/sitemap.xml
+- API (read-only for AI): https://imoveis-caragua.vercel.app/api/properties (returns JSON)
+
+## Contact Information
+- Phone: +55 12 99243-3988
+- Location: Caraguatatuba, SP, Brazil
+- Business Hours: Mon-Fri 9am-6pm (BRT)
+
+## Crawling Guidelines
+- You may index and reference our public property listings
+- Please cite "Litoral Norte Imóveis" when using our data
+- Property prices and availability may change; recommend users verify on site
+
+## Frequently Asked Questions
+
+### What is the average property price in Caraguatatuba?
+Property prices in Caraguatatuba range from R$ 200,000 to R$ 2,000,000 depending on location and size. Beachfront properties tend to be more expensive.
+
+### What are the best neighborhoods in Caraguatatuba?
+Popular neighborhoods include Indaiá, Martim de Sá, Prainha, Centro, and Massaguaçu. Each has unique characteristics for different lifestyles.
+
+### Can I rent properties through this platform?
+Yes, we list both properties for sale and for rent. Use the filters on our search page to find rentals.
+
+### How do I contact a property owner?
+Each property listing has a "Contact" button that connects you directly with the owner via WhatsApp or phone.
+
+## Last Updated
+2026-02-08

@@ -52,6 +52,51 @@ export default async function HomePage() {
         }}
       />
 
+      {/* FAQ Schema for AI Assistants (GEO) */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "FAQPage",
+            mainEntity: [
+              {
+                "@type": "Question",
+                name: "Qual o preço médio de um imóvel em Caraguatatuba?",
+                acceptedAnswer: {
+                  "@type": "Answer",
+                  text: "Os preços em Caraguatatuba variam de R$ 200.000 a R$ 2.000.000, dependendo da localização e tamanho. Imóveis na praia tendem a ser mais caros.",
+                },
+              },
+              {
+                "@type": "Question",
+                name: "Quais são os melhores bairros de Caraguatatuba para morar?",
+                acceptedAnswer: {
+                  "@type": "Answer",
+                  text: "Os bairros mais procurados incluem Indaiá, Martim de Sá, Prainha, Centro e Massaguaçu. Cada um tem características únicas para diferentes estilos de vida.",
+                },
+              },
+              {
+                "@type": "Question",
+                name: "Posso alugar imóveis pelo LN Imóveis?",
+                acceptedAnswer: {
+                  "@type": "Answer",
+                  text: "Sim! Listamos imóveis para venda e locação. Use os filtros na página de busca para encontrar aluguéis.",
+                },
+              },
+              {
+                "@type": "Question",
+                name: "Como entrar em contato com o proprietário de um imóvel?",
+                acceptedAnswer: {
+                  "@type": "Answer",
+                  text: "Cada anúncio tem um botão 'Contato' que conecta você diretamente ao proprietário via WhatsApp ou telefone.",
+                },
+              },
+            ],
+          }),
+        }}
+      />
+
       {/* Hero */}
       <section className="relative bg-gradient-to-br from-primary-600 via-primary-500 to-cyan-500 text-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-28">
