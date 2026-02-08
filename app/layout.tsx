@@ -103,6 +103,52 @@ export default function RootLayout({
         <Analytics />
         <SpeedInsights />
         <Toaster />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "RealEstateAgent",
+              name: "Litoral Norte Imóveis",
+              image: "https://imoveis-caragua.vercel.app/icon-512.png",
+              "@id": "https://imoveis-caragua.vercel.app",
+              url: "https://imoveis-caragua.vercel.app",
+              telephone: "+5512992433988",
+              address: {
+                "@type": "PostalAddress",
+                streetAddress: "Centro",
+                addressLocality: "Caraguatatuba",
+                addressRegion: "SP",
+                postalCode: "11660-000",
+                addressCountry: "BR",
+              },
+              geo: {
+                "@type": "GeoCoordinates",
+                latitude: -23.6226,
+                longitude: -45.4119,
+              },
+              priceRange: "$$-$$$",
+              openingHoursSpecification: [
+                {
+                  "@type": "OpeningHoursSpecification",
+                  dayOfWeek: [
+                    "Monday",
+                    "Tuesday",
+                    "Wednesday",
+                    "Thursday",
+                    "Friday",
+                  ],
+                  opens: "09:00",
+                  closes: "18:00",
+                },
+              ],
+              sameAs: [
+                "https://facebook.com/litoralnorteimoveis",
+                "https://instagram.com/litoralnorteimoveis",
+              ],
+            }),
+          }}
+        />
       </body>
     </html>
   );

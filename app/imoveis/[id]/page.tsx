@@ -117,6 +117,51 @@ export default async function PropertyDetailPage({ params }: PageProps) {
       </Link>
 
       {/* Image gallery */}
+      {/* JSON-LD Structured Data */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "RealEstateListing",
+            name: property.title || `Imóvel em ${property.city}`,
+            description: property.description
+              ? property.description.slice(0, 160)
+              : `Imóvel disponível em ${property.city}`,
+            image: photoUrls,
+            url: `${process.env.NEXTAUTH_URL || "https://imoveis-caragua.vercel.app"}/imoveis/${property.id}`,
+            datePosted: property.createdAt,
+            price: property.price,
+            priceCurrency: "BRL",
+            mainEntity: {
+              "@type": "SingleFamilyResidence", // Could be dynamic: Apartment, House, etc.
+              name: property.title,
+              address: {
+                "@type": "PostalAddress",
+                streetAddress: property.address || "Endereço sob consulta",
+                addressLocality: property.city,
+                addressRegion: "SP",
+                addressCountry: "BR",
+              },
+              numberOfRooms: property.bedrooms,
+              numberOfBathroomsTotal: property.bathrooms,
+              floorSize: {
+                "@type": "QuantitativeValue",
+                value: property.area,
+                unitCode: "MTK",
+              },
+            },
+            offers: {
+              "@type": "Offer",
+              price: property.price,
+              priceCurrency: "BRL",
+              availability: "https://schema.org/InStock",
+              url: `${process.env.NEXTAUTH_URL || "https://imoveis-caragua.vercel.app"}/imoveis/${property.id}`,
+            },
+          }),
+        }}
+      />
+
       <div className="mb-8">
         <PropertyGallery
           mainPhoto={mainPhoto}

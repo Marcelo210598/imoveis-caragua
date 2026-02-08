@@ -16,12 +16,21 @@
 
 ## ✅ Concluído
 
+### Sprint 12: SEO Mastery (08/02/2026)
+
+- [x] **Sitemap & Robots**: Geração automática de URLs para indexação
+- [x] **Rich Snippets**: JSON-LD para Imóveis (Preço, Endereço, Avaliações)
+- [x] **Local Business**: Schema.org para a imobiliária (Telefone, Endereço, Geo)
+
 ### Sprint 11: Painel do Proprietário & UX (v1.7)
 
 - [x] Dashboard (`/dashboard`) para gestão de imóveis
 - [x] Edição e Exclusão de imóveis pelo usuário
 - [x] UI Polish: Toasts, Skeletons, Error Pages
 - [x] WhatsApp Button com Analytics
+- [x] **New**: Perfil do Usuário V2 (Mobile-First, Edição)
+- [x] **New**: PWA Install Prompt
+- [x] **New**: Página de Contato e Redirects
 
 ### Sprint 10 - Features Gratuitas (08/02/2026)
 
