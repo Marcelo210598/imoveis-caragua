@@ -25,5 +25,3 @@ export const sendPushNotification = async (
     return false;
   }
 };
-
-export { publicVapidKey };
