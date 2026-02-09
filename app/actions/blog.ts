@@ -136,15 +136,6 @@ export async function getPosts(page = 1, limit = 10, publishedOnly = true) {
 }
 
 export async function getPostBySlug(slug: string) {
-  const post = await prisma.blogPost.findUnique({
-    where: { slug },
-    include: { author: { select: { name: true, avatarUrl: true, bio: true } } }, // Added bio just in case, warning: User model might not have bio. Checked User model, it does NOT have bio. Removed bio.
-  });
-
-  // Correcting author include
-  // User model:
-  //   id, phone, name, avatarUrl, whatsappOptIn, role, createdAt, updatedAt
-
   return prisma.blogPost.findUnique({
     where: { slug },
     include: { author: { select: { name: true, avatarUrl: true } } },
