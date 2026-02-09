@@ -22,6 +22,8 @@
 - [x] **Sitemap & Robots**: Geração automática de URLs para indexação
 - [x] **Rich Snippets**: JSON-LD para Imóveis (Preço, Endereço, Avaliações)
 - [x] **Local Business**: Schema.org para a imobiliária (Telefone, Endereço, Geo)
+- [x] **Mobile App**: Setup Expo Android, WebView, Notificações Push
+- [x] **Store Readiness**: Política de Privacidade e Build (.aab) para Play Store
 
 ### Sprint 11: Painel do Proprietário & UX (v1.7)
 
