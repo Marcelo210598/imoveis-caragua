@@ -17,6 +17,13 @@
 
 ## ✅ Concluído
 
+### Sprint 13: Blog & SEO (09/02/2026)
+
+- [x] **Sistema de Blog**: Backend (Prisma), Admin Panel (CRUD) e Frontend Público
+- [x] **SEO Content**: Seed inicial com 5 artigos estratégicos
+- [x] **SEO Técnico**: Sitemap automatizado, Metadados dinâmicos e Open Graph
+- [x] **Componentes UI**: Nova biblioteca de componentes leves (sem radix-ui)
+
 ### Sprint 12: SEO Mastery (08/02/2026)
 
 - [x] **Sitemap & Robots**: Geração automática de URLs para indexação

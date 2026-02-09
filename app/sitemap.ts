@@ -25,6 +25,18 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.7,
   }));
 
+  // Fetch blog posts
+  const { posts } = await import("@/app/actions/blog").then((mod) =>
+    mod.getPosts(1, 1000, true),
+  );
+
+  const blogUrls = posts.map((post) => ({
+    url: `${baseUrl}/blog/${post.slug}`,
+    lastModified: post.updatedAt,
+    changeFrequency: "monthly" as const,
+    priority: 0.8,
+  }));
+
   return [
     {
       url: baseUrl,
@@ -52,5 +64,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     },
     ...neighborhoodUrls,
     ...propertyUrls,
+    {
+      url: `${baseUrl}/blog`,
+      lastModified: new Date(),
+      changeFrequency: "weekly",
+      priority: 0.8,
+    },
+    ...blogUrls,
   ];
 }
