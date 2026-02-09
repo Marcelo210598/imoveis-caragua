@@ -10,6 +10,7 @@ import FavoritesProvider from "@/components/favorites/FavoritesProvider";
 import ThemeProvider from "@/components/ThemeProvider";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
+import { MobileSync } from "@/components/pwa/MobileSync";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -92,6 +93,7 @@ export default function RootLayout({
         className={`${inter.className} bg-gray-50 dark:bg-gray-950 text-gray-900 dark:text-gray-100 antialiased transition-colors`}
       >
         <AuthProvider>
+          <MobileSync />
           <ThemeProvider>
             <FavoritesProvider>
               <Header />

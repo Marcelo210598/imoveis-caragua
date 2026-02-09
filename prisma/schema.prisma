@@ -45,9 +45,16 @@ model User {
   notifications     Notification[]
   reviews           Review[]
   pushSubscriptions PushSubscription[]
+  mobileDevices     MobileDevice[]
 
   @@map("users")
 }
+
+// ... (rest of the file content until the end of User model) ...
+// Actually, I should just append the new model at the end and update User model relations.
+// I will just append the model at the end of the file and add the relation to User model separately if possible, 
+// using multi_replace to be precise.
+
 
 model Property {
   id              String         @id @default(cuid())
@@ -198,3 +205,18 @@ model PushSubscription {
   @@index([userId])
   @@map("push_subscriptions")
 }
+
+model MobileDevice {
+  id        String   @id @default(cuid())
+  userId    String   @map("user_id")
+  token     String   @unique
+  platform  String?
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@map("mobile_devices")
+}
+

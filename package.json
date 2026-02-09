@@ -26,6 +26,7 @@
     "cheerio": "^1.0.0-rc.12",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "expo-server-sdk": "^5.0.0",
     "lucide-react": "^0.263.1",
     "next": "^14.2.0",
     "next-auth": "^5.0.0-beta.30",
