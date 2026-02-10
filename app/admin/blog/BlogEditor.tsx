@@ -139,6 +139,7 @@ export function BlogEditor({ post }: { post?: Post }) {
             value={formData.title}
             onChange={handleChange}
             required
+            className="text-gray-900 dark:text-gray-100"
           />
         </div>
 
@@ -150,6 +151,7 @@ export function BlogEditor({ post }: { post?: Post }) {
             value={formData.slug}
             onChange={handleChange}
             required
+            className="text-gray-900 dark:text-gray-100"
           />
         </div>
       </div>
@@ -163,7 +165,7 @@ export function BlogEditor({ post }: { post?: Post }) {
             onChange={handleImageUpload}
             disabled={uploading}
             accept="image/*"
-            className="max-w-xs"
+            className="max-w-xs text-gray-900 dark:text-gray-100"
           />
           {uploading && (
             <span className="text-sm text-muted-foreground">Enviando...</span>
@@ -206,6 +208,7 @@ export function BlogEditor({ post }: { post?: Post }) {
           value={formData.excerpt}
           onChange={handleChange}
           rows={3}
+          className="text-gray-900 dark:text-gray-100"
         />
         <p className="text-xs text-muted-foreground">
           Aparece na listagem do blog e meta description se não definido.
@@ -221,7 +224,7 @@ export function BlogEditor({ post }: { post?: Post }) {
           onChange={handleChange}
           required
           rows={15}
-          className="font-mono"
+          className="font-mono text-gray-900 dark:text-gray-100"
         />
         <p className="text-xs text-muted-foreground">
           Use Markdown para formatar. # Título, **Negrito**, - Lista,
