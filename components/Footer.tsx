@@ -40,12 +40,18 @@ export default function Footer() {
 
           <div>
             <h4 className="text-white font-semibold mb-3">Sobre</h4>
-            <p className="text-sm leading-relaxed">
+            <p className="text-sm leading-relaxed mb-4">
               Dados coletados automaticamente e atualizados regularmente. Os
               precos e informacoes sao de responsabilidade dos portais de
               origem.
             </p>
-            <div className="mt-4">
+            <div className="flex flex-col space-y-2">
+              <Link
+                href="/blog"
+                className="text-white hover:text-primary-400 font-medium transition-colors"
+              >
+                Blog
+              </Link>
               <Link
                 href="/contato"
                 className="text-white hover:text-primary-400 font-medium transition-colors"

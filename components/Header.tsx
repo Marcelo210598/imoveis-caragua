@@ -1,17 +1,18 @@
-'use client';
+"use client";
 
-import Link from 'next/link';
-import { useState } from 'react';
-import { Menu, X, Plus } from 'lucide-react';
-import UserMenu from '@/components/auth/UserMenu';
-import ThemeToggle from '@/components/ThemeToggle';
-import NotificationBell from '@/components/NotificationBell';
+import Link from "next/link";
+import { useState } from "react";
+import { Menu, X, Plus } from "lucide-react";
+import UserMenu from "@/components/auth/UserMenu";
+import ThemeToggle from "@/components/ThemeToggle";
+import NotificationBell from "@/components/NotificationBell";
 
 const navLinks = [
-  { href: '/', label: 'Inicio' },
-  { href: '/imoveis', label: 'Imoveis' },
-  { href: '/deals', label: 'Oportunidades' },
-  { href: '/favoritos', label: 'Favoritos' },
+  { href: "/", label: "Inicio" },
+  { href: "/imoveis", label: "Imoveis" },
+  { href: "/deals", label: "Oportunidades" },
+  { href: "/blog", label: "Blog" },
+  { href: "/favoritos", label: "Favoritos" },
 ];
 
 export default function Header() {
@@ -21,7 +22,10 @@ export default function Header() {
     <header className="sticky top-0 z-50 bg-white/80 dark:bg-gray-900/80 backdrop-blur-md border-b border-gray-100 dark:border-gray-800">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
-          <Link href="/" className="flex items-center gap-2 font-bold text-xl text-primary-600 dark:text-primary-400">
+          <Link
+            href="/"
+            className="flex items-center gap-2 font-bold text-xl text-primary-600 dark:text-primary-400"
+          >
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src="/logo.svg" alt="Logo" className="w-8 h-8 rounded-lg" />
             <span className="hidden sm:inline">Litoral Norte Imoveis</span>
