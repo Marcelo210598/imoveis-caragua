@@ -5,6 +5,7 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Calendar, User } from "lucide-react";
 import { Metadata } from "next";
+import ReactMarkdown from "react-markdown";
 
 // Force dynamic rendering if needed, or rely on revalidation
 // export const dynamic = 'force-dynamic';
@@ -90,43 +91,7 @@ export default async function BlogPostPage({
             {post.title}
           </h1>
 
-          <div className="prose prose-lg dark:prose-invert max-w-none">
-            {/* Simple Markdown Rendering - in future use a library */}
-            {/* For now, just preserving whitespace and basic paragraphs */}
-            {post.content.split("\n").map((line, i) => {
-              if (line.startsWith("# "))
-                return (
-                  <h1 key={i} className="text-3xl font-bold mt-8 mb-4">
-                    {line.replace("# ", "")}
-                  </h1>
-                );
-              if (line.startsWith("## "))
-                return (
-                  <h2 key={i} className="text-2xl font-bold mt-6 mb-3">
-                    {line.replace("## ", "")}
-                  </h2>
-                );
-              if (line.startsWith("### "))
-                return (
-                  <h3 key={i} className="text-xl font-bold mt-5 mb-2">
-                    {line.replace("### ", "")}
-                  </h3>
-                );
-              if (line.startsWith("- "))
-                return (
-                  <li key={i} className="ml-4 list-disc">
-                    {line.replace("- ", "")}
-                  </li>
-                );
-              if (line.trim() === "")
-                return <div key={i} className="h-4"></div>;
-              return (
-                <p key={i} className="mb-4 leading-relaxed">
-                  {line}
-                </p>
-              );
-            })}
-          </div>
+          <ReactMarkdown>{post.content}</ReactMarkdown>
         </div>
       </article>
 
