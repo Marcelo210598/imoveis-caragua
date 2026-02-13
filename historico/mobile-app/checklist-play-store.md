@@ -24,11 +24,11 @@
 
 _Mínimo de 2 screenshots por tipo de dispositivo suportado._
 
-- [ ] **Celular**: Proporção 9:16 (ex: 1080x1920) — Tirar prints do site no celular
+- [x] **Celular**: Proporção 9:16 (ex: 1080x1920) — Gerados em `mobile/assets/screenshot-home.png` e `listing.png`
 - [ ] **Tablet 7"**: (Opcional, mas recomendado)
 - [ ] **Tablet 10"**: (Opcional, mas recomendado)
 
-> 💡 Dica: Abra o site em https://imoveis-caragua.vercel.app no Chrome, use F12 > Dimensões de celular, e tire screenshots das telas principais (Home, Busca, Detalhe do Imóvel).
+> 💡 Dica: Os prints reais do app foram gerados via automação e estão na pasta `mobile/assets/`.
 
 ## 4. Política de Privacidade
 
