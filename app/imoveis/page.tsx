@@ -100,14 +100,14 @@ function ImoveisContent() {
 
   return (
     <>
-      <h1 className="text-3xl font-bold text-gray-900 mb-2">
+      <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-2">
         Todos os Imoveis
       </h1>
-      <p className="text-gray-500 mb-8">
+      <p className="text-gray-500 dark:text-gray-400 mb-6">
         {loading ? "Carregando..." : `${properties.length} imoveis encontrados`}
       </p>
 
-      <div className="flex gap-8">
+      <div className="lg:flex lg:gap-8">
         <FilterSidebar
           cities={cities}
           filters={filters}
@@ -117,11 +117,11 @@ function ImoveisContent() {
 
         <div className="flex-1 min-w-0">
           {loading ? (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
               {Array.from({ length: 6 }).map((_, i) => (
                 <div
                   key={i}
-                  className="bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100"
+                  className="bg-white dark:bg-gray-900 rounded-2xl overflow-hidden shadow-sm border border-gray-100 dark:border-gray-800"
                 >
                   <div className="aspect-[4/3] skeleton" />
                   <div className="p-4 space-y-3">

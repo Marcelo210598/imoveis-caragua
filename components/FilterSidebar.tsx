@@ -289,9 +289,9 @@ export default function FilterSidebar({
 
   return (
     <>
-      {/* Mobile toggle */}
+      {/* Mobile toggle button — visible only on small screens */}
       <button
-        className="lg:hidden flex items-center gap-2 px-4 py-2 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl text-sm font-medium text-gray-700 dark:text-gray-300 mb-4"
+        className="lg:hidden flex items-center gap-2 px-4 py-2.5 w-full bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl text-sm font-medium text-gray-700 dark:text-gray-300 mb-4 shadow-sm"
         onClick={() => setMobileOpen(!mobileOpen)}
       >
         <SlidersHorizontal size={16} />
@@ -303,7 +303,7 @@ export default function FilterSidebar({
         )}
       </button>
 
-      {/* Mobile sidebar */}
+      {/* Mobile sidebar overlay */}
       {mobileOpen && (
         <div className="fixed inset-0 z-50 lg:hidden">
           <div
@@ -322,7 +322,7 @@ export default function FilterSidebar({
         </div>
       )}
 
-      {/* Desktop sidebar */}
+      {/* Desktop sidebar — hidden on mobile */}
       <div className="hidden lg:block w-64 shrink-0">
         <div className="sticky top-20 bg-white dark:bg-gray-900 rounded-2xl border border-gray-100 dark:border-gray-800 p-5 shadow-sm">
           <h2 className="font-bold text-lg mb-4">Filtros</h2>
