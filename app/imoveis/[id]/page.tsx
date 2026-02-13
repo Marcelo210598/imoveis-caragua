@@ -15,6 +15,7 @@ import ContactButton from "@/components/contact/ContactButton";
 import OwnerInfo from "@/components/contact/OwnerInfo";
 import PropertyGallery from "@/components/property/PropertyGallery";
 import PropertyReviews from "@/components/PropertyReviews";
+import ViewTracker from "@/components/ViewTracker";
 
 interface PageProps {
   params: { id: string };
@@ -107,6 +108,7 @@ export default async function PropertyDetailPage({ params }: PageProps) {
 
   return (
     <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <ViewTracker propertyId={property.id} />
       {/* Back button */}
       <Link
         href="/imoveis"

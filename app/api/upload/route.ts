@@ -50,10 +50,26 @@ export async function POST(request: NextRequest) {
   const ext = file.name.split(".").pop() || "jpg";
   const filename = `properties/${session.user.id}/${timestamp}.${ext}`;
 
+  /*
   const blob = await put(filename, file, {
     access: "public",
     addRandomSuffix: true,
   });
 
   return NextResponse.json({ url: blob.url });
+  */
+
+  try {
+    const blob = await put(filename, file, {
+      access: "public",
+      addRandomSuffix: true,
+    });
+    return NextResponse.json({ url: blob.url });
+  } catch (error: any) {
+    console.error("Erro no upload:", error);
+    return NextResponse.json(
+      { error: error.message || "Erro desconhecido ao fazer upload" },
+      { status: 500 },
+    );
+  }
 }

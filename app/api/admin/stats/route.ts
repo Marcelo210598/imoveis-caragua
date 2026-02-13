@@ -18,6 +18,8 @@ export async function GET() {
     propertiesByType,
     recentProperties,
     propertiesBySource,
+    totalViewsResult,
+    topViewed,
   ] = await Promise.all([
     prisma.property.count({ where: { status: "ACTIVE" } }),
     prisma.user.count(),
@@ -44,6 +46,7 @@ export async function GET() {
         city: true,
         price: true,
         source: true,
+        views: true,
         createdAt: true,
       },
     }),
@@ -52,6 +55,21 @@ export async function GET() {
       _count: { id: true },
       where: { status: "ACTIVE" },
     }),
+    prisma.property.aggregate({
+      _sum: { views: true },
+      where: { status: "ACTIVE" },
+    }),
+    prisma.property.findMany({
+      where: { status: "ACTIVE", views: { gt: 0 } },
+      orderBy: { views: "desc" },
+      take: 10,
+      select: {
+        id: true,
+        title: true,
+        city: true,
+        views: true,
+      },
+    }),
   ]);
 
   return NextResponse.json({
@@ -59,6 +77,7 @@ export async function GET() {
       totalProperties,
       totalUsers,
       totalFavorites,
+      totalViews: totalViewsResult._sum.views || 0,
     },
     charts: {
       byCity: propertiesByCity.map((c) => ({
@@ -74,6 +93,10 @@ export async function GET() {
         value: s._count.id,
       })),
     },
+    topViewed: topViewed.map((p) => ({
+      name: (p.title || p.city || "Imóvel").slice(0, 30),
+      value: p.views,
+    })),
     recentProperties,
   });
 }

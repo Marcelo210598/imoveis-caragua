@@ -5,6 +5,7 @@ import {
   Database,
   Settings,
   Home,
+  Users,
 } from "lucide-react";
 
 export default function AdminLayout({
@@ -31,6 +32,14 @@ export default function AdminLayout({
           >
             <LayoutDashboard size={20} />
             Dashboard
+          </Link>
+
+          <Link
+            href="/admin/users"
+            className="flex items-center gap-3 px-4 py-3 text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 rounded-lg transition-colors font-medium"
+          >
+            <Users size={20} />
+            Usuários
           </Link>
 
           <Link

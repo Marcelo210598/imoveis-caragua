@@ -79,6 +79,7 @@ model Property {
   latitude        Float?
   longitude       Float?
   pricePerSqm     Float?         @map("price_per_sqm")
+  views           Int            @default(0)
   dealScore       Float          @default(0) @map("deal_score")
   avgNeighborhoodPriceSqm Float? @map("avg_neighborhood_price_sqm")
   scrapedAt       DateTime?      @map("scraped_at")

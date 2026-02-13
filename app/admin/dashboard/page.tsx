@@ -8,6 +8,7 @@ import {
   TrendingUp,
   Home,
   MapPin,
+  Eye,
 } from "lucide-react";
 import {
   BarChart,
@@ -26,6 +27,7 @@ type Stats = {
   totalProperties: number;
   totalUsers: number;
   totalFavorites: number;
+  totalViews: number;
 };
 
 type ChartData = {
@@ -49,6 +51,7 @@ type DashboardData = {
     byType: ChartData[];
     bySource: ChartData[];
   };
+  topViewed: ChartData[];
   recentProperties: RecentProperty[];
 };
 
@@ -125,7 +128,7 @@ export default function AdminDashboard() {
         <h1 className="text-3xl font-bold mb-8">Dashboard Admin</h1>
 
         {/* Stats Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 mb-8">
           <StatCard
             title="Total de Imóveis"
             value={data.stats.totalProperties}
@@ -143,6 +146,12 @@ export default function AdminDashboard() {
             value={data.stats.totalFavorites}
             icon={Heart}
             color="bg-red-500"
+          />
+          <StatCard
+            title="Visualizações"
+            value={data.stats.totalViews}
+            icon={Eye}
+            color="bg-purple-500"
           />
         </div>
 
@@ -194,27 +203,53 @@ export default function AdminDashboard() {
           </div>
         </div>
 
-        {/* Source Distribution */}
-        <div className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm border border-gray-200 dark:border-gray-700 mb-8">
-          <h2 className="text-lg font-semibold mb-4 flex items-center gap-2">
-            <TrendingUp className="w-5 h-5" />
-            Fonte dos Imóveis
-          </h2>
-          <div className="flex flex-wrap gap-4">
-            {data.charts.bySource.map((source, i) => (
-              <div
-                key={source.name}
-                className="flex items-center gap-2 px-4 py-2 rounded-lg bg-gray-100 dark:bg-gray-700"
-              >
+        {/* Source Distribution + Top Viewed */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+          <div className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm border border-gray-200 dark:border-gray-700">
+            <h2 className="text-lg font-semibold mb-4 flex items-center gap-2">
+              <TrendingUp className="w-5 h-5" />
+              Fonte dos Imóveis
+            </h2>
+            <div className="flex flex-wrap gap-4">
+              {data.charts.bySource.map((source, i) => (
                 <div
-                  className="w-3 h-3 rounded-full"
-                  style={{ backgroundColor: COLORS[i % COLORS.length] }}
-                />
-                <span className="font-medium">{source.name}</span>
-                <span className="text-gray-500">({source.value})</span>
-              </div>
-            ))}
+                  key={source.name}
+                  className="flex items-center gap-2 px-4 py-2 rounded-lg bg-gray-100 dark:bg-gray-700"
+                >
+                  <div
+                    className="w-3 h-3 rounded-full"
+                    style={{ backgroundColor: COLORS[i % COLORS.length] }}
+                  />
+                  <span className="font-medium">{source.name}</span>
+                  <span className="text-gray-500">({source.value})</span>
+                </div>
+              ))}
+            </div>
           </div>
+
+          {/* Top Viewed */}
+          {data.topViewed && data.topViewed.length > 0 && (
+            <div className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm border border-gray-200 dark:border-gray-700">
+              <h2 className="text-lg font-semibold mb-4 flex items-center gap-2">
+                <Eye className="w-5 h-5" />
+                Imóveis Mais Vistos
+              </h2>
+              <ResponsiveContainer width="100%" height={300}>
+                <BarChart data={data.topViewed} layout="vertical">
+                  <CartesianGrid strokeDasharray="3 3" />
+                  <XAxis type="number" />
+                  <YAxis
+                    dataKey="name"
+                    type="category"
+                    width={120}
+                    tick={{ fontSize: 11 }}
+                  />
+                  <Tooltip />
+                  <Bar dataKey="value" fill="#8b5cf6" radius={[0, 4, 4, 0]} />
+                </BarChart>
+              </ResponsiveContainer>
+            </div>
+          )}
         </div>
 
         {/* Recent Properties */}

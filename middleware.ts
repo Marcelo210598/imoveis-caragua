@@ -13,7 +13,7 @@ const CSP_DIRECTIVES = [
   // Fonts: self + data URIs (para fontes inline)
   "font-src 'self' data:",
   // Conexões: self + APIs externas necessárias
-  "connect-src 'self' https://api.twilio.com https://vitals.vercel-insights.com https://*.vercel-insights.com",
+  "connect-src 'self' https://api.twilio.com https://vitals.vercel-insights.com https://*.vercel-insights.com https://*.vercel-storage.com https://vercel.com https://*.vercel.app",
   // Frames: bloquear embedding
   "frame-ancestors 'none'",
   // Form actions: apenas para o próprio site

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useTransition } from "react";
+import { upload } from "@vercel/blob/client";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button"; // verify if existing
 import { Input } from "@/components/ui/input"; // verify if existing
@@ -66,23 +67,24 @@ export function BlogEditor({ post }: { post?: Post }) {
     setUploading(true);
     const file = e.target.files[0];
 
-    const formData = new FormData();
-    formData.append("file", file);
-
     try {
-      const response = await fetch(`/api/upload`, {
-        method: "POST",
-        body: formData,
+      // Client-side upload bypasses server 4.5MB body limit
+      console.log("Iniciando upload client-side...");
+
+      const newBlob = await upload(file.name, file, {
+        access: "public",
+        handleUploadUrl: "/api/upload/client",
       });
 
-      if (!response.ok) throw new Error("Upload failed");
-
-      const newBlob = await response.json();
+      console.log("Upload concluído:", newBlob);
       setFormData((prev) => ({ ...prev, coverImage: newBlob.url }));
       toast.success("Imagem enviada com sucesso!");
-    } catch (error) {
-      console.error(error);
-      toast.error("Erro ao enviar imagem");
+    } catch (error: any) {
+      console.error("Erro detalhado no upload:", error);
+      // Alguns erros do vercel blob client não tem message clara
+      toast.error(
+        `Erro: ${error.message || "Falha desconhecida no upload client-side"}`,
+      );
     } finally {
       setUploading(false);
     }
@@ -139,7 +141,7 @@ export function BlogEditor({ post }: { post?: Post }) {
             value={formData.title}
             onChange={handleChange}
             required
-            className="text-gray-900 dark:text-gray-100"
+            className="text-gray-900 dark:text-gray-100 bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-700"
           />
         </div>
 
@@ -151,7 +153,7 @@ export function BlogEditor({ post }: { post?: Post }) {
             value={formData.slug}
             onChange={handleChange}
             required
-            className="text-gray-900 dark:text-gray-100"
+            className="text-gray-900 dark:text-gray-100 bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-700"
           />
         </div>
       </div>
@@ -165,7 +167,7 @@ export function BlogEditor({ post }: { post?: Post }) {
             onChange={handleImageUpload}
             disabled={uploading}
             accept="image/*"
-            className="max-w-xs text-gray-900 dark:text-gray-100"
+            className="max-w-xs text-gray-900 dark:text-gray-100 bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-700"
           />
           {uploading && (
             <span className="text-sm text-muted-foreground">Enviando...</span>
@@ -208,7 +210,7 @@ export function BlogEditor({ post }: { post?: Post }) {
           value={formData.excerpt}
           onChange={handleChange}
           rows={3}
-          className="text-gray-900 dark:text-gray-100"
+          className="text-gray-900 dark:text-gray-100 bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-700"
         />
         <p className="text-xs text-muted-foreground">
           Aparece na listagem do blog e meta description se não definido.
@@ -224,7 +226,7 @@ export function BlogEditor({ post }: { post?: Post }) {
           onChange={handleChange}
           required
           rows={15}
-          className="font-mono text-gray-900 dark:text-gray-100"
+          className="font-mono text-gray-900 dark:text-gray-100 bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-700"
         />
         <p className="text-xs text-muted-foreground">
           Use Markdown para formatar. # Título, **Negrito**, - Lista,
@@ -243,6 +245,7 @@ export function BlogEditor({ post }: { post?: Post }) {
               value={formData.seoTitle}
               onChange={handleChange}
               placeholder={formData.title}
+              className="text-gray-900 dark:text-gray-100 bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-700"
             />
           </div>
           <div className="space-y-2">
@@ -254,6 +257,7 @@ export function BlogEditor({ post }: { post?: Post }) {
               onChange={handleChange}
               rows={2}
               placeholder={formData.excerpt}
+              className="text-gray-900 dark:text-gray-100 bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-700"
             />
           </div>
         </div>
