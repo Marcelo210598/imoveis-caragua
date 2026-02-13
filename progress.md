@@ -1,13 +1,16 @@
 # Litoral Norte Imóveis - Progresso
 
-## Ultima atualizacao: 2026-02-08
+## Ultima atualizacao: 2026-02-13
 
-**Status**: v1.7 - Sprint 11 Concluída (Painel & UX)
+**Status**: v1.8 - Sprint 14 (Play Store Prep)
 
 ---
 
 ## 🚀 Próximos Passos (Backlog)
 
+- [ ] Screenshots do app para Play Store (mín. 2 celular)
+- [ ] Upload do `.aab` no Google Play Console
+- [ ] Teste Interno → Fechado → Produção
 - [ ] Edição de fotos dos imóveis
 - [ ] Admin Panel avançado
 - [ ] Sistema de Monetização (Destaques, Planos Premium)
@@ -17,12 +20,27 @@
 
 ## ✅ Concluído
 
+### Sprint 14: Play Store Preparation (13/02/2026)
+
+- [x] **App Config**: Nome, permissões, dark splash, expo-notifications plugin
+- [x] **Store Assets**: Ícone 512px e Feature Graphic gerados
+- [x] **Store Listing**: Textos completos (nome, descrição curta/completa, tags)
+- [x] **Checklist**: Atualizado com todas as pendências e referências
+- [x] **Política de Privacidade**: Página já existente confirmada
+
 ### Sprint 13: Blog & SEO (09/02/2026)
 
 - [x] **Sistema de Blog**: Backend (Prisma), Admin Panel (CRUD) e Frontend Público
 - [x] **SEO Content**: Seed inicial com 5 artigos estratégicos
 - [x] **SEO Técnico**: Sitemap automatizado, Metadados dinâmicos e Open Graph
 - [x] **Componentes UI**: Nova biblioteca de componentes leves (sem radix-ui)
+
+### Infraestrutura & Fixes (09/02/2026) -> Sprint 13.5
+
+- [x] **Vercel Blob Client-Side**: Upload sem limite de tamanho (bypass server limit)
+- [x] **Security**: Ajuste de CSP para permitir uploads externos
+- [x] **Deploy Pipeline**: Correção de vínculo de projeto Vercel/Git
+- [x] **Admin UI**: Correção de contraste (Dark Mode) e Permissões
 
 ### Sprint 12: SEO Mastery (08/02/2026)
 
