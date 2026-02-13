@@ -12,6 +12,19 @@ import { useSearchParams } from "next/navigation";
 import { Property, PropertyFilters } from "@/types/property";
 import PropertyGrid from "@/components/PropertyGrid";
 import FilterSidebar from "@/components/FilterSidebar";
+import CompareDrawer from "@/components/CompareDrawer";
+import SearchBar from "@/components/SearchBar";
+import { Map, List } from "lucide-react";
+import dynamic from "next/dynamic";
+
+const PropertyMap = dynamic(() => import("@/components/PropertyMap"), {
+  ssr: false,
+  loading: () => (
+    <div className="w-full h-[400px] bg-gray-100 dark:bg-gray-800 rounded-2xl animate-pulse flex items-center justify-center text-gray-400">
+      Carregando mapa...
+    </div>
+  ),
+});
 
 const ITEMS_PER_PAGE = 24;
 
@@ -35,6 +48,8 @@ function ImoveisContent() {
   const [properties, setProperties] = useState<Property[]>([]);
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(1);
+  const [showMap, setShowMap] = useState(false);
+  const [compareIds, setCompareIds] = useState<string[]>([]);
 
   const initialCity = searchParams.get("city") || undefined;
 
@@ -92,6 +107,20 @@ function ImoveisContent() {
     setFilters(newFilters);
   }, []);
 
+  const handleSearch = useCallback((term: string) => {
+    setFilters((prev) => ({ ...prev, searchTerm: term || undefined }));
+  }, []);
+
+  const toggleCompare = useCallback((id: string) => {
+    setCompareIds((prev) =>
+      prev.includes(id)
+        ? prev.filter((x) => x !== id)
+        : prev.length < 3
+          ? [...prev, id]
+          : prev,
+    );
+  }, []);
+
   const paginatedProperties = useMemo(() => {
     return properties.slice(0, page * ITEMS_PER_PAGE);
   }, [properties, page]);
@@ -100,12 +129,60 @@ function ImoveisContent() {
 
   return (
     <>
-      <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-2">
-        Todos os Imoveis
-      </h1>
-      <p className="text-gray-500 dark:text-gray-400 mb-6">
-        {loading ? "Carregando..." : `${properties.length} imoveis encontrados`}
-      </p>
+      {/* Prominent Search Bar */}
+      <div className="mb-6">
+        <SearchBar
+          onSearch={handleSearch}
+          placeholder="🔍 Buscar por bairro, cidade, tipo de imóvel..."
+          className="max-w-2xl"
+        />
+      </div>
+
+      <div className="flex items-center justify-between mb-4">
+        <div>
+          <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-1">
+            Todos os Imóveis
+          </h1>
+          <p className="text-gray-500 dark:text-gray-400">
+            {loading
+              ? "Carregando..."
+              : `${properties.length} imóveis encontrados`}
+          </p>
+        </div>
+
+        {/* View toggle: List / Map */}
+        <div className="flex bg-gray-100 dark:bg-gray-800 rounded-xl p-1">
+          <button
+            onClick={() => setShowMap(false)}
+            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
+              !showMap
+                ? "bg-white dark:bg-gray-700 shadow-sm text-gray-900 dark:text-gray-100"
+                : "text-gray-500 hover:text-gray-700"
+            }`}
+          >
+            <List size={16} />
+            Lista
+          </button>
+          <button
+            onClick={() => setShowMap(true)}
+            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
+              showMap
+                ? "bg-white dark:bg-gray-700 shadow-sm text-gray-900 dark:text-gray-100"
+                : "text-gray-500 hover:text-gray-700"
+            }`}
+          >
+            <Map size={16} />
+            Mapa
+          </button>
+        </div>
+      </div>
+
+      {/* Map View */}
+      {showMap && !loading && (
+        <div className="mb-6">
+          <PropertyMap properties={properties} />
+        </div>
+      )}
 
       <div className="lg:flex lg:gap-8">
         <FilterSidebar
@@ -134,7 +211,11 @@ function ImoveisContent() {
             </div>
           ) : (
             <>
-              <PropertyGrid properties={paginatedProperties} />
+              <PropertyGrid
+                properties={paginatedProperties}
+                compareIds={compareIds}
+                onToggleCompare={toggleCompare}
+              />
               {hasMore && (
                 <div className="text-center mt-8">
                   <button
@@ -149,6 +230,14 @@ function ImoveisContent() {
           )}
         </div>
       </div>
+
+      {/* Compare Drawer */}
+      <CompareDrawer
+        properties={properties}
+        selected={compareIds}
+        onToggle={toggleCompare}
+        onClear={() => setCompareIds([])}
+      />
     </>
   );
 }

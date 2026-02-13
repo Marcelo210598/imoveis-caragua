@@ -1,21 +1,36 @@
-'use client';
+"use client";
 
-import Link from 'next/link';
-import { Bed, Bath, Car, Maximize, Heart } from 'lucide-react';
-import { Property } from '@/types/property';
-import { formatPrice, formatArea } from '@/lib/utils';
-import { useFavorites } from '@/components/favorites/FavoritesProvider';
-import { useSession } from 'next-auth/react';
-import { useState } from 'react';
-import DealBadge from './DealBadge';
-import LoginModal from './auth/LoginModal';
-import ImageWithFallback from './ImageWithFallback';
+import Link from "next/link";
+import {
+  Bed,
+  Bath,
+  Car,
+  Maximize,
+  Heart,
+  ArrowLeftRight,
+  Sparkles,
+} from "lucide-react";
+import { Property } from "@/types/property";
+import { formatPrice, formatArea } from "@/lib/utils";
+import { cleanPropertyTitle } from "@/lib/titleCleaner";
+import { useFavorites } from "@/components/favorites/FavoritesProvider";
+import { useSession } from "next-auth/react";
+import { useState } from "react";
+import DealBadge from "./DealBadge";
+import LoginModal from "./auth/LoginModal";
+import ImageWithFallback from "./ImageWithFallback";
 
 interface PropertyCardProps {
   property: Property;
+  isComparing?: boolean;
+  onToggleCompare?: () => void;
 }
 
-export default function PropertyCard({ property }: PropertyCardProps) {
+export default function PropertyCard({
+  property,
+  isComparing,
+  onToggleCompare,
+}: PropertyCardProps) {
   const { data: session } = useSession();
   const { isFavorited, toggle } = useFavorites();
   const [loginOpen, setLoginOpen] = useState(false);
@@ -40,22 +55,50 @@ export default function PropertyCard({ property }: PropertyCardProps) {
     toggle(property.id);
   }
 
+  function handleCompare(e: React.MouseEvent) {
+    e.preventDefault();
+    e.stopPropagation();
+    onToggleCompare?.();
+  }
+
+  const cleanTitle = cleanPropertyTitle(
+    property.title,
+    property.propertyType,
+    property.city,
+  );
+
   return (
     <>
       <Link href={`/imoveis/${encodeURIComponent(propertySlug)}`}>
-        <div className="bg-white dark:bg-gray-900 rounded-2xl overflow-hidden shadow-sm border border-gray-100 dark:border-gray-800 card-hover cursor-pointer">
+        <div
+          className={`bg-white dark:bg-gray-900 rounded-2xl overflow-hidden shadow-sm border card-hover cursor-pointer transition-all ${
+            isComparing
+              ? "border-primary-500 ring-2 ring-primary-200 dark:ring-primary-800"
+              : "border-gray-100 dark:border-gray-800"
+          }`}
+        >
           {/* Image */}
           <div className="relative aspect-[4/3] bg-gray-100 dark:bg-gray-800 overflow-hidden">
             {imgSrc ? (
               <ImageWithFallback
                 src={imgSrc}
-                alt={property.title || 'Imovel'}
+                alt={cleanTitle}
                 className="w-full h-full object-cover"
                 fallbackClassName="w-full h-full"
               />
             ) : (
               <div className="w-full h-full flex items-center justify-center text-gray-300">
                 <Maximize size={48} />
+              </div>
+            )}
+
+            {/* Highlighted badge */}
+            {(property as any).highlighted && (
+              <div className="absolute top-3 left-3 z-10">
+                <span className="inline-flex items-center gap-1 bg-gradient-to-r from-amber-400 to-orange-500 text-white text-xs font-bold px-2.5 py-1 rounded-full shadow-lg">
+                  <Sparkles size={12} />
+                  Destaque
+                </span>
               </div>
             )}
 
@@ -67,27 +110,47 @@ export default function PropertyCard({ property }: PropertyCardProps) {
             )}
 
             {/* Source badge */}
-            <div className="absolute top-3 left-3">
-              <span className="bg-black/60 text-white text-xs px-2 py-1 rounded-full">
-                {property.source}
-              </span>
-            </div>
+            {!(property as any).highlighted && (
+              <div className="absolute top-3 left-3">
+                <span className="bg-black/60 text-white text-xs px-2 py-1 rounded-full">
+                  {property.source}
+                </span>
+              </div>
+            )}
 
-            {/* Favorite button */}
-            <button
-              onClick={handleFavorite}
-              className={`absolute bottom-3 right-3 p-2 rounded-full transition-all duration-200 ${
-                favorited
-                  ? 'bg-red-50 text-red-500 hover:bg-red-100 scale-110'
-                  : 'bg-white/80 text-gray-400 hover:text-red-400 hover:bg-white'
-              }`}
-              aria-label={favorited ? 'Remover dos favoritos' : 'Favoritar'}
-            >
-              <Heart
-                size={18}
-                fill={favorited ? 'currentColor' : 'none'}
-              />
-            </button>
+            {/* Action buttons */}
+            <div className="absolute bottom-3 right-3 flex gap-2">
+              {/* Compare button */}
+              {onToggleCompare && (
+                <button
+                  onClick={handleCompare}
+                  className={`p-2 rounded-full transition-all duration-200 ${
+                    isComparing
+                      ? "bg-primary-500 text-white hover:bg-primary-600"
+                      : "bg-white/80 text-gray-400 hover:text-primary-500 hover:bg-white"
+                  }`}
+                  aria-label={
+                    isComparing ? "Remover da comparação" : "Comparar"
+                  }
+                  title="Comparar imóveis"
+                >
+                  <ArrowLeftRight size={16} />
+                </button>
+              )}
+
+              {/* Favorite button */}
+              <button
+                onClick={handleFavorite}
+                className={`p-2 rounded-full transition-all duration-200 ${
+                  favorited
+                    ? "bg-red-50 text-red-500 hover:bg-red-100 scale-110"
+                    : "bg-white/80 text-gray-400 hover:text-red-400 hover:bg-white"
+                }`}
+                aria-label={favorited ? "Remover dos favoritos" : "Favoritar"}
+              >
+                <Heart size={18} fill={favorited ? "currentColor" : "none"} />
+              </button>
+            </div>
           </div>
 
           {/* Content */}
@@ -97,7 +160,7 @@ export default function PropertyCard({ property }: PropertyCardProps) {
             </p>
 
             <p className="text-sm text-gray-500 dark:text-gray-400 line-clamp-2 mb-3 min-h-[2.5rem]">
-              {property.title || `${property.propertyType} em ${property.city}`}
+              {cleanTitle}
             </p>
 
             <p className="text-sm text-primary-600 dark:text-primary-400 font-medium mb-3">

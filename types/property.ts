@@ -36,6 +36,8 @@ export interface Property {
   longitude: number | null;
   pricePerSqm: number | null;
   dealScore: number;
+  highlighted?: boolean;
+  views?: number;
   avgNeighborhoodPriceSqm: number | null;
   scrapedAt: Date | string | null;
   createdAt: Date | string;

@@ -1,8 +1,17 @@
 import Link from "next/link";
-import { MapPin, TrendingDown, Home, ArrowRight } from "lucide-react";
+import {
+  MapPin,
+  TrendingDown,
+  Home,
+  ArrowRight,
+  Search,
+  Star,
+  Quote,
+} from "lucide-react";
 import { getAllProperties, getTopDeals, getCityStats } from "@/lib/properties";
 import { formatPrice, formatPriceSqm } from "@/lib/utils";
 import PropertyGrid from "@/components/PropertyGrid";
+import HeroSearch from "@/components/HeroSearch";
 
 const cityColors: Record<string, string> = {
   Caraguatatuba: "from-blue-500 to-blue-600",
@@ -122,6 +131,11 @@ export default async function HomePage() {
               >
                 Anunciar imóvel
               </Link>
+            </div>
+
+            {/* Hero Search */}
+            <div className="mt-8 max-w-xl mx-auto">
+              <HeroSearch />
             </div>
           </div>
         </div>
@@ -250,6 +264,72 @@ export default async function HomePage() {
               </p>
             </div>
           </div>
+        </div>
+      </section>
+
+      {/* Social Proof / Testimonials */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
+        <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-gray-100 mb-2 text-center">
+          O que nossos usuários dizem
+        </h2>
+        <p className="text-gray-500 dark:text-gray-400 text-center mb-10">
+          Depoimentos de quem já anunciou ou encontrou seu imóvel
+        </p>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {[
+            {
+              name: "Ricardo S.",
+              city: "Caraguatatuba",
+              text: "Anunciei minha casa e recebi contato de interessados no mesmo dia. Interface muito profissional e fácil de usar.",
+              stars: 5,
+            },
+            {
+              name: "Marina L.",
+              city: "Ubatuba",
+              text: "Encontrei um apartamento de praia com ótimo preço graças ao Deal Score. Comparei vários e escolhi o melhor custo-benefício!",
+              stars: 5,
+            },
+            {
+              name: "Carlos M.",
+              city: "Ilhabela",
+              text: "O sistema de filtros é excelente. Achei exatamente o que procurava em minutos. Recomendo para quem busca imóvel no litoral.",
+              stars: 4,
+            },
+          ].map((t, i) => (
+            <div
+              key={i}
+              className="bg-white dark:bg-gray-900 rounded-2xl border border-gray-100 dark:border-gray-800 p-6 shadow-sm hover:shadow-md transition-shadow"
+            >
+              <Quote
+                size={24}
+                className="text-primary-200 dark:text-primary-800 mb-3"
+              />
+              <p className="text-gray-600 dark:text-gray-300 text-sm leading-relaxed mb-4">
+                &ldquo;{t.text}&rdquo;
+              </p>
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="font-semibold text-gray-800 dark:text-gray-200 text-sm">
+                    {t.name}
+                  </p>
+                  <p className="text-xs text-gray-400">{t.city}</p>
+                </div>
+                <div className="flex gap-0.5">
+                  {Array.from({ length: 5 }).map((_, j) => (
+                    <Star
+                      key={j}
+                      size={14}
+                      className={
+                        j < t.stars
+                          ? "text-amber-400 fill-amber-400"
+                          : "text-gray-200 dark:text-gray-700"
+                      }
+                    />
+                  ))}
+                </div>
+              </div>
+            </div>
+          ))}
         </div>
       </section>
     </div>

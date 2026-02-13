@@ -143,5 +143,14 @@ export async function POST(request: NextRequest) {
     sendTelegramMessage(msg).catch(console.error);
   });
 
+  // Push notifications para dispositivos móveis (Assíncrono)
+  import("@/lib/pushNotify").then(({ notifyNewProperty }) => {
+    notifyNewProperty(
+      property.title || `Imóvel em ${property.city}`,
+      property.id,
+      property.city,
+    ).catch(console.error);
+  });
+
   return NextResponse.json({ property }, { status: 201 });
 }

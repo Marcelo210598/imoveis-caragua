@@ -1,7 +1,15 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ArrowLeft, Bed, Bath, Car, Maximize, MapPin } from "lucide-react";
+import {
+  ArrowLeft,
+  Bed,
+  Bath,
+  Car,
+  Maximize,
+  MapPin,
+  Sparkles,
+} from "lucide-react";
 import { getPropertyById } from "@/lib/properties";
 import {
   formatPrice,
@@ -9,6 +17,7 @@ import {
   formatArea,
   getPropertyTypeLabel,
 } from "@/lib/utils";
+import { cleanPropertyTitle } from "@/lib/titleCleaner";
 import DealBadge from "@/components/DealBadge";
 import PriceChart from "@/components/PriceChart";
 import ContactButton from "@/components/contact/ContactButton";
@@ -16,6 +25,7 @@ import OwnerInfo from "@/components/contact/OwnerInfo";
 import PropertyGallery from "@/components/property/PropertyGallery";
 import PropertyReviews from "@/components/PropertyReviews";
 import ViewTracker from "@/components/ViewTracker";
+import MortgageCalculator from "@/components/MortgageCalculator";
 
 interface PageProps {
   params: { id: string };
@@ -33,9 +43,11 @@ export async function generateMetadata({
     return { title: "Imovel nao encontrado" };
   }
 
-  const title =
-    property.title ||
-    `${getPropertyTypeLabel(property.propertyType)} em ${property.city}`;
+  const title = cleanPropertyTitle(
+    property.title,
+    property.propertyType,
+    property.city,
+  );
   const price = formatPrice(property.price);
   const description = property.description
     ? property.description.slice(0, 160)
@@ -177,12 +189,23 @@ export default async function PropertyDetailPage({ params }: PageProps) {
         <div className="lg:col-span-2 space-y-6">
           {/* Title and badge */}
           <div>
-            {property.dealScore >= 60 && (
-              <DealBadge score={property.dealScore} className="mb-3" />
-            )}
+            <div className="flex flex-wrap gap-2 mb-3">
+              {property.dealScore >= 60 && (
+                <DealBadge score={property.dealScore} />
+              )}
+              {(property as any).highlighted && (
+                <span className="inline-flex items-center gap-1 bg-gradient-to-r from-amber-400 to-orange-500 text-white text-xs font-bold px-3 py-1 rounded-full">
+                  <Sparkles size={12} />
+                  Destaque
+                </span>
+              )}
+            </div>
             <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-gray-100 mb-2">
-              {property.title ||
-                `${getPropertyTypeLabel(property.propertyType)} em ${property.city}`}
+              {cleanPropertyTitle(
+                property.title,
+                property.propertyType,
+                property.city,
+              )}
             </h1>
             <div className="flex items-center gap-2 text-gray-500">
               <MapPin size={16} />
@@ -301,6 +324,9 @@ export default async function PropertyDetailPage({ params }: PageProps) {
               </div>
             )}
           </div>
+
+          {/* Mortgage Calculator */}
+          <MortgageCalculator price={property.price} />
         </div>
       </div>
     </div>

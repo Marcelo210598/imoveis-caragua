@@ -1,15 +1,19 @@
-import { Property } from '@/types/property';
-import PropertyCard from './PropertyCard';
-import { Home } from 'lucide-react';
+import { Property } from "@/types/property";
+import PropertyCard from "./PropertyCard";
+import { Home } from "lucide-react";
 
 interface PropertyGridProps {
   properties: Property[];
   emptyMessage?: string;
+  compareIds?: string[];
+  onToggleCompare?: (id: string) => void;
 }
 
 export default function PropertyGrid({
   properties,
-  emptyMessage = 'Nenhum imovel encontrado.',
+  emptyMessage = "Nenhum imovel encontrado.",
+  compareIds,
+  onToggleCompare,
 }: PropertyGridProps) {
   if (properties.length === 0) {
     return (
@@ -24,7 +28,14 @@ export default function PropertyGrid({
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
       {properties.map((property) => (
-        <PropertyCard key={property.id} property={property} />
+        <PropertyCard
+          key={property.id}
+          property={property}
+          isComparing={compareIds?.includes(property.id)}
+          onToggleCompare={
+            onToggleCompare ? () => onToggleCompare(property.id) : undefined
+          }
+        />
       ))}
     </div>
   );
