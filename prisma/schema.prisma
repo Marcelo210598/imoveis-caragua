@@ -47,6 +47,7 @@ model User {
   pushSubscriptions PushSubscription[]
   mobileDevices     MobileDevice[]
   posts             BlogPost[]
+  propertyAlerts    PropertyAlert[]
 
   @@map("users")
 }
@@ -245,4 +246,31 @@ model BlogPost {
   author      User     @relation(fields: [authorId], references: [id])
 
   @@map("blog_posts")
+}
+
+model WebPushSubscription {
+  id        String   @id @default(cuid())
+  endpoint  String   @unique
+  p256dh    String
+  auth      String
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt      @map("updated_at")
+
+  @@map("web_push_subscriptions")
+}
+
+model PropertyAlert {
+  id           String   @id @default(cuid())
+  userId       String   @map("user_id")
+  city         String?
+  propertyType String?  @map("property_type")
+  maxPrice     Float?   @map("max_price")
+  minArea      Float?   @map("min_area")
+  active       Boolean  @default(true)
+  createdAt    DateTime @default(now()) @map("created_at")
+  updatedAt    DateTime @updatedAt      @map("updated_at")
+
+  user         User     @relation(fields: [userId], references: [id])
+
+  @@map("property_alerts")
 }

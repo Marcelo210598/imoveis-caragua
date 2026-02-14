@@ -16,6 +16,8 @@ import CompareDrawer from "@/components/CompareDrawer";
 import SearchBar from "@/components/SearchBar";
 import { Map, List } from "lucide-react";
 import dynamic from "next/dynamic";
+import PropertyAlertButton from "@/components/PropertyAlert";
+import PushSubscribe from "@/components/PushSubscribe";
 
 const PropertyMap = dynamic(() => import("@/components/PropertyMap"), {
   ssr: false,
@@ -150,30 +152,35 @@ function ImoveisContent() {
           </p>
         </div>
 
-        {/* View toggle: List / Map */}
-        <div className="flex bg-gray-100 dark:bg-gray-800 rounded-xl p-1">
-          <button
-            onClick={() => setShowMap(false)}
-            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
-              !showMap
-                ? "bg-white dark:bg-gray-700 shadow-sm text-gray-900 dark:text-gray-100"
-                : "text-gray-500 hover:text-gray-700"
-            }`}
-          >
-            <List size={16} />
-            Lista
-          </button>
-          <button
-            onClick={() => setShowMap(true)}
-            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
-              showMap
-                ? "bg-white dark:bg-gray-700 shadow-sm text-gray-900 dark:text-gray-100"
-                : "text-gray-500 hover:text-gray-700"
-            }`}
-          >
-            <Map size={16} />
-            Mapa
-          </button>
+        <div className="flex items-center gap-2">
+          <PushSubscribe />
+          <PropertyAlertButton />
+
+          {/* View toggle: List / Map */}
+          <div className="flex bg-gray-100 dark:bg-gray-800 rounded-xl p-1">
+            <button
+              onClick={() => setShowMap(false)}
+              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
+                !showMap
+                  ? "bg-white dark:bg-gray-700 shadow-sm text-gray-900 dark:text-gray-100"
+                  : "text-gray-500 hover:text-gray-700"
+              }`}
+            >
+              <List size={16} />
+              Lista
+            </button>
+            <button
+              onClick={() => setShowMap(true)}
+              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
+                showMap
+                  ? "bg-white dark:bg-gray-700 shadow-sm text-gray-900 dark:text-gray-100"
+                  : "text-gray-500 hover:text-gray-700"
+              }`}
+            >
+              <Map size={16} />
+              Mapa
+            </button>
+          </div>
         </div>
       </div>
 

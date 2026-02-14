@@ -26,6 +26,7 @@ import PropertyGallery from "@/components/property/PropertyGallery";
 import PropertyReviews from "@/components/PropertyReviews";
 import ViewTracker from "@/components/ViewTracker";
 import MortgageCalculator from "@/components/MortgageCalculator";
+import ShareButtons from "@/components/ShareButtons";
 
 interface PageProps {
   params: { id: string };
@@ -207,13 +208,24 @@ export default async function PropertyDetailPage({ params }: PageProps) {
                 property.city,
               )}
             </h1>
-            <div className="flex items-center gap-2 text-gray-500">
-              <MapPin size={16} />
-              <span>
-                {property.neighborhood
-                  ? `${property.neighborhood}, ${property.city}`
-                  : property.city}
-              </span>
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2 text-gray-500">
+                <MapPin size={16} />
+                <span>
+                  {property.neighborhood
+                    ? `${property.neighborhood}, ${property.city}`
+                    : property.city}
+                </span>
+              </div>
+              <ShareButtons
+                title={cleanPropertyTitle(
+                  property.title,
+                  property.propertyType,
+                  property.city,
+                )}
+                url={`/imoveis/${property.id}`}
+                price={formatPrice(property.price)}
+              />
             </div>
           </div>
 
