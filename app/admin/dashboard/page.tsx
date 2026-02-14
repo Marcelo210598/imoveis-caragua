@@ -13,7 +13,8 @@ import {
 import { Pie, Cell } from "recharts";
 import AdminAnalytics from "@/components/admin/AdminAnalytics";
 import { toast } from "sonner";
-import { Sparkles } from "lucide-react";
+import { Sparkles, ChevronRight } from "lucide-react";
+import Link from "next/link";
 
 type Stats = {
   totalProperties: number;
@@ -216,7 +217,15 @@ export default function AdminDashboard() {
 
         {/* Recent Properties */}
         <div className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm border border-gray-200 dark:border-gray-700">
-          <h2 className="text-lg font-semibold mb-4">Imóveis Recentes</h2>
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-lg font-semibold">Imóveis Recentes</h2>
+            <Link
+              href="/admin/properties"
+              className="text-sm text-primary-600 hover:text-primary-700 font-medium flex items-center gap-1"
+            >
+              Ver todos <ChevronRight size={16} />
+            </Link>
+          </div>
           <div className="overflow-x-auto">
             <table className="w-full">
               <thead>
