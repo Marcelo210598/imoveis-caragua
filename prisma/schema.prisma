@@ -81,7 +81,9 @@ model Property {
   longitude       Float?
   pricePerSqm     Float?         @map("price_per_sqm")
   views           Int            @default(0)
-  highlighted     Boolean        @default(false)
+  highlighted     Boolean        @default(false) // Deprecated, use isFeatured
+  isFeatured      Boolean        @default(false) @map("is_featured")
+  featuredExpiresAt DateTime?    @map("featured_expires_at")
   dealScore       Float          @default(0) @map("deal_score")
   avgNeighborhoodPriceSqm Float? @map("avg_neighborhood_price_sqm")
   scrapedAt       DateTime?      @map("scraped_at")

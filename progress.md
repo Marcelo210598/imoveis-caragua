@@ -2,7 +2,7 @@
 
 ## Ultima atualizacao: 2026-02-13
 
-**Status**: v1.8 - Sprint 14 (Play Store Prep)
+**Status**: v1.9 - Sprint 17 (AdSense, Push & Calculator)
 
 ---
 
@@ -19,6 +19,14 @@
 ---
 
 ## ✅ Concluído
+
+### Sprint 17: Monetização & Engajamento (13/02/2026)
+
+- [x] **AdSense**: Script global, `ads.txt` verificado, componentes de banner
+- [x] **Calculadora**: Redesign premium (SAC/Price), gráficos interativos
+- [x] **Web Push**: Notificações no navegador (Service Worker)
+- [x] **Alertas**: Lead generation com filtros de busca (backend + UI)
+- [x] **Social**: Compartilhamento nativo e botões de redes sociais
 
 ### Sprint 14: Play Store Preparation (13/02/2026)
 

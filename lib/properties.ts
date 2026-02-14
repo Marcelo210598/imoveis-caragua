@@ -6,7 +6,7 @@ export async function getAllProperties() {
   return prisma.property.findMany({
     where: { status: "ACTIVE" },
     include: { photos: { orderBy: { order: "asc" } } },
-    orderBy: { createdAt: "desc" },
+    orderBy: [{ isFeatured: "desc" }, { createdAt: "desc" }],
   });
 }
 
@@ -65,7 +65,7 @@ export async function filterProperties(filters: PropertyFilters) {
   return prisma.property.findMany({
     where,
     include: { photos: { orderBy: { order: "asc" } } },
-    orderBy: { createdAt: "desc" },
+    orderBy: [{ isFeatured: "desc" }, { createdAt: "desc" }],
   });
 }
 

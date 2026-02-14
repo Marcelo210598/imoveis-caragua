@@ -10,18 +10,10 @@ import {
   MapPin,
   Eye,
 } from "lucide-react";
-import {
-  BarChart,
-  Bar,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  ResponsiveContainer,
-  PieChart,
-  Pie,
-  Cell,
-} from "recharts";
+import { Pie, Cell } from "recharts";
+import AdminAnalytics from "@/components/admin/AdminAnalytics";
+import { toast } from "sonner";
+import { Sparkles } from "lucide-react";
 
 type Stats = {
   totalProperties: number;
@@ -42,6 +34,20 @@ type RecentProperty = {
   price: number;
   source: string;
   createdAt: string;
+  isFeatured?: boolean;
+};
+
+type RecentUser = {
+  id: string;
+  name: string | null;
+  phone: string;
+  role: "USER" | "ADMIN";
+  createdAt: string;
+};
+
+type TopProperty = {
+  name: string;
+  value: number;
 };
 
 type DashboardData = {
@@ -51,8 +57,9 @@ type DashboardData = {
     byType: ChartData[];
     bySource: ChartData[];
   };
-  topViewed: ChartData[];
+  topViewed: TopProperty[];
   recentProperties: RecentProperty[];
+  recentUsers: RecentUser[];
 };
 
 const COLORS = [
@@ -95,6 +102,49 @@ function StatCard({
 export default function AdminDashboard() {
   const [data, setData] = useState<DashboardData | null>(null);
   const [loading, setLoading] = useState(true);
+
+  async function toggleFeature(propertyId: string, currentStatus: boolean) {
+    // Determine new status
+    const newStatus = !currentStatus;
+
+    try {
+      // Optimistic update
+      setData((prev) => {
+        if (!prev) return null;
+        return {
+          ...prev,
+          recentProperties: prev.recentProperties.map((p) =>
+            p.id === propertyId ? { ...p, isFeatured: newStatus } : p,
+          ),
+        };
+      });
+
+      const res = await fetch(`/api/admin/properties/${propertyId}/feature`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ isFeatured: newStatus }),
+      });
+
+      if (!res.ok) throw new Error("Falha ao atualizar");
+
+      toast.success(
+        newStatus ? "Imóvel destacado!" : "Imóvel removido dos destaques",
+      );
+    } catch (error) {
+      console.error(error);
+      toast.error("Erro ao atualizar destaque");
+      // Revert optimistic update
+      setData((prev) => {
+        if (!prev) return null;
+        return {
+          ...prev,
+          recentProperties: prev.recentProperties.map((p) =>
+            p.id === propertyId ? { ...p, isFeatured: currentStatus } : p,
+          ),
+        };
+      });
+    }
+  }
 
   useEffect(() => {
     fetch("/api/admin/stats")
@@ -155,101 +205,13 @@ export default function AdminDashboard() {
           />
         </div>
 
-        {/* Charts */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-          {/* By City */}
-          <div className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm border border-gray-200 dark:border-gray-700">
-            <h2 className="text-lg font-semibold mb-4 flex items-center gap-2">
-              <MapPin className="w-5 h-5" />
-              Imóveis por Cidade
-            </h2>
-            <ResponsiveContainer width="100%" height={300}>
-              <BarChart data={data.charts.byCity}>
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="name" tick={{ fontSize: 12 }} />
-                <YAxis />
-                <Tooltip />
-                <Bar dataKey="value" fill="#3b82f6" radius={[4, 4, 0, 0]} />
-              </BarChart>
-            </ResponsiveContainer>
-          </div>
-
-          {/* By Type */}
-          <div className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm border border-gray-200 dark:border-gray-700">
-            <h2 className="text-lg font-semibold mb-4 flex items-center gap-2">
-              <Home className="w-5 h-5" />
-              Imóveis por Tipo
-            </h2>
-            <ResponsiveContainer width="100%" height={300}>
-              <PieChart>
-                <Pie
-                  data={data.charts.byType}
-                  cx="50%"
-                  cy="50%"
-                  labelLine={false}
-                  label={({ name, percent }) =>
-                    `${name} (${(percent * 100).toFixed(0)}%)`
-                  }
-                  outerRadius={100}
-                  dataKey="value"
-                >
-                  {data.charts.byType.map((_, index) => (
-                    <Cell key={index} fill={COLORS[index % COLORS.length]} />
-                  ))}
-                </Pie>
-                <Tooltip />
-              </PieChart>
-            </ResponsiveContainer>
-          </div>
-        </div>
-
-        {/* Source Distribution + Top Viewed */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-          <div className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm border border-gray-200 dark:border-gray-700">
-            <h2 className="text-lg font-semibold mb-4 flex items-center gap-2">
-              <TrendingUp className="w-5 h-5" />
-              Fonte dos Imóveis
-            </h2>
-            <div className="flex flex-wrap gap-4">
-              {data.charts.bySource.map((source, i) => (
-                <div
-                  key={source.name}
-                  className="flex items-center gap-2 px-4 py-2 rounded-lg bg-gray-100 dark:bg-gray-700"
-                >
-                  <div
-                    className="w-3 h-3 rounded-full"
-                    style={{ backgroundColor: COLORS[i % COLORS.length] }}
-                  />
-                  <span className="font-medium">{source.name}</span>
-                  <span className="text-gray-500">({source.value})</span>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Top Viewed */}
-          {data.topViewed && data.topViewed.length > 0 && (
-            <div className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm border border-gray-200 dark:border-gray-700">
-              <h2 className="text-lg font-semibold mb-4 flex items-center gap-2">
-                <Eye className="w-5 h-5" />
-                Imóveis Mais Vistos
-              </h2>
-              <ResponsiveContainer width="100%" height={300}>
-                <BarChart data={data.topViewed} layout="vertical">
-                  <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis type="number" />
-                  <YAxis
-                    dataKey="name"
-                    type="category"
-                    width={120}
-                    tick={{ fontSize: 11 }}
-                  />
-                  <Tooltip />
-                  <Bar dataKey="value" fill="#8b5cf6" radius={[0, 4, 4, 0]} />
-                </BarChart>
-              </ResponsiveContainer>
-            </div>
-          )}
+        {/* Analytics Section */}
+        <div className="mb-8">
+          <AdminAnalytics
+            charts={data.charts}
+            topViewed={data.topViewed}
+            recentUsers={data.recentUsers}
+          />
         </div>
 
         {/* Recent Properties */}
@@ -263,6 +225,7 @@ export default function AdminDashboard() {
                   <th className="pb-3">Cidade</th>
                   <th className="pb-3">Preço</th>
                   <th className="pb-3">Fonte</th>
+                  <th className="pb-3 text-center">Destaque</th>
                   <th className="pb-3">Data</th>
                 </tr>
               </thead>
@@ -292,6 +255,26 @@ export default function AdminDashboard() {
                       >
                         {prop.source}
                       </span>
+                    </td>
+                    <td className="py-3 text-center">
+                      <button
+                        onClick={() =>
+                          toggleFeature(prop.id, prop.isFeatured || false)
+                        }
+                        className={`p-1.5 rounded-full transition-colors ${
+                          prop.isFeatured
+                            ? "bg-amber-100 text-amber-600 hover:bg-amber-200"
+                            : "bg-gray-100 text-gray-400 hover:bg-gray-200"
+                        }`}
+                        title={
+                          prop.isFeatured ? "Remover destaque" : "Destacar"
+                        }
+                      >
+                        <Sparkles
+                          size={16}
+                          fill={prop.isFeatured ? "currentColor" : "none"}
+                        />
+                      </button>
                     </td>
                     <td className="py-3 text-sm text-gray-500">
                       {new Date(prop.createdAt).toLocaleDateString("pt-BR")}

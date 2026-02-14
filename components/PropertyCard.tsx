@@ -74,7 +74,9 @@ export default function PropertyCard({
           className={`bg-white dark:bg-gray-900 rounded-2xl overflow-hidden shadow-sm border card-hover cursor-pointer transition-all ${
             isComparing
               ? "border-primary-500 ring-2 ring-primary-200 dark:ring-primary-800"
-              : "border-gray-100 dark:border-gray-800"
+              : (property as any).isFeatured
+                ? "border-amber-200 dark:border-amber-800 ring-1 ring-amber-100 dark:ring-amber-900/40 shadow-md"
+                : "border-gray-100 dark:border-gray-800"
           }`}
         >
           {/* Image */}
@@ -92,11 +94,12 @@ export default function PropertyCard({
               </div>
             )}
 
-            {/* Highlighted badge */}
-            {(property as any).highlighted && (
+            {/* Highlighted/Featured badge */}
+            {((property as any).highlighted ||
+              (property as any).isFeatured) && (
               <div className="absolute top-3 left-3 z-10">
-                <span className="inline-flex items-center gap-1 bg-gradient-to-r from-amber-400 to-orange-500 text-white text-xs font-bold px-2.5 py-1 rounded-full shadow-lg">
-                  <Sparkles size={12} />
+                <span className="inline-flex items-center gap-1 bg-gradient-to-r from-amber-400 to-orange-500 text-white text-xs font-bold px-2.5 py-1 rounded-full shadow-lg border border-white/20">
+                  <Sparkles size={12} className="text-yellow-200" />
                   Destaque
                 </span>
               </div>
@@ -109,10 +112,12 @@ export default function PropertyCard({
               </div>
             )}
 
-            {/* Source badge */}
-            {!(property as any).highlighted && (
+            {/* Source badge - Only show if NOT featured/highlighted to avoid clutter */}
+            {!(
+              (property as any).highlighted || (property as any).isFeatured
+            ) && (
               <div className="absolute top-3 left-3">
-                <span className="bg-black/60 text-white text-xs px-2 py-1 rounded-full">
+                <span className="bg-black/60 text-white text-xs px-2 py-1 rounded-full backdrop-blur-sm">
                   {property.source}
                 </span>
               </div>

@@ -20,6 +20,7 @@ export async function GET() {
     propertiesBySource,
     totalViewsResult,
     topViewed,
+    recentUsers,
   ] = await Promise.all([
     prisma.property.count({ where: { status: "ACTIVE" } }),
     prisma.user.count(),
@@ -47,6 +48,7 @@ export async function GET() {
         price: true,
         source: true,
         views: true,
+        isFeatured: true,
         createdAt: true,
       },
     }),
@@ -68,6 +70,17 @@ export async function GET() {
         title: true,
         city: true,
         views: true,
+      },
+    }),
+    prisma.user.findMany({
+      orderBy: { createdAt: "desc" },
+      take: 5,
+      select: {
+        id: true,
+        name: true,
+        phone: true,
+        role: true,
+        createdAt: true,
       },
     }),
   ]);
@@ -98,5 +111,6 @@ export async function GET() {
       value: p.views,
     })),
     recentProperties,
+    recentUsers,
   });
 }
