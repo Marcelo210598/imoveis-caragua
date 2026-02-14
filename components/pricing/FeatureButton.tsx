@@ -38,10 +38,10 @@ export default function FeatureButton({
       if (data.init_point) {
         window.location.href = data.init_point;
       } else {
-        toast.error("Erro ao iniciar pagamento");
+        toast.error(data.error || "Erro ao iniciar pagamento");
       }
     } catch (error) {
-      toast.error("Erro de conexão");
+      toast.error("Erro de conexão com o servidor");
     } finally {
       setLoading(null);
     }
