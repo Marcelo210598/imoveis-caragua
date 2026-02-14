@@ -198,40 +198,6 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* Top Deals */}
-      {topDeals.length > 0 && (
-        <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
-          <div className="flex items-center justify-between mb-8">
-            <div>
-              <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-gray-100 flex items-center gap-2">
-                <TrendingDown className="text-deal-high" size={28} />
-                Oportunidades da Semana
-              </h2>
-              <p className="text-gray-500 dark:text-gray-400 mt-1">
-                Imoveis abaixo do preco medio do bairro
-              </p>
-            </div>
-            <Link
-              href="/deals"
-              className="hidden sm:flex items-center gap-1 text-primary-600 dark:text-primary-400 font-medium hover:underline"
-            >
-              Ver todas <ArrowRight size={16} />
-            </Link>
-          </div>
-
-          <PropertyGrid properties={topDeals} />
-
-          <div className="sm:hidden text-center mt-6">
-            <Link
-              href="/deals"
-              className="inline-flex items-center gap-1 text-primary-600 dark:text-primary-400 font-medium"
-            >
-              Ver todas as oportunidades <ArrowRight size={16} />
-            </Link>
-          </div>
-        </section>
-      )}
-
       {/* Featured Properties Section - Always Visible if any */}
       {allProperties.filter((p) => p.isFeatured).length > 0 && (
         <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 bg-gradient-to-r from-amber-50 to-orange-50 dark:from-amber-950/20 dark:to-orange-950/20 rounded-3xl border border-amber-100 dark:border-amber-900/40 my-8">
@@ -263,6 +229,40 @@ export default async function HomePage() {
               className="inline-flex items-center gap-1 text-amber-600 dark:text-amber-500 font-medium"
             >
               Ver mais destaques <ArrowRight size={16} />
+            </Link>
+          </div>
+        </section>
+      )}
+
+      {/* Top Deals */}
+      {topDeals.length > 0 && (
+        <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
+          <div className="flex items-center justify-between mb-8">
+            <div>
+              <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-gray-100 flex items-center gap-2">
+                <TrendingDown className="text-deal-high" size={28} />
+                Oportunidades da Semana
+              </h2>
+              <p className="text-gray-500 dark:text-gray-400 mt-1">
+                Imoveis abaixo do preco medio do bairro
+              </p>
+            </div>
+            <Link
+              href="/deals"
+              className="hidden sm:flex items-center gap-1 text-primary-600 dark:text-primary-400 font-medium hover:underline"
+            >
+              Ver todas <ArrowRight size={16} />
+            </Link>
+          </div>
+
+          <PropertyGrid properties={topDeals} />
+
+          <div className="sm:hidden text-center mt-6">
+            <Link
+              href="/deals"
+              className="inline-flex items-center gap-1 text-primary-600 dark:text-primary-400 font-medium"
+            >
+              Ver todas as oportunidades <ArrowRight size={16} />
             </Link>
           </div>
         </section>
