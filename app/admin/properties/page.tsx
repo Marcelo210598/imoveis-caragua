@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import {
   Search,
   MapPin,
@@ -37,7 +37,7 @@ type Pagination = {
   limit: number;
 };
 
-export default function AdminPropertiesPage() {
+function PropertiesContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
 
@@ -329,5 +329,19 @@ export default function AdminPropertiesPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function AdminPropertiesPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="min-h-screen flex items-center justify-center">
+          <Loader2 className="animate-spin text-primary-600" size={32} />
+        </div>
+      }
+    >
+      <PropertiesContent />
+    </Suspense>
   );
 }
