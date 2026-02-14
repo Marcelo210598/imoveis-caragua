@@ -38,14 +38,22 @@ export function getDealColor(score: number): string {
 }
 
 export function getDealBgColor(score: number): string {
-  if (score >= 80) return "bg-emerald-100 text-emerald-800 border-emerald-300";
-  if (score >= 60) return "bg-amber-100 text-amber-800 border-amber-300";
+  if (score >= 90)
+    return "bg-green-100 text-green-800 dark:bg-green-900 border-green-300 dark:border-green-700";
+  if (score >= 80)
+    return "bg-emerald-100 text-emerald-800 dark:bg-emerald-900 border-emerald-300 dark:border-emerald-700";
+  if (score >= 70)
+    return "bg-blue-100 text-blue-800 dark:bg-blue-900 border-blue-300 dark:border-blue-700";
+  if (score >= 60)
+    return "bg-amber-100 text-amber-800 dark:bg-amber-900 border-amber-300 dark:border-amber-700";
   return "";
 }
 
 export function getDealLabel(score: number): string {
-  if (score >= 80) return "Otima Oportunidade";
-  if (score >= 60) return "Bom Negocio";
+  if (score >= 90) return "Super Oportunidade";
+  if (score >= 80) return "Ótima Oportunidade";
+  if (score >= 70) return "Bom Negócio";
+  if (score >= 60) return "Preço Justo";
   return "";
 }
 

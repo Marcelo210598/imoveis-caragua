@@ -114,7 +114,7 @@ export default function PropertyCard({
             {/* Source badge - Only show if NOT featured/highlighted to avoid clutter */}
             {!(property.highlighted || property.isFeatured) && (
               <div className="absolute top-3 left-3">
-                <span className="bg-black/60 text-white text-xs px-2 py-1 rounded-full backdrop-blur-sm">
+                <span className="bg-black/80 text-white font-medium text-xs px-2.5 py-1 rounded-md shadow-sm">
                   {property.source}
                 </span>
               </div>
