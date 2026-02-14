@@ -142,7 +142,7 @@ function PropertiesContent() {
                   <th className="px-6 py-4">Imóvel</th>
                   <th className="px-6 py-4">Preço</th>
                   <th className="px-6 py-4">Fonte</th>
-                  <th className="px-6 py-4 text-center">Destaque ⚡</th>
+                  <th className="px-6 py-4 text-center">Destaque</th>
                   <th className="px-6 py-4">Data</th>
                   <th className="px-6 py-4 text-right">Ações</th>
                 </tr>
