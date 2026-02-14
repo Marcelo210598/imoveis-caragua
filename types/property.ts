@@ -37,6 +37,8 @@ export interface Property {
   pricePerSqm: number | null;
   dealScore: number;
   highlighted?: boolean;
+  isFeatured?: boolean;
+  featuredExpiresAt?: Date | string | null;
   views?: number;
   avgNeighborhoodPriceSqm: number | null;
   scrapedAt: Date | string | null;
