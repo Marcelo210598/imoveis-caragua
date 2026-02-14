@@ -98,6 +98,7 @@ model Property {
   messages        Message[]
   notifications   Notification[]
   reviews         Review[]
+  pageViews       PropertyView[]
 
   @@index([city])
   @@index([source])
@@ -275,4 +276,19 @@ model PropertyAlert {
   user         User     @relation(fields: [userId], references: [id])
 
   @@map("property_alerts")
+}
+
+model PropertyView {
+  id         String   @id @default(cuid())
+  propertyId String   @map("property_id")
+  source     String?  // e.g., "instagram", "facebook", "google", "direct"
+  viewerId   String?  @map("viewer_id") // Optional: if user is logged in
+  createdAt  DateTime @default(now()) @map("created_at")
+
+  property   Property @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+
+  @@index([propertyId])
+  @@index([source])
+  @@index([createdAt])
+  @@map("property_views")
 }

@@ -17,7 +17,8 @@ export async function GET() {
     propertiesByCity,
     propertiesByType,
     recentProperties,
-    propertiesBySource,
+    propertiesBySource, // Old "source" (OLX, ZAP)
+    propertiesByTrafficSource, // New "source" (IG, FB)
     totalViewsResult,
     topViewed,
     recentUsers,
@@ -56,6 +57,13 @@ export async function GET() {
       by: ["source"],
       _count: { id: true },
       where: { status: "ACTIVE" },
+    }),
+    prisma.propertyView.groupBy({
+      by: ["source"],
+      _count: { id: true },
+      where: { source: { not: null } },
+      orderBy: { _count: { id: "desc" } },
+      take: 10,
     }),
     prisma.property.aggregate({
       _sum: { views: true },
@@ -103,6 +111,10 @@ export async function GET() {
       })),
       bySource: propertiesBySource.map((s) => ({
         name: s.source || "USER",
+        value: s._count.id,
+      })),
+      byTrafficSource: propertiesByTrafficSource.map((s) => ({
+        name: s.source || "Desconhecido",
         value: s._count.id,
       })),
     },

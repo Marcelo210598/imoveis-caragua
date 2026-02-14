@@ -146,6 +146,6 @@ export async function getPropertiesByNeighborhood(neighborhood: string) {
       neighborhood: { equals: neighborhood, mode: "insensitive" },
     },
     include: { photos: { orderBy: { order: "asc" } } },
-    orderBy: { createdAt: "desc" },
+    orderBy: [{ isFeatured: "desc" }, { createdAt: "desc" }],
   });
 }

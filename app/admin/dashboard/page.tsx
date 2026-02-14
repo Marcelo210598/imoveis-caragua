@@ -57,6 +57,7 @@ type DashboardData = {
     byCity: ChartData[];
     byType: ChartData[];
     bySource: ChartData[];
+    byTrafficSource: ChartData[];
   };
   topViewed: TopProperty[];
   recentProperties: RecentProperty[];

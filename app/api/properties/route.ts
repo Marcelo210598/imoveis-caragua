@@ -7,6 +7,8 @@ import { createPropertySchema } from "@/lib/validations";
 import { slugify } from "@/lib/utils";
 import { checkRateLimit, getClientIP, RATE_LIMITS } from "@/lib/rate-limit";
 
+export const dynamic = "force-dynamic";
+
 const MAX_PROPERTIES_PER_USER = 5;
 
 export async function GET(request: NextRequest) {

@@ -48,6 +48,7 @@ interface AdminAnalyticsProps {
     byCity: ChartData[];
     byType: ChartData[];
     bySource: ChartData[];
+    byTrafficSource: ChartData[];
   };
   topViewed: TopProperty[];
   recentUsers: RecentUser[];
@@ -60,6 +61,32 @@ export default function AdminAnalytics({
 }: AdminAnalyticsProps) {
   return (
     <div className="space-y-6">
+      {/* Traffic Sources */}
+      <div className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm border border-gray-200 dark:border-gray-700">
+        <h2 className="text-lg font-semibold mb-4 flex items-center gap-2">
+          <TrendingUp className="w-5 h-5 text-green-500" />
+          Origem do Tráfego (Marketing)
+        </h2>
+        <div className="h-[300px]">
+          <ResponsiveContainer width="100%" height="100%">
+            <BarChart data={charts.byTrafficSource}>
+              <CartesianGrid strokeDasharray="3 3" opacity={0.1} />
+              <XAxis dataKey="name" tick={{ fontSize: 12 }} />
+              <YAxis />
+              <Tooltip
+                contentStyle={{
+                  backgroundColor: "#1f2937",
+                  border: "none",
+                  borderRadius: "8px",
+                  color: "#f3f4f6",
+                }}
+              />
+              <Bar dataKey="value" fill="#10b981" radius={[4, 4, 0, 0]} />
+            </BarChart>
+          </ResponsiveContainer>
+        </div>
+      </div>
+
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <div className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm border border-gray-200 dark:border-gray-700">
           <h2 className="text-lg font-semibold mb-4 flex items-center gap-2">
