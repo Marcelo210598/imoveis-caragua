@@ -131,8 +131,10 @@ export class OLXScraper extends BaseScraper {
         }
 
         await this.delay(2000);
-      } catch (e) {
-        this.logger.error(`Erro na página ${page} de ${city}: ${e.message}`);
+      } catch (e: any) {
+        this.logger.error(
+          `Erro na página ${page} de ${city}: ${e.message || String(e)}`,
+        );
         break;
       }
     }
