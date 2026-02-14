@@ -32,12 +32,9 @@ export default function PropertyMap({
     // Dynamic import of Leaflet (avoid SSR)
     import("leaflet").then((L) => {
       // Import Leaflet CSS
-      if (!document.querySelector('link[href*="leaflet.css"]')) {
-        const link = document.createElement("link");
-        link.rel = "stylesheet";
-        link.href = "https://unpkg.com/leaflet@1.9.4/dist/leaflet.css";
-        document.head.appendChild(link);
-      }
+      // Import Leaflet CSS
+      // @ts-ignore
+      import("leaflet/dist/leaflet.css");
 
       // Cleanup existing map
       if (mapInstanceRef.current) {
@@ -62,6 +59,11 @@ export default function PropertyMap({
         attribution: "© OpenStreetMap contributors",
         maxZoom: 19,
       }).addTo(map);
+
+      // Fix tile rendering issues
+      setTimeout(() => {
+        map.invalidateSize();
+      }, 100);
 
       if (mappable.length > 0) {
         // Custom icon
