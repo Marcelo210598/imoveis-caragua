@@ -68,22 +68,31 @@ export default function AdminAnalytics({
           Origem do Tráfego (Marketing)
         </h2>
         <div className="h-[300px]">
-          <ResponsiveContainer width="100%" height="100%">
-            <BarChart data={charts.byTrafficSource}>
-              <CartesianGrid strokeDasharray="3 3" opacity={0.1} />
-              <XAxis dataKey="name" tick={{ fontSize: 12 }} />
-              <YAxis />
-              <Tooltip
-                contentStyle={{
-                  backgroundColor: "#1f2937",
-                  border: "none",
-                  borderRadius: "8px",
-                  color: "#f3f4f6",
-                }}
-              />
-              <Bar dataKey="value" fill="#10b981" radius={[4, 4, 0, 0]} />
-            </BarChart>
-          </ResponsiveContainer>
+          {charts.byTrafficSource && charts.byTrafficSource.length > 0 ? (
+            <ResponsiveContainer width="100%" height="100%">
+              <BarChart data={charts.byTrafficSource}>
+                <CartesianGrid strokeDasharray="3 3" opacity={0.1} />
+                <XAxis dataKey="name" tick={{ fontSize: 12 }} />
+                <YAxis />
+                <Tooltip
+                  contentStyle={{
+                    backgroundColor: "#1f2937",
+                    border: "none",
+                    borderRadius: "8px",
+                    color: "#f3f4f6",
+                  }}
+                />
+                <Bar dataKey="value" fill="#10b981" radius={[4, 4, 0, 0]} />
+              </BarChart>
+            </ResponsiveContainer>
+          ) : (
+            <div className="h-full flex flex-col items-center justify-center text-gray-400 text-sm">
+              <p>Nenhum dado de tráfego registrado ainda.</p>
+              <p className="mt-1 text-xs">
+                Divulgue links com ?source=instagram para ver dados aqui.
+              </p>
+            </div>
+          )}
         </div>
       </div>
 
