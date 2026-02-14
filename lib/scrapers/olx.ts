@@ -1,7 +1,6 @@
 import { BaseScraper, ScrapedProperty, ScraperConfig } from "./base";
 import { PropertySource } from "@/lib/generated/prisma/client";
 import axios from "axios";
-import * as cheerio from "cheerio";
 import { DataNormalizer } from "./normalizer";
 
 export class OLXScraper extends BaseScraper {
@@ -33,11 +32,6 @@ export class OLXScraper extends BaseScraper {
   }
 
   private async scrapeCity(city: string): Promise<ScrapedProperty[]> {
-    // Mapping simples de cidades para URL da OLX (precisa ser preciso)
-    // SP > Vale do Paraíba e Litoral Norte
-    // Regiões:
-    // Caraguatatuba: https://www.olx.com.br/imoveis/estado-sp/vale-do-paraiba-and-litoral-norte/caraguatatuba
-
     let urlCityPart = "";
     const normalizedCity = city.toLowerCase();
 
@@ -48,67 +42,115 @@ export class OLXScraper extends BaseScraper {
       urlCityPart = "sao-sebastiao";
     else return [];
 
-    const url = `https://www.olx.com.br/imoveis/estado-sp/vale-do-paraiba-e-litoral-norte/${urlCityPart}`;
+    const urlBase = `https://www.olx.com.br/imoveis/estado-sp/vale-do-paraiba-e-litoral-norte/${urlCityPart}`;
+    const properties: ScrapedProperty[] = [];
+    const MAX_PAGES = 3;
 
-    this.logger.info(`Acessando ${url}`);
+    for (let page = 1; page <= MAX_PAGES; page++) {
+      const url = page === 1 ? urlBase : `${urlBase}?o=${page}`;
+      this.logger.info(`Acessando página ${page}: ${url}`);
 
-    try {
-      const response = await axios.get(url, {
-        headers: {
-          "User-Agent":
-            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0 4472.124 Safari/537.36",
-        },
-      });
+      try {
+        const response = await axios.get(url, {
+          headers: {
+            "User-Agent":
+              "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+            Accept:
+              "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
+          },
+          timeout: 10000,
+        });
 
-      const $ = cheerio.load(response.data);
-      const properties: ScrapedProperty[] = [];
+        const html = response.data;
+        const match = html.match(
+          /<script id="__NEXT_DATA__" type="application\/json">(.+?)<\/script>/,
+        );
 
-      // O seletor da OLX muda frequentemente e usa classes geradas aleatoriamente
-      // Estratégia: buscar por atributo data-lurker-detail="list_id" ou links de properties
-
-      const items = $("ul#ad-list li a"); // Tentar um seletor genérico na lista de anúncios
-
-      items.each((_, element) => {
-        try {
-          const el = $(element);
-          const link = el.attr("href") || "";
-
-          if (!link.includes("/imoveis/")) return;
-
-          const title = el.find("h2").text().trim();
-          const priceText = el.find("h3").text().replace("R$", "").trim(); // Geralmente o preço está num h3 ou próximo
-          const rawPrice = priceText.replace(/\./g, "");
-
-          if (!title || !rawPrice) return;
-
-          // Extrair location do texto se possível, ou assumir a da busca
-
-          const rawData: ScrapedProperty = {
-            source: PropertySource.OLX,
-            externalId: link.split("-").pop() || `olx-${Math.random()}`, // ID geralmente é o último segmento numérico
-            url: link,
-            type: "venda", // Simplificação
-            propertyType: "imovel",
-            title: title,
-            price: Number(rawPrice),
-            city: this.getStandardCityName(city),
-            photoUrls: [],
-            features: [],
-          };
-
-          const normalized = DataNormalizer.normalize(rawData);
-          if (normalized) properties.push(normalized);
-        } catch (e) {
-          // ignore
+        if (!match || !match[1]) {
+          this.logger.warn(
+            `OLX: __NEXT_DATA__ não encontrado em ${city} (página ${page})`,
+          );
+          break;
         }
-      });
 
-      return properties;
-    } catch (error) {
-      this.logger.error(
-        `Erro OLX: ${error instanceof Error ? error.message : "Unknown"}`,
-      );
-      return [];
+        const data = JSON.parse(match[1]);
+        const ads = data.props?.pageProps?.ads || [];
+
+        if (ads.length === 0) break;
+
+        for (const ad of ads) {
+          try {
+            if (!ad.subject || !ad.url || !ad.price) continue;
+
+            // Ignore professional ads if needed, or non-real estate
+            // "categoryName" usually "Casas", "Apartamentos", etc.
+
+            const rawPrice = ad.priceValue
+              ? ad.priceValue.replace(/\D/g, "")
+              : "0";
+
+            // Map properties (features)
+            const features: string[] = [];
+            if (ad.properties) {
+              ad.properties.forEach((p: any) => {
+                if (
+                  p.name === "re_features" ||
+                  p.name === "re_complex_features"
+                ) {
+                  features.push(...p.value.split(", "));
+                }
+              });
+            }
+
+            // Map images
+            const photoUrls = ad.images
+              ? ad.images.map((i: any) => i.original)
+              : [];
+
+            const rawData: ScrapedProperty = {
+              source: PropertySource.OLX,
+              externalId: String(ad.listId),
+              url: ad.url,
+              type: "venda",
+              propertyType: this.mapCategory(ad.categoryName),
+              title: ad.subject,
+              price: Number(rawPrice),
+              city:
+                ad.locationDetails?.municipality ||
+                this.getStandardCityName(city),
+              neighborhood: ad.locationDetails?.neighbourhood,
+              photoUrls: photoUrls,
+              features: features,
+            };
+
+            const normalized = DataNormalizer.normalize(rawData);
+            if (normalized) properties.push(normalized);
+          } catch (e) {
+            // ignore individual item error
+          }
+        }
+
+        await this.delay(2000);
+      } catch (e) {
+        this.logger.error(`Erro na página ${page} de ${city}: ${e.message}`);
+        break;
+      }
     }
+
+    this.logger.info(
+      `OLX: Encontrados ${properties.length} imóveis em ${city}`,
+    );
+    return properties;
+  }
+
+  private mapCategory(
+    cat: string,
+  ): "imovel" | "casa" | "apartamento" | "terreno" {
+    if (!cat) return "imovel";
+    const c = cat.toLowerCase();
+    if (c.includes("casa")) return "casa";
+    if (c.includes("apartamento")) return "apartamento";
+    if (c.includes("terreno") || c.includes("lote")) return "terreno";
+    return "imovel";
   }
 }

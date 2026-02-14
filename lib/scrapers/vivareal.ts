@@ -37,23 +37,52 @@ export class VivaRealScraper extends BaseScraper {
   private async scrapeCity(city: string): Promise<ScrapedProperty[]> {
     const cityNameNormalized = city
       .toLowerCase()
-      .replace(/ /g, "-")
-      .replace(/ã/g, "a")
       .replace(/á/g, "a")
       .replace(/õ/g, "o");
-    const url = `https://www.vivareal.com.br/venda/sp/${cityNameNormalized}/`;
 
-    this.logger.info(`Acessando ${url}`);
+    // Scrape first 3 pages
+    const properties: ScrapedProperty[] = [];
+    const MAX_PAGES = 3;
 
+    for (let page = 1; page <= MAX_PAGES; page++) {
+      const url = `https://www.vivareal.com.br/venda/sp/${cityNameNormalized}/?pagina=${page}`;
+      this.logger.info(`Acessando página ${page}: ${url}`);
+
+      try {
+        const pageProps = await this.scrapePage(url, city);
+        if (pageProps.length === 0) break; // Stop if no results
+        properties.push(...pageProps);
+        await this.delay(2000); // Wait between pages
+      } catch (e) {
+        this.logger.error(`Erro na página ${page} de ${city}`);
+      }
+    }
+
+    return properties;
+  }
+
+  private async scrapePage(
+    url: string,
+    city: string,
+  ): Promise<ScrapedProperty[]> {
     try {
       const response = await axios.get(url, {
         headers: {
           "User-Agent":
-            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+            "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36",
           Accept:
-            "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+            "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7",
+          "Accept-Language": "pt-BR,pt;q=0.9,en-US;q=0.8,en;q=0.7",
+          "Accept-Encoding": "gzip, deflate, br",
+          Referer: "https://www.google.com/",
+          "Upgrade-Insecure-Requests": "1",
+          "Sec-Fetch-Dest": "document",
+          "Sec-Fetch-Mode": "navigate",
+          "Sec-Fetch-Site": "cross-site",
+          "Sec-Fetch-User": "?1",
+          "Cache-Control": "max-age=0",
         },
-        timeout: 10000,
+        timeout: 15000,
       });
 
       const $ = cheerio.load(response.data);
@@ -68,7 +97,7 @@ export class VivaRealScraper extends BaseScraper {
           const fullUrl = link.startsWith("http")
             ? link
             : `https://www.vivareal.com.br${link}`;
-          const externalId = link.split("/")[3] || `viva-${Math.random()}`; // Tentativa de extrair ID
+          const externalId = link.split("/")[3] || `viva-${Math.random()}`;
 
           const rawPrice = el
             .find(".property-card__price")
@@ -90,7 +119,7 @@ export class VivaRealScraper extends BaseScraper {
             price: Number(rawPrice),
             city: this.getStandardCityName(city),
             address: address,
-            photoUrls: [], // VivaReal carrega imagens via JS muitas vezes, difícil pegar no HTML inicial
+            photoUrls: [],
             features: [],
           };
 
@@ -102,10 +131,8 @@ export class VivaRealScraper extends BaseScraper {
       });
 
       return properties;
-    } catch (error) {
-      this.logger.error(
-        `Erro VivaReal: ${error instanceof Error ? error.message : "Unknown"}`,
-      );
+    } catch (error: any) {
+      this.logger.error(`Erro VivaReal: ${error.message || "Unknown"}`);
       return [];
     }
   }
