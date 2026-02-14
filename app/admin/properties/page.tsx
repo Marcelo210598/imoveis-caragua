@@ -13,6 +13,7 @@ import {
 import { toast } from "sonner";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
+import FeatureButton from "@/components/pricing/FeatureButton";
 
 // Definindo tipos localmente para evitar dependências circulares ou complexas
 type Property = {
@@ -100,37 +101,7 @@ function PropertiesContent() {
     router.push(`/admin/properties?${params.toString()}`);
   }
 
-  async function toggleFeature(propertyId: string, currentStatus: boolean) {
-    const newStatus = !currentStatus;
-
-    // Optimistic update
-    setProperties((prev) =>
-      prev.map((p) =>
-        p.id === propertyId ? { ...p, isFeatured: newStatus } : p,
-      ),
-    );
-
-    try {
-      const res = await fetch(`/api/admin/properties/${propertyId}/feature`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ isFeatured: newStatus }),
-      });
-
-      if (!res.ok) throw new Error("Falha ao atualizar");
-
-      toast.success(newStatus ? "Imóvel destacado!" : "Destaque removido");
-    } catch (error) {
-      console.error(error);
-      toast.error("Erro ao atualizar destaque");
-      // Revert optimistic update
-      setProperties((prev) =>
-        prev.map((p) =>
-          p.id === propertyId ? { ...p, isFeatured: currentStatus } : p,
-        ),
-      );
-    }
-  }
+  // toggleFeature logic removed as it's handled by FeatureButton checkout flow
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-950 p-6">
@@ -248,31 +219,7 @@ function PropertiesContent() {
                         </span>
                       </td>
                       <td className="px-6 py-4 text-center">
-                        <button
-                          onClick={() =>
-                            toggleFeature(prop.id, prop.isFeatured)
-                          }
-                          className={`p-2 rounded-full transition-all focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-amber-500 ${
-                            prop.isFeatured
-                              ? "bg-amber-100 text-amber-600 hover:bg-amber-200 dark:bg-amber-900/30 dark:text-amber-400"
-                              : "bg-gray-100 text-gray-400 hover:bg-gray-200 dark:bg-gray-700 dark:text-gray-500 dark:hover:bg-gray-600"
-                          }`}
-                          title={
-                            prop.isFeatured
-                              ? "Remover destaque"
-                              : "Destacar imóvel"
-                          }
-                          aria-label={
-                            prop.isFeatured
-                              ? "Remover destaque"
-                              : "Destacar imóvel"
-                          }
-                        >
-                          <Sparkles
-                            size={18}
-                            fill={prop.isFeatured ? "currentColor" : "none"}
-                          />
-                        </button>
+                        <FeatureButton property={prop as any} compact={true} />
                       </td>
                       <td className="px-6 py-4 text-sm text-gray-500 dark:text-gray-400 whitespace-nowrap">
                         {new Date(prop.createdAt).toLocaleDateString("pt-BR")}
