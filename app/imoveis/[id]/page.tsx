@@ -27,6 +27,7 @@ import PropertyReviews from "@/components/PropertyReviews";
 import ViewTracker from "@/components/ViewTracker";
 import MortgageCalculator from "@/components/MortgageCalculator";
 import ShareButtons from "@/components/ShareButtons";
+import AdBanner from "@/components/AdBanner";
 
 interface PageProps {
   params: { id: string };
@@ -241,6 +242,8 @@ export default async function PropertyDetailPage({ params }: PageProps) {
             )}
           </div>
 
+          <AdBanner slot="1234567890" format="horizontal" className="mb-6" />
+
           {/* Description */}
           {property.description && (
             <div className="bg-white dark:bg-gray-900 rounded-2xl border border-gray-100 dark:border-gray-800 p-6">
@@ -303,6 +306,8 @@ export default async function PropertyDetailPage({ params }: PageProps) {
             ownerName={property.owner?.name}
             propertyTitle={property.title}
           />
+
+          <AdBanner slot="1234567891" format="rectangle" />
 
           {/* Owner info for user-created properties */}
           {property.source === "USER" && property.owner && (

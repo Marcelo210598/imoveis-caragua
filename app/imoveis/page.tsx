@@ -18,6 +18,7 @@ import { Map, List } from "lucide-react";
 import dynamic from "next/dynamic";
 import PropertyAlertButton from "@/components/PropertyAlert";
 import PushSubscribe from "@/components/PushSubscribe";
+import AdBanner from "@/components/AdBanner";
 
 const PropertyMap = dynamic(() => import("@/components/PropertyMap"), {
   ssr: false,
@@ -218,6 +219,7 @@ function ImoveisContent() {
             </div>
           ) : (
             <>
+              <AdBanner slot="1234567890" className="mb-8" />
               <PropertyGrid
                 properties={paginatedProperties}
                 compareIds={compareIds}
