@@ -30,6 +30,14 @@ const nextConfig = {
         protocol: "https",
         hostname: "*.public.blob.vercel-storage.com",
       },
+      {
+        protocol: "https",
+        hostname: "img.olx.com.br",
+      },
+      {
+        protocol: "https",
+        hostname: "fotos.olx.com.br",
+      },
     ],
   },
 };
