@@ -8,7 +8,7 @@ interface MortgageCalculatorProps {
 }
 
 export default function MortgageCalculator({ price }: MortgageCalculatorProps) {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(true);
   const [downPaymentPercent, setDownPaymentPercent] = useState(20);
   const [interestRate, setInterestRate] = useState(10.5);
   const [termYears, setTermYears] = useState(30);
