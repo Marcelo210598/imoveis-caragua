@@ -142,7 +142,7 @@ function PropertiesContent() {
                   <th className="px-6 py-4">Imóvel</th>
                   <th className="px-6 py-4">Preço</th>
                   <th className="px-6 py-4">Fonte</th>
-                  <th className="px-6 py-4 text-center">Destaque</th>
+                  <th className="px-6 py-4 text-center">Destaque ⚡</th>
                   <th className="px-6 py-4">Data</th>
                   <th className="px-6 py-4 text-right">Ações</th>
                 </tr>
@@ -220,6 +220,10 @@ function PropertiesContent() {
                       </td>
                       <td className="px-6 py-4 text-center">
                         <FeatureButton property={prop as any} compact={true} />
+                        {/* Debug check */}
+                        <span className="text-[10px] text-gray-400 block pt-1">
+                          {prop.isFeatured ? "Ativo" : "Inativo"}
+                        </span>
                       </td>
                       <td className="px-6 py-4 text-sm text-gray-500 dark:text-gray-400 whitespace-nowrap">
                         {new Date(prop.createdAt).toLocaleDateString("pt-BR")}
