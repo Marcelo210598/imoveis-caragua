@@ -24,6 +24,9 @@ export default function ViewTracker({ propertyId }: { propertyId: string }) {
       else source = new URL(referrer).hostname;
     }
 
+    // Se não tiver origem, assume tráfego direto (WhatsApp, link colado, favoritos)
+    if (!source) source = "Direto";
+
     // Fire-and-forget POST request to track view
     fetch(`/api/property/${encodeURIComponent(propertyId)}/view`, {
       method: "POST",
