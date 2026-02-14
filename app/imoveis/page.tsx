@@ -141,7 +141,7 @@ function ImoveisContent() {
         />
       </div>
 
-      <div className="flex items-center justify-between mb-4">
+      <div className="flex flex-col md:flex-row md:items-center justify-between mb-4 gap-4">
         <div>
           <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-1">
             Todos os Imóveis
@@ -153,7 +153,7 @@ function ImoveisContent() {
           </p>
         </div>
 
-        <div className="flex items-center gap-2">
+        <div className="flex flex-wrap items-center gap-2">
           <PushSubscribe />
           <PropertyAlertButton />
 

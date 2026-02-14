@@ -125,7 +125,9 @@ export default function PushSubscribe() {
       ) : (
         <Bell size={16} />
       )}
-      {subscribed ? "Notificações ativas" : "Ativar notificações"}
+      <span className="hidden sm:inline">
+        {subscribed ? "Notificações ativas" : "Ativar notificações"}
+      </span>
     </button>
   );
 }

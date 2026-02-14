@@ -107,7 +107,7 @@ export default function PropertyAlertButton() {
           hover:bg-amber-100 dark:hover:bg-amber-900/50 transition-colors border border-amber-200 dark:border-amber-800"
       >
         <BellPlus size={16} />
-        Criar Alerta
+        <span className="hidden sm:inline">Criar Alerta</span>
       </button>
 
       {/* Modal */}
