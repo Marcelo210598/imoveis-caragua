@@ -21,6 +21,9 @@ const cityColors: Record<string, string> = {
 
 const defaultColor = "from-primary-500 to-primary-700";
 
+// Revalidar a página a cada 60 segundos para atualizar destaques e novos imóveis
+export const revalidate = 60;
+
 export default async function HomePage() {
   const [allProperties, topDeals, cityStats] = await Promise.all([
     getAllProperties(),
