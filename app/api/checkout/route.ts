@@ -73,14 +73,14 @@ export async function POST(req: NextRequest) {
         payer: {
           email: session.user.email || "user@example.com",
         },
-        external_reference: transaction.id,
-        back_urls: {
+        externalReference: transaction.id,
+        backUrls: {
           success: `${process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000"}/admin/properties?success=true`,
           failure: `${process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000"}/admin/properties?error=true`,
           pending: `${process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000"}/admin/properties?pending=true`,
         },
-        auto_return: "approved",
-        notification_url: `${process.env.NEXT_PUBLIC_APP_URL || "https://litoral-norte-imoveis.vercel.app"}/api/webhooks/mercadopago`,
+        autoReturn: "approved",
+        notificationUrl: `${process.env.NEXT_PUBLIC_APP_URL || "https://litoral-norte-imoveis.vercel.app"}/api/webhooks/mercadopago`,
       },
     });
 
