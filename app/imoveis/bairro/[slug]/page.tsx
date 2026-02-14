@@ -12,12 +12,16 @@ interface PageProps {
   params: { slug: string };
 }
 
-export async function generateStaticParams() {
-  const neighborhoods = await getUniqueNeighborhoods();
-  return neighborhoods.map((n) => ({
-    slug: n.toLowerCase().replace(/\s+/g, "-"),
-  }));
-}
+export const dynamic = "force-dynamic";
+export const revalidate = 3600; // Cache por 1 hora
+
+// Removendo generateStaticParams para evitar build infinito com dados sujos
+// export async function generateStaticParams() {
+//   const neighborhoods = await getUniqueNeighborhoods();
+//   return neighborhoods.map((n) => ({
+//     slug: n.toLowerCase().replace(/\s+/g, "-"),
+//   }));
+// }
 
 export async function generateMetadata({
   params,

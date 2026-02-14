@@ -134,7 +134,9 @@ export async function getUniqueNeighborhoods(): Promise<string[]> {
 
   return neighborhoods
     .map((n) => n.neighborhood)
-    .filter((n): n is string => n !== null);
+    .filter(
+      (n): n is string => n !== null && n.length < 50 && !n.includes("m²"),
+    );
 }
 
 export async function getPropertiesByNeighborhood(neighborhood: string) {
