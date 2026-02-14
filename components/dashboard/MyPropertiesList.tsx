@@ -13,6 +13,7 @@ import {
 } from "lucide-react";
 import { toast } from "sonner"; // Assuming sonner is installed, otherwise standard alert for now
 import { formatPrice } from "@/lib/utils";
+import FeatureButton from "@/components/pricing/FeatureButton";
 
 type Property = {
   id: string;
@@ -27,6 +28,7 @@ type Property = {
     messages: number;
   };
   updatedAt: string;
+  isFeatured?: boolean;
 };
 
 export default function MyPropertiesList() {
@@ -196,6 +198,7 @@ export default function MyPropertiesList() {
 
               {/* Actions */}
               <div className="flex items-center gap-2 w-full sm:w-auto">
+                <FeatureButton property={property as any} compact={true} />
                 <button
                   onClick={() =>
                     handleToggleStatus(property.id, property.status)
