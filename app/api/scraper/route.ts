@@ -61,6 +61,11 @@ async function saveProperties(properties: any[]) {
   let count = 0;
   for (const p of properties) {
     try {
+      const photoCreateInput =
+        p.photoUrls?.map((url: string) => ({
+          url,
+        })) || [];
+
       // Upsert: Cria ou Atualiza
       await prisma.property.upsert({
         where: { externalId: p.externalId },
@@ -68,7 +73,10 @@ async function saveProperties(properties: any[]) {
           price: p.price,
           updatedAt: new Date(),
           scrapedAt: new Date(),
-          // Outros campos pode não querer sobrescrever sempre?
+          photos: {
+            deleteMany: {},
+            create: photoCreateInput,
+          },
         },
         create: {
           externalId: p.externalId,
@@ -79,11 +87,17 @@ async function saveProperties(properties: any[]) {
           title: p.title || "Imóvel sem título",
           description: p.description,
           price: p.price,
-          area: p.area,
           city: p.city,
           neighborhood: p.neighborhood,
           address: p.address,
+          area: p.area,
+          bedrooms: p.bedrooms,
+          bathrooms: p.bathrooms,
+          parkingSpaces: p.parkingSpaces,
           scrapedAt: new Date(),
+          photos: {
+            create: photoCreateInput,
+          },
         },
       });
       count++;
