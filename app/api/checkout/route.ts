@@ -81,7 +81,7 @@ export async function POST(req: NextRequest) {
         },
         autoReturn: "approved",
         notificationUrl: `${process.env.NEXT_PUBLIC_APP_URL || "https://litoral-norte-imoveis.vercel.app"}/api/webhooks/mercadopago`,
-      },
+      } as any,
     });
 
     return NextResponse.json({ init_point: result.init_point });
