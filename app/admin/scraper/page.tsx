@@ -8,6 +8,7 @@ import {
   AlertTriangle,
   Terminal,
 } from "lucide-react";
+import { toast } from "sonner";
 
 export default function ScraperAdminPage() {
   const [loading, setLoading] = useState(false);
@@ -15,25 +16,29 @@ export default function ScraperAdminPage() {
   const [status, setStatus] = useState<
     "idle" | "running" | "completed" | "error"
   >("idle");
-  const [result, setResult] = useState<string>("");
+
+  const [selectedSource, setSelectedSource] = useState("OLX");
+  const [selectedCity, setSelectedCity] = useState("Caraguatatuba");
+
+  const sources = ["ZAP", "VIVAREAL", "OLX"];
+  const cities = ["Caraguatatuba", "Ubatuba", "Sao Sebastiao", "Ilhabela"];
 
   async function runScraper() {
     setLoading(true);
     setStatus("running");
     setLogs((prev) => [
       ...prev,
-      `[${new Date().toLocaleTimeString()}] Iniciando scraping...`,
+      `[${new Date().toLocaleTimeString()}] Iniciando scraping de ${selectedSource} em ${selectedCity}...`,
     ]);
-    setResult("");
 
     try {
       const res = await fetch("/api/scraper", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          sources: ["ZAP", "VIVAREAL", "OLX"],
+          sources: [selectedSource],
           filters: {
-            cities: ["Caraguatatuba", "Ubatuba", "Sao Sebastiao", "Ilhabela"],
+            cities: [selectedCity],
           },
         }),
       });
@@ -47,7 +52,7 @@ export default function ScraperAdminPage() {
         ...prev,
         `[${new Date().toLocaleTimeString()}] Sucesso: ${data.message}`,
       ]);
-      setResult(data.message);
+      toast.success(data.message);
     } catch (error) {
       console.error(error);
       setStatus("error");
@@ -55,6 +60,7 @@ export default function ScraperAdminPage() {
         ...prev,
         `[${new Date().toLocaleTimeString()}] ERRO: ${error instanceof Error ? error.message : "Erro desconhecido"}`,
       ]);
+      toast.error("Falha ao rodar scraper. Verifique o tempo limite.");
     } finally {
       setLoading(false);
     }
@@ -67,13 +73,50 @@ export default function ScraperAdminPage() {
       </h1>
 
       <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6 mb-8">
+        <div className="mb-6 grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+              Fonte
+            </label>
+            <select
+              value={selectedSource}
+              onChange={(e) => setSelectedSource(e.target.value)}
+              className="w-full rounded-md border border-gray-300 dark:border-gray-600 p-2 bg-transparent"
+              disabled={loading}
+            >
+              {sources.map((s) => (
+                <option key={s} value={s}>
+                  {s} Imóveis
+                </option>
+              ))}
+            </select>
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+              Cidade
+            </label>
+            <select
+              value={selectedCity}
+              onChange={(e) => setSelectedCity(e.target.value)}
+              className="w-full rounded-md border border-gray-300 dark:border-gray-600 p-2 bg-transparent"
+              disabled={loading}
+            >
+              {cities.map((c) => (
+                <option key={c} value={c}>
+                  {c}
+                </option>
+              ))}
+            </select>
+          </div>
+        </div>
+
         <div className="flex items-center justify-between mb-4">
           <div>
             <h2 className="text-xl font-semibold text-gray-800 dark:text-gray-100">
               Execução Manual
             </h2>
             <p className="text-sm text-gray-500 dark:text-gray-400">
-              Inicie o scraping manualmente para todas as fontes e cidades.
+              Inicie o scraping manualmente para a fonte e cidade selecionada.
             </p>
           </div>
           <button
@@ -151,9 +194,10 @@ export default function ScraperAdminPage() {
           </ul>
         </div>
         <div className="bg-white dark:bg-gray-800 p-5 rounded-xl border border-gray-200 dark:border-gray-700">
-          <h3 className="font-semibold mb-2 dark:text-white">Agendamento</h3>
+          <h3 className="font-semibold mb-2 dark:text-white">Como Usar</h3>
           <p className="text-sm text-gray-600 dark:text-gray-400">
-            Configurado para rodar diariamente via Vercel Cron.
+            Selecione uma fonte e uma cidade por vez para evitar Timeou (limite
+            de 5 min da Vercel).
           </p>
         </div>
       </div>
