@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { sendOTP } from '@/lib/twilio';
+import { sendOTP } from '@/lib/zapi';
 import { prisma } from '@/lib/prisma';
 
 export async function POST(request: NextRequest) {
@@ -51,19 +51,18 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Salvar registro do codigo enviado (para rate limiting)
-    await prisma.verificationCode.create({
-      data: {
-        phone: formattedPhone,
-        code: '------', // codigo real fica no Twilio Verify
-        expiresAt: new Date(Date.now() + 10 * 60 * 1000), // 10 min
-      },
-    });
-
-    return NextResponse.json({
+    // Em desenvolvimento, retorna o código para facilitar testes
+    const response: any = {
       success: true,
       phone: formattedPhone,
-    });
+    };
+
+    if (result.devCode && process.env.NODE_ENV === 'development') {
+      response.devCode = result.devCode;
+      response.message = 'MODO DEV: Código retornado na resposta para testes';
+    }
+
+    return NextResponse.json(response);
   } catch (error) {
     console.error('Erro em send-otp:', error);
     return NextResponse.json(

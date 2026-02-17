@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { verifyOTP } from '@/lib/twilio';
+import { verifyOTP } from '@/lib/zapi';
 import { signIn } from '@/lib/auth';
 
 export async function POST(request: NextRequest) {
@@ -19,7 +19,7 @@ export async function POST(request: NextRequest) {
       ? `+${cleanPhone}`
       : `+55${cleanPhone}`;
 
-    // Verificar OTP no Twilio
+    // Verificar OTP no Z-API
     const result = await verifyOTP(formattedPhone, code);
 
     if (!result.success) {

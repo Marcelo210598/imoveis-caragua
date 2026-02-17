@@ -38,6 +38,7 @@ interface FormData {
   bathrooms: string;
   parkingSpaces: string;
   address: string;
+  contactPhone: string;
   photoUrls: string[];
 }
 
@@ -54,6 +55,7 @@ const INITIAL_FORM: FormData = {
   bathrooms: "",
   parkingSpaces: "",
   address: "",
+  contactPhone: "",
   photoUrls: [],
 };
 
@@ -86,6 +88,7 @@ export default function PropertyForm({ initialData }: PropertyFormProps) {
         photoUrls: initialData.photos
           ? initialData.photos.map((p: any) => p.url)
           : [],
+        contactPhone: initialData.contactPhone || "",
       };
     }
     return INITIAL_FORM;
@@ -165,6 +168,7 @@ export default function PropertyForm({ initialData }: PropertyFormProps) {
           ? Number(form.parkingSpaces)
           : undefined,
         address: form.address || undefined,
+        contactPhone: form.contactPhone || undefined,
         photoUrls: form.photoUrls,
       };
 
@@ -488,6 +492,24 @@ export default function PropertyForm({ initialData }: PropertyFormProps) {
               maxLength={200}
               className="w-full px-4 py-3 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-primary-500 text-sm"
             />
+          </div>
+
+          {/* Telefone Contato */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+              Telefone para contato (opcional)
+            </label>
+            <input
+              type="tel"
+              value={form.contactPhone}
+              onChange={(e) => updateForm({ contactPhone: e.target.value })}
+              placeholder="(12) 98888-8888"
+              maxLength={15}
+              className="w-full px-4 py-3 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-primary-500 text-sm"
+            />
+            <p className="text-xs text-gray-400 mt-1">
+              Se preenchido, sera usado no lugar do seu telefone cadastrado
+            </p>
           </div>
         </div>
       )}

@@ -126,6 +126,7 @@ export async function POST(request: NextRequest) {
       citySlug: slugify(data.city),
       neighborhood: data.neighborhood || null,
       address: data.address || null,
+      contactPhone: data.contactPhone || null,
       ownerId: session.user.id,
       photos: {
         create: data.photoUrls.map((url, index) => ({

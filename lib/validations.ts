@@ -59,6 +59,11 @@ export const createPropertySchema = z.object({
     .max(200)
     .optional()
     .transform((v) => (v ? sanitizeString(v) : v)),
+  contactPhone: z
+    .string()
+    .max(15, "Telefone muito longo")
+    .optional()
+    .transform((v) => (v ? sanitizeString(v) : v)),
   photoUrls: z
     .array(z.string().url())
     .min(1, "Adicione pelo menos 1 foto")

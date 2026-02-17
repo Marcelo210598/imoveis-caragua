@@ -1,8 +1,52 @@
 # Litoral Norte Imóveis - Progresso
 
-## Ultima atualizacao: 2026-02-13
+## Ultima atualizacao: 2026-02-17
 
-**Status**: v1.9 - Sprint 17 (AdSense, Push & Calculator)
+**Status**: v2.0 - Sprint 21 (Z-API WhatsApp OTP + Telefone Contato)
+
+---
+
+## 🚀 Próximos Passos (Backlog)
+
+- [ ] Configurar Z-API com credenciais reais
+- [ ] Testar login via WhatsApp com usuários reais
+- [ ] Monitorar uso de mensagens Z-API
+- [ ] Screenshots do app para Play Store (mín. 2 celular)
+- [ ] Upload do `.aab` no Google Play Console
+- [ ] Teste Interno → Fechado → Produção
+- [ ] Edição de fotos dos imóveis
+- [ ] Admin Panel avançado
+- [ ] Sistema de Monetização (Destaques, Planos Premium)
+- [ ] Integração com Gateway de Pagamento (Futuro)
+
+---
+
+## ✅ Concluído
+
+### Sprint 21: Autenticação WhatsApp UX (17/02/2026)
+
+- [x] **Campo Telefone**: Adicionado `contactPhone` ao cadastro de imóveis (DB + Formulário + API)
+- [x] **Z-API Integration**: Sistema completo de OTP via WhatsApp
+  - Biblioteca `lib/zapi.ts` com geração e verificação de códigos
+  - Substituição de Twilio SMS por WhatsApp (muito mais barato)
+  - API de teste `/api/test/zapi` para validar conexão
+- [x] **Economia**: De ~R$ 0,30/SMS para ~R$ 0,05/WhatsApp (83% de redução)
+- [x] **Documentação**: Guia completo `ZAPI_SETUP.md` para configuração
+- [x] **Dev Mode**: Código retornado em desenvolvimento para facilitar testes
+- [x] **Migration**: Campo `contact_phone` adicionado ao banco (Prisma + DB)
+
+**Vantagens da migração**:
+- ✅ WhatsApp tem 98% de taxa de abertura vs 60% do SMS
+- ✅ Brasileiros preferem WhatsApp ( culturalmente melhor)
+- ✅ Plano FREE da Z-API: 100 mensagens/dia
+- ✅ Usa número de WhatsApp business próprio
+- ✅ Removida limitação do Twilio Trial (números verificados)
+
+**Próximos passos para produção**:
+1. Criar conta em https://z-api.io/
+2. Conectar WhatsApp via QR Code
+3. Adicionar `ZAPI_INSTANCE_ID` e `ZAPI_INSTANCE_TOKEN` no `.env`
+4. Testar `/api/test/zapi` para validar conexão
 
 ---
 
@@ -19,6 +63,13 @@
 ---
 
 ## ✅ Concluído
+
+### Sprint 20: Monetização & Fixes (14/02/2026)
+
+- [x] **Mercado Pago Integration**: Setup completo, Webhook handler e Simulação de pagamento.
+- [x] **Prod Fixes**: Correção crítica de imagens OLX (Scraper agora salva fotos).
+- [x] **Admin Layout**: Refatoração da Sidebar (fixa) e espaçamento do dashboard.
+- [x] **Scraper Admin**: Interface para execução manual por cidade/fonte (evita timeout).
 
 ### Sprint 17: Monetização & Engajamento (13/02/2026)
 
