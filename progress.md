@@ -2,26 +2,39 @@
 
 ## Ultima atualizacao: 2026-02-17
 
-**Status**: v2.0 - Sprint 21 (Z-API WhatsApp OTP + Telefone Contato)
+**Status**: v2.1 - Sprint 22 (Sistema de Destaques Manual + Z-API)
 
 ---
 
 ## 🚀 Próximos Passos (Backlog)
 
+- [ ] Testar fluxo completo de destaques (admin + UI)
+- [ ] Adicionar cron job para expiração automática de destaques
+- [ ] Filtro "Destacados" na tabela de admin
+- [ ] Dashboard com métricas de destaques
 - [ ] Configurar Z-API com credenciais reais
 - [ ] Testar login via WhatsApp com usuários reais
-- [ ] Monitorar uso de mensagens Z-API
 - [ ] Screenshots do app para Play Store (mín. 2 celular)
 - [ ] Upload do `.aab` no Google Play Console
 - [ ] Teste Interno → Fechado → Produção
 - [ ] Edição de fotos dos imóveis
-- [ ] Admin Panel avançado
-- [ ] Sistema de Monetização (Destaques, Planos Premium)
 - [ ] Integração com Gateway de Pagamento (Futuro)
 
 ---
 
 ## ✅ Concluído
+
+### Sprint 22: Sistema de Destaques Manual (17/02/2026)
+
+- [x] **API de Toggle de Destaque**: Endpoint `/api/admin/properties/[id]/feature` protegido com verificação de role
+- [x] **AdminFeatureToggle Component**: UI elegante com modal para ativar/desativar destaques
+- [x] **Duração Customizável**: Admin pode escolher 7, 15, 30 dias ou indefinido
+- [x] **Expiração Automática**: Campo `featuredExpiresAt` exibido quando ativo
+- [x] **Proteção de Admin**: Layout verificador de role, redireciona não-admins
+- [x] **API Atualizada**: Campo `featuredExpiresAt` adicionado na listagem de properties
+- [x] **Build Test**: Compilação bem-sucedida, sem erros TypeScript
+
+**Status**: Pronto para produção ✅
 
 ### Sprint 21: Autenticação WhatsApp UX (17/02/2026)
 

@@ -13,7 +13,7 @@ import {
 import { toast } from "sonner";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
-import FeatureButton from "@/components/pricing/FeatureButton";
+import AdminFeatureToggle from "@/components/admin/AdminFeatureToggle";
 
 // Definindo tipos localmente para evitar dependências circulares ou complexas
 type Property = {
@@ -24,6 +24,7 @@ type Property = {
   source: string;
   createdAt: string;
   isFeatured: boolean;
+  featuredExpiresAt?: string | null;
   views: number;
   owner?: {
     name: string | null;
@@ -101,7 +102,10 @@ function PropertiesContent() {
     router.push(`/admin/properties?${params.toString()}`);
   }
 
-  // toggleFeature logic removed as it's handled by FeatureButton checkout flow
+  function handleFeatureSuccess() {
+    // Recarregar propriedades após toggle
+    fetchProperties(page, search);
+  }
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-950 p-6">
@@ -219,7 +223,12 @@ function PropertiesContent() {
                         </span>
                       </td>
                       <td className="px-6 py-4 text-center">
-                        <FeatureButton property={prop as any} compact={true} />
+                        <AdminFeatureToggle
+                          propertyId={prop.id}
+                          isFeatured={prop.isFeatured}
+                          featuredExpiresAt={prop.featuredExpiresAt}
+                          onSuccess={handleFeatureSuccess}
+                        />
                       </td>
                       <td className="px-6 py-4 text-sm text-gray-500 dark:text-gray-400 whitespace-nowrap">
                         {new Date(prop.createdAt).toLocaleDateString("pt-BR")}

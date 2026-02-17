@@ -41,7 +41,8 @@ export async function GET(request: NextRequest) {
           city: true,
           price: true,
           source: true,
-          isFeatured: true, // Importante para o destaque
+          isFeatured: true,
+          featuredExpiresAt: true,
           createdAt: true,
           views: true,
           owner: {
